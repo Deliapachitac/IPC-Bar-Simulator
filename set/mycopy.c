@@ -2,9 +2,8 @@
 #include <stdlib.h>
 #include <fcntl.h>
 #include <unistd.h>
-#include <errno.h>
 
-#define BUFFER_SIZE 50
+#define BUFFER_SIZE 10000000
 
 int main(int argc, char *argv[]){
 
@@ -15,74 +14,35 @@ int main(int argc, char *argv[]){
 
     int sourfile, destfile;
 
-    // opening the files
+    // opening the files and check for failures
     sourfile = open(argv[1], O_RDONLY);
-    if (sourfile == NULL) {
-        printf("The file is not opened. The program will ");
+    if (sourfile <0) {
+        printf("The file is not opened ");
         exit(EXIT_FAILURE);
     }
-    destfile = open(argv[2], O_RDONLY);
-    if (destfile == NULL) {
-        printf("The file is not opened. The program will ");
+    destfile = open(argv[2], O_WRONLY );
+    if (destfile <0) {
+        printf("The file is not opened ");
         exit(EXIT_FAILURE);
     }
-    int c;
-    while (( c = fgetc(sourfile)) != EOF)
-    {
-        fputc(c, destfile);
-    }
-
-    fclose(sourfile);
-    fclose(destfile);
-    return 0;
-}
-
-
-
-int main(int argc, char *argv[]) {
-    int source_fd, dest_fd;  // file descriptors για το αρχείο προέλευσης και προορισμού
-    ssize_t n_read, n_written; // Μεταβλητές για τον αριθμό των bytes που διαβάζονται/γράφονται
-    char buffer[BUFFER_SIZE]; // buffer για την αποθήκευση δεδομένων
-
-    // Έλεγχος για τον αριθμό των παραμέτρων γραμμής εντολών
-    if (argc != 3) {
-        fprintf(stderr, "Χρήση: %s <source_file> <destination_file>\n", argv[0]);
-        exit(EXIT_FAILURE);
-    }
-
-    // Άνοιγμα του αρχείου προέλευσης (source file)
-    source_fd = open(argv[1], O_RDONLY);
-    if (source_fd == -1) {
-        perror("Σφάλμα κατά το άνοιγμα του αρχείου προέλευσης");
-        exit(EXIT_FAILURE);
-    }
-
-    // Άνοιγμα του αρχείου προορισμού (destination file)
-    dest_fd = open(argv[2], O_WRONLY | O_CREAT | O_TRUNC, 0644);
-    if (dest_fd == -1) {
-        perror("Σφάλμα κατά το άνοιγμα του αρχείου προορισμού");
-        close(source_fd);
-        exit(EXIT_FAILURE);
-    }
-
-    // Αντιγραφή του περιεχομένου από το αρχείο προέλευσης στο αρχείο προορισμού
-    while ((n_read = read(source_fd, buffer, BUFFER_SIZE)) > 0) {
-        n_written = write(dest_fd, buffer, n_read);
-        if (n_written != n_read) {
-            perror("Σφάλμα κατά την εγγραφή στο αρχείο προορισμού");
-            close(source_fd);
-            close(dest_fd);
+ 
+    // copy the 
+    int read_var, write_var;
+    char buffer[BUFFER_SIZE];
+    if ((read_var = read(sourfile, buffer, BUFFER_SIZE)) > 0) {
+        write_var = write(destfile, buffer, read_var);
+        if(write_var < 0){
+            printf("The write had a problem");
             exit(EXIT_FAILURE);
         }
+
+    }else {
+        printf("The read had a problem");
+        exit(EXIT_FAILURE);
     }
 
-    if (n_read == -1) {
-        perror("Σφάλμα κατά την ανάγνωση από το αρχείο προέλευσης");
-    }
-
-    // Κλείσιμο των αρχείων
-    close(source_fd);
-    close(dest_fd);
-
+    close(sourfile);
+    close(destfile);
     return 0;
 }
+

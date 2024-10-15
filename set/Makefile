@@ -4,7 +4,7 @@
 CC = gcc
 
 # Compiler flags
-CFLAGS = -Wall -Wextra -O2
+CFLAGS = #-Wall -Wextra -O2
 
 # Target executable name
 TARGET = mycopy
@@ -30,5 +30,3 @@ run:
 clean:
 	rm -f $(OBJ) $(TARGET)
 
-# Phony targets
-.PHONY: all clean
