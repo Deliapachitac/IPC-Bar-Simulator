@@ -7,7 +7,19 @@
 #pragma once 
 #include <stdbool.h>
 #include <assert.h>
-#include "common_types.h"
+#include <stdbool.h> 
+
+// Pointer προς ένα αντικείμενο οποιουδήποτε τύπου.
+typedef void* Pointer;
+
+// Δείκτης σε συνάρτηση που συγκρίνει 2 στοιχεία a και b και επιστρέφει:
+// < 0  αν a < b
+//   0  αν a και b είναι ισοδύναμα (_όχι_ αναγναστικά ίσα)
+// > 0  αν a > b
+typedef int (*CompareFunc)(Pointer a, Pointer b);
+
+// Δείκτης σε συνάρτηση που καταστρέφει ένα στοιχείο value
+typedef void (*DestroyFunc)(Pointer value);
 
 // Οι σταθερές αυτές συμβολίζουν κόμβους _πριν_ τον πρώτο και _μετά_ τον τελευταίο
 #define LIST_BOF (ListNode)0
@@ -39,11 +51,6 @@ void list_insert_previous(List list, ListNode node, Pointer value);
 
 // Αφαιρεί τον επόμενο κόμβο από τον node, ή τον πρώτο κόμβο αν node == LIST_BOF.
 void list_remove_next(List list, ListNode node);
-
-// Επιστρέφει την πρώτη τιμή που είναι ισοδύναμη με value
-// (με βάση τη συνάρτηση compare), ή NULL αν δεν υπάρχει
-Pointer list_find(List list, Pointer value, CompareFunc compare);
-
 
 
 
