@@ -12,26 +12,13 @@
 // Pointer προς ένα αντικείμενο οποιουδήποτε τύπου.
 typedef void* Pointer;
 
-// Δείκτης σε συνάρτηση που συγκρίνει 2 στοιχεία a και b και επιστρέφει:
-// < 0  αν a < b
-//   0  αν a και b είναι ισοδύναμα (_όχι_ αναγναστικά ίσα)
-// > 0  αν a > b
+// Δείκτης σε συνάρτηση που συγκρίνει 2 στοιχεία a και b 
 typedef int (*CompareFunc)(Pointer a, Pointer b);
 
 // Δείκτης σε συνάρτηση που καταστρέφει ένα στοιχείο value
 typedef void (*DestroyFunc)(Pointer value);
 
-// Οι σταθερές αυτές συμβολίζουν κόμβους _πριν_ τον πρώτο και _μετά_ τον τελευταίο
-#define LIST_BOF (ListNode)0
-#define LIST_EOF (ListNode)0
 
-
-// Λίστες και κόμβοι αναπαριστώνται από τους τύπους List και ListNode. Ο χρήστης δε χρειάζεται να γνωρίζει το περιεχόμενο
-// των τύπων αυτών, απλά χρησιμοποιεί τις συναρτήσεις list_<foo> που δέχονται και επιστρέφουν List / ListNode.
-//
-// Οι τύποι αυτοί ορίζινται ως pointers στα "struct list" και "struct list_node" των οποίων το
-// περιεχόμενο είναι άγνωστο (incomplete structs), και εξαρτάται από την υλοποίηση του ADT List.
-//
 typedef struct list* List;
 typedef struct list_node* ListNode;
 
@@ -44,13 +31,10 @@ List list_create();
 int list_size(List list);
 
 // Προσθέτει έναν νέο κόμβο μετά τον node, ή στην αρχή αν node == LIST_BOF, με περιεχόμενο value.
-void list_insert_next(List list, ListNode node, Pointer value);
-
-// Προσθετει εναν νεο κομβο πριν τον node 
-void list_insert_previous(List list, ListNode node, Pointer value);
+void list_insert(List list, Pointer value);
 
 // Αφαιρεί τον επόμενο κόμβο από τον node, ή τον πρώτο κόμβο αν node == LIST_BOF.
-void list_remove_next(List list, ListNode node);
+void list_remove(List list, ListNode node);
 
 
 
