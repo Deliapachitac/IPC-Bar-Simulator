@@ -5,73 +5,40 @@
 //
 ////////////////////////////////////////////////////////////////////////
 
-#pragma once // #include το πολύ μία φορά
-
+#pragma once 
 #include "ADTList.h"
 
 
-// Ενα γράφος αναπαριστάται από τον τύπο Graph
-
 typedef struct graph* Graph;
-
-// Δείκτης σε συνάρτηση που επισκέπτεται τα στoιχεία του γράφου
-typedef void (*GraphVisitFunc)(Graph graph, Pointer value);
+typedef struct graph_node* GraphNode;
+typedef struct vertex* Vertex;
 
 
 // Δημιουργεί και επιστρέφει ένα γράφο, στο οποίο τα στοιχεία συγκρίνονται με βάση
 // τη συνάρτηση compare.
-// Αν destroy_vertex != NULL, τότε καλείται destroy_vertex(vertex) κάθε φορά που αφαιρείται μια κορυφή.
 
-Graph graph_create(CompareFunc compare, DestroyFunc destroy_vertex);
+Graph graph_create();
 
 // Επιστρέφει τον αριθμό στοιχείων (κορυφών) που περιέχει ο γράφος graph.
 
 int graph_size(Graph graph);
 
-// Προσθέτει μια κορυφή στο γράφο
+//Προσθετει ενα κομβο στην λιστα του graph
+void graph_add_node(Graph graph, int id);
 
-void graph_insert_vertex(Graph graph, Pointer vertex);
+void graph_remove_node(Graph graph, int id);
 
-// Επιστρέφει λίστα με όλες τις κορυφές του γράφου
-
-List graph_get_vertices(Graph graph);
-
-// Διαγράφει μια κορυφή από τον γράφο
-
-void graph_remove_vertex(Graph graph, Pointer vertex);
 
 // Προσθέτει μια ακμή με βάρος weight στο γράφο
-
-void graph_insert_edge(Graph graph, Pointer vertex1, Pointer vertex2, int weight);
+void graph_insert_edge(Graph graph, GraphNode vertex_dest, GraphNode vertex_sourse, int money, char* mydate);
 
 // Αφαιρεί μια ακμή από το γράφο
+void graph_remove_edge(Graph graph, Pointer vertex_dest, Pointer vertex_sourse);
 
-void graph_remove_edge(Graph graph, Pointer vertex1, Pointer vertex2);
-
-// Επιστρέφει το βάρος της ακμής ανάμεσα στις δύο κορυφές, ή INT_MAX αν δεν είναι γειτονικές.
-
-int graph_get_weight(Graph graph, Pointer vertex1, Pointer vertex2);
-
-// Επιστρέφει λίστα με τους γείτονες μιας κορυφής
-
-List graph_get_adjacent(Graph graph, Pointer vertex);
-
-// Επιστρέφει (σε λίστα) το συντομότερο μονοπάτι ανάμεσα στις κορυφές source
-// και target, ή κενή λίστα αν δεν υπάρχει κανένα μονοπάτι.
-
-List graph_shortest_path(Graph graph, Pointer source, Pointer target);
-
-// Καλεί τη visit(graph, vertex) για κάθε στοιχείο του γράφου, ξεκινώντας από
-// την κορυφή vertex, και διασχίζοντας τον γράφο πρώτα κατά πλάτος (BFS)
-
-void graph_bfs(Graph graph, Pointer vertex, GraphVisitFunc visit);
-
-// Καλεί τη visit(graph, vertex) για κάθε στοιχείο του γράφου, ξεκινώντας από
-// την κορυφή vertex, και διασχίζοντας τον γράφο πρώτα κατά βάθος (DFS)
-
-void graph_dfs(Graph graph, Pointer vertex, GraphVisitFunc visit);
+// Επιστρέφει το βάρος της ακμής ανάμεσα στις δύο κορυφές
+int graph_get_money(Graph graph, GraphNode vertex_dest, GraphNode vertex_sourse);
+char* graph_get_date(Graph graph, GraphNode vertex_dest, GraphNode vertex_sourse);
 
 // Ελευθερώνει όλη τη μνήμη που δεσμεύει το γράφος.
 // Οποιαδήποτε λειτουργία πάνω στο γράφο μετά το destroy είναι μη ορισμένη.
-
 void graph_destroy(Graph graph);
