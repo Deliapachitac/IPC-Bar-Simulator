@@ -94,6 +94,7 @@ void graph_insert_edge(Graph graph, GraphNode vertex_dest, GraphNode vertex_sour
     
     list_insert(vertex_dest->ingoing,vertex_sourse);
     list_insert(vertex_sourse->outgoing,vertex_dest);
+<<<<<<< HEAD
 
 
     Vertex myvertex = malloc(sizeof(*myvertex));
@@ -153,3 +154,64 @@ int main(void){
 
     return 0;
 }
+=======
+
+
+    Vertex myvertex = malloc(sizeof(*myvertex));
+    myvertex->money=money;
+    strcpy(myvertex->mydate,mydate);
+    myvertex->dest=vertex_dest;
+    myvertex->sourse=vertex_sourse;
+}
+
+void graph_remove_edge(Graph graph, Pointer vertex_dest, Pointer vertex_sourse){
+
+
+}
+
+int graph_get_money(Graph graph, GraphNode vertex_dest, GraphNode vertex_sourse){
+
+    for (ListNode node = list_first(graph->mylist); node != NULL; node = list_next(graph->mylist, node)) {
+      
+        if (node == vertex_sourse) {
+
+            for (ListNode edge_node = list_first(vertex_sourse->outgoing); edge_node != NULL; edge_node = list_next(vertex_sourse->outgoing, edge_node)) {
+                Vertex edge = list_node_value(vertex_sourse->outgoing, edge_node);
+
+                if (edge_node == vertex_dest) {
+                    return edge->money;  
+                }
+            }
+        }
+    }
+
+    
+}
+
+
+char* graph_get_date(Graph graph, GraphNode vertex_dest, GraphNode vertex_sourse){
+    for (ListNode node = list_first(graph->mylist); node != NULL; node = list_next(graph->mylist, node)) {
+      
+        if (node == vertex_sourse) {
+            
+            for (ListNode edge_node = list_first(vertex_sourse->outgoing); edge_node != NULL; edge_node = list_next(vertex_sourse->outgoing, edge_node)) {
+                Vertex edge = list_node_value(vertex_sourse->outgoing, edge_node);
+
+                if (edge_node == vertex_dest) {
+                    return edge->mydate;  
+                }
+            }
+        }
+    }
+}
+
+int main(void){
+    
+
+
+
+
+
+    return 0;
+}
+>>>>>>> b841755ff0534e262897a5898f04d30451fa6a36
