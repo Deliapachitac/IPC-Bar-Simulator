@@ -8,13 +8,12 @@
 #include <stdio.h>
 #include <stdint.h>
 
-#include "ADTList.h"
+#include <ADTList.h>
 
 
-// Ενα List είναι pointer σε αυτό το struct
 struct list {
 	ListNode dummy;				// χρησιμοποιούμε dummy κόμβο, ώστε ακόμα και η κενή λίστα να έχει έναν κόμβο.
-	ListNode last;				// δείκτης στον τελευταίο κόμβο, ή στον dummy (αν η λίστα είναι κενή)
+	ListNode last;				// δείκτης στον τελευταίο κόμβο, ή στον dummy
 	int size;					// μέγεθος, ώστε η list_size να είναι Ο(1)
 	DestroyFunc destroy_value;	// Συνάρτηση που καταστρέφει ένα στοιχείο της λίστας.
 };
@@ -25,12 +24,25 @@ struct list_node {
 	Pointer value;		// Η τιμή που αποθηκεύουμε στον κόμβο
 };
 
+int compare_objects(Pointer a, Pointer b){
+    int obj1 =(uintptr_t)a;
+    int obj2 =(uintptr_t)b;
+
+    if(obj1 > obj2 ){
+        return 1;
+    }else if(obj1 < obj2){
+        return -1;
+    }else{
+        return 0;
+    }
+}
 
 
-List list_create() {
+List list_create() {//DestroyFunc destroy_value
 	// Πρώτα δημιουργούμε το stuct
 	List list = malloc(sizeof(*list));
 	list->size = 0;
+	//list->destroy_value = destroy_value;
 
 	// Χρησιμοποιούμε dummy κόμβο, ώστε ακόμα και μια άδεια λίστα να έχει ένα κόμβο
 	// (απλοποιεί τους αλγορίθμους). Οπότε πρέπει να τον δημιουργήσουμε.
@@ -46,54 +58,64 @@ int list_size(List list) {
 	return list->size;
 }
 
-void list_insert_next(List list, ListNode node, Pointer value) {
+void list_insert(List list,  Pointer value) {
 	// Αν το node είναι NULL απλά εισάγουμε μετά τον dummy κόμβο!
 	// Αυτή ακριβώς είναι η αξία του dummy, δε χρειαζόμαστε ξεχωριστή υλοποίηση.
-	if (node == NULL)
-		node = list->dummy;
+	if (list->last == NULL){
+		list->last = list->dummy;
+		return ;
+	}
 
 	// Δημιουργία του νέου κόμβου
 	ListNode new = malloc(sizeof(*new));
 	new->value = value;
 
 	// Σύνδεση του new ανάμεσα στο node και το node->next
-	new->next = node->next;
-	node->next = new;
-	new->previous = node;
+	new->next = list->last->next;
+	list->last->next = new;
+	new->previous = list->last;
+	list->last = new;
 
-	// Ενημέρωση των size & last
+	// Ενημέρωση των size 
 	list->size++;
-	if (list->last == node)
-		list->last = new;
+
+		
 }
 
-void list_insert_previous(List list, ListNode node, Pointer value) {
 
-	list_insert_next(list,node->previous,value);
-}
-
-void list_remove_next(List list, ListNode node) {
-	// Αν το node είναι NULL απλά διαγράφουμε μετά τον dummy κόμβο!
-	// Αυτή ακριβώς είναι η αξία του dummy, δε χρειαζόμαστε ξεχωριστή υλοποίηση.
-	if (node == NULL)
+void list_remove(List list, ListNode node) {
+	
+	if (node == NULL) {
 		node = list->dummy;
+		return;
+	}
 
-	// Ο κόμβος προς διαγραφή είναι ο επόμενος του node, ο οποίος πρέπει να υπάρχει
-	ListNode removed = node->next;
-	assert(removed != NULL);		// LCOV_EXCL_LINE
+	if( list_size(list) == 1){
+		list->dummy->next =NULL;
+		list->last = NULL;
+		
+	}else if( list_first(list) == node){
+
+		list->dummy->next=node->next;	
+		node->next->previous=list->dummy;
+	}
+	else if(list_last(list) == node){
+
+		node->previous->next=NULL;
+		list->last=node->previous;
+	}else{
+
+		node->previous->next=node->next;
+		node->next->previous=node->previous;
+	}
 
 	if (list->destroy_value != NULL)
-		list->destroy_value(removed->value);
+		list->destroy_value(node->value);
 
-	// Σύνδεση του node με τον επόμενο του removed
-	node->next = removed->next;		// πριν το free!
-
-	free(removed);
-
-	// Ενημέρωση των size & last
+	
+	free(node);
 	list->size--;
-	if (list->last == removed)
-		list->last = node;
+	
 }
 
 
@@ -102,7 +124,7 @@ void list_remove_next(List list, ListNode node) {
 ListNode list_first(List list) {
 	// Ο πρώτος κόμβος είναι ο επόμενος του dummy.
 	if (list->dummy->next == list->dummy)
-		return LIST_EOF;		// κενή λίστα
+		return list->dummy;		// κενή λίστα
 	else
 		return list->dummy->next;
 }
@@ -111,13 +133,13 @@ ListNode list_last(List list) {
 	// Προσοχή, αν η λίστα είναι κενή το last δείχνει στον dummy, εμείς όμως θέλουμε να επιστρέψουμε NULL, όχι τον dummy!
 
 	if (list->last == list->dummy)
-		return LIST_EOF;		// κενή λίστα
+		return list->dummy;		// κενή λίστα
 	else
 		return list->last;
 }
 
 ListNode list_next(List list, ListNode node) {
-	assert(node != NULL);	// LCOV_EXCL_LINE 
+	assert(node != NULL);	
 	return node->next;
 }
 
@@ -141,66 +163,59 @@ ListNode list_find_node(List list, Pointer value, CompareFunc compare) {
 	return NULL;	// δεν υπάρχει
 }
 
-int compare_objects(Pointer a, Pointer b){
-    int obj1 =(uintptr_t)a;
-    int obj2 =(uintptr_t)b;
 
-    if(obj1 > obj2 ){
-        return 1;
-    }else if(obj1 < obj2){
-        return -1;
-    }else{
-        return 0;
-    }
-}
+// int main(void){
 
-int main(void){
+// 	List list= list_create();
 
-	List list= list_create();
+// 	printf("The size:%d\n", list_size(list));
 
-	printf("The size:%d\n", list_size(list));
-
-	for (int i = 0; i < 10; i=i+2)
-	{
-		list_insert_next(list,list->last, i);
-		printf("the i is : %d    ",i);
-	}
+// 	for (int i = 0; i < 10; i=i+2)
+// 	{
+// 		list_insert(list, i);
+// 		printf("the i is : %d    ",i);
+// 	}
 	
-	printf("The size:%d\n", list_size(list));
+// 	printf("The size:%d\n", list_size(list));
 
 
-	if(list_find_node(list,3,compare_objects)!=NULL){
-		printf("pame ligo\n");
-	}
-	int tryfind= list_find_node(list,6,compare_objects)->value;
-	printf("%d",tryfind);
-
-	list_insert_next(list,list_find_node(list,4,compare_objects), 5);
+// 	if(list_find_node(list,2,compare_objects)!=NULL){
+// 		printf("pame ligo\n");
+// 	}
+// 	// int tryfind= list_find_node(list,2,compare_objects)->value;
+// 	// printf("%d",tryfind);
+// 	ListNode new=list_find_node(list,2,compare_objects);
+// 	if(new ==NULL){
+// 		printf("pame ligo\n");
+// 	}
 	
-	// ListNode node= list_first(list);
-	// for(int i=0;i<list_size(list);i++){
-	// 	printf("The %d element is:%d \n",i,node->value);
-	// 	node=list_next(list,node);
-	// }
+// 	list_insert(list, 5);
+// 	list_remove(list,new);
+	
+// 	ListNode node= list_first(list);
+// 	for(int i=0;i<list_size(list);i++){
+// 		printf("The %d element is:%d \n",i,node->value);
+// 		node=list_next(list,node);
+// 	}
 
-	list_insert_previous(list,list_find_node(list,4,compare_objects), 3);
-	// ListNode node1= list_first(list);
-	// for(int i=0;i<list_size(list);i++){
-	// 	printf("The %d element is:%d \n",i,node1->value);
-	// 	node1=list_next(list,node1);
-	// }
+// 	// list_insert_previous(list,list_find_node(list,4,compare_objects), 3);
+// 	// ListNode node1= list_first(list);
+// 	// for(int i=0;i<list_size(list);i++){
+// 	// 	printf("The %d element is:%d \n",i,node1->value);
+// 	// 	node1=list_next(list,node1);
+// 	// }
 
-	list_insert_previous(list,list_find_node(list,5,compare_objects), 100);
-	ListNode node1= list_first(list);
-	for(int i=0;i<list_size(list);i++){
-		printf("The %d element is:%d \n",i,node1->value);
-		node1=list_next(list,node1);
-	}
+// 	// list_insert_previous(list,list_find_node(list,5,compare_objects), 100);
+// 	// ListNode node1= list_first(list);
+// 	// for(int i=0;i<list_size(list);i++){
+// 	// 	printf("The %d element is:%d \n",i,node1->value);
+// 	// 	node1=list_next(list,node1);
+// 	// }
 
-	printf("the last node %d",list_node_value(list,list_last(list)));
+// 	// printf("the last node %d",list_node_value(list,list_last(list)));
 
-	return 0;
-}
+// 	return 0;
+// }
 
 
 
