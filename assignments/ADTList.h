@@ -9,48 +9,43 @@
 #include <assert.h>
 #include <stdbool.h> 
 
-// Pointer προς ένα αντικείμενο οποιουδήποτε τύπου.
+// Pointer to an object of any type.
 typedef void* Pointer;
 
-// Δείκτης σε συνάρτηση που συγκρίνει 2 στοιχεία a και b 
+// Function pointer that compares two elements a and b.
 typedef int (*CompareFunc)(Pointer a, Pointer b);
 
-// Δείκτης σε συνάρτηση που καταστρέφει ένα στοιχείο value
+// Function pointer that destroys a value.
 typedef void (*DestroyFunc)(Pointer value);
 
-
+// Pointers to the structs
 typedef struct list* List;
 typedef struct list_node* ListNode;
 
 
+// Creates and returns a new list.
+List list_create(CompareFunc compare,DestroyFunc destroy_value);
 
-// Δημιουργεί και επιστρέφει μια νέα λίστα.
-List list_create(CompareFunc compare);
-
-// Επιστρέφει τον αριθμό στοιχείων που περιέχει η λίστα.
+// Returns the number of elements in the list
 int list_size(List list);
 
-// Προσθέτει έναν νέο κόμβο μετά τον node, ή στην αρχή αν node == LIST_BOF, με περιεχόμενο value.
+// Adds a new node after the last node with the value
 void list_insert(List list, Pointer value);
 
-// Αφαιρεί τον επόμενο κόμβο από τον node, ή τον πρώτο κόμβο αν node == LIST_BOF.
+// Removes the given node
 void list_remove(List list, ListNode node);
 
-
-
-// Διάσχιση της λίστας 
-
-// Επιστρέφουν τον πρώτο και τον τελευταίο κομβο της λίστας
+// Return the first and last node of the list.
 ListNode list_first(List list);
 ListNode list_last(List list);
 
-// Επιστρέφει τον κόμβο μετά από τον node και τον προηγουμενο
+// Return the node after the given node and the previous node.
 ListNode list_next(List list, ListNode node);
 ListNode list_previous(List list, ListNode node);
 
-// Επιστρέφει το περιεχόμενο του κόμβου node
+// Returns the content of the given node.
 Pointer list_node_value(List list, ListNode node);
 
-// Βρίσκει τo πρώτo στοιχείο που είναι ισοδύναμο με value (με βάση τη συνάρτηση compare).
-// Επιστρέφει τον κόμβο του στοιχείου, ή LIST_EOF αν δεν βρεθεί.
+// Finds the first element that is equivalent to value (based on the compare function)
 ListNode list_find_node(List list, Pointer value);
+
