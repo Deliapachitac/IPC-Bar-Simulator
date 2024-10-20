@@ -8,7 +8,7 @@
 #include <stdio.h>
 #include <stdint.h>
 
-#include <ADTList.h>
+#include "ADTList.h"
 
 
 struct list {
@@ -16,6 +16,7 @@ struct list {
 	ListNode last;				// δείκτης στον τελευταίο κόμβο, ή στον dummy
 	int size;					// μέγεθος, ώστε η list_size να είναι Ο(1)
 	DestroyFunc destroy_value;	// Συνάρτηση που καταστρέφει ένα στοιχείο της λίστας.
+	CompareFunc compare;
 };
 
 struct list_node {
@@ -24,24 +25,13 @@ struct list_node {
 	Pointer value;		// Η τιμή που αποθηκεύουμε στον κόμβο
 };
 
-int compare_objects(Pointer a, Pointer b){
-    int obj1 =(uintptr_t)a;
-    int obj2 =(uintptr_t)b;
-
-    if(obj1 > obj2 ){
-        return 1;
-    }else if(obj1 < obj2){
-        return -1;
-    }else{
-        return 0;
-    }
-}
 
 
-List list_create() {//DestroyFunc destroy_value
+List list_create(CompareFunc compare) {//DestroyFunc destroy_value
 	// Πρώτα δημιουργούμε το stuct
 	List list = malloc(sizeof(*list));
 	list->size = 0;
+	list->compare = compare;
 	//list->destroy_value = destroy_value;
 
 	// Χρησιμοποιούμε dummy κόμβο, ώστε ακόμα και μια άδεια λίστα να έχει ένα κόμβο
@@ -139,27 +129,30 @@ ListNode list_last(List list) {
 }
 
 ListNode list_next(List list, ListNode node) {
-	assert(node != NULL);	
+	assert(node != NULL);	// Ensure node is not null
 	return node->next;
 }
 
 ListNode list_previous(List list, ListNode node) {
-	assert(node != NULL);	 
+	assert(node != NULL);	 // Ensure node is not null
 	return node->previous;
 }
 
 Pointer list_node_value(List list, ListNode node) {
-	assert(node != NULL);	
+	assert(node != NULL);	// Ensure node is not null
 	return node->value;
 }
 
-ListNode list_find_node(List list, Pointer value, CompareFunc compare) {
+ListNode list_find_node(List list, Pointer value) {
 	// διάσχιση όλης της λίστας, καλούμε την compare μέχρι να επιστρέψει 0
-
-	for (ListNode node = list->dummy->next; node != NULL; node = node->next)
-		if (compare(value, node->value) == 0)
+	printf("mphke");
+	for (ListNode node = list->dummy->next; node != NULL; node = node->next){
+		if (list->compare(value, node->value) == 0){
 			return node;		// βρέθηκε
-
+			
+		}
+		
+	}
 	return NULL;	// δεν υπάρχει
 }
 

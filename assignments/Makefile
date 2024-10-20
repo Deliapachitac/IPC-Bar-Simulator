@@ -1,50 +1,59 @@
-# # compiler
+
+# # Variables
 # CC = gcc
+# CFLAGS = -Wall -g
+# OBJ = ADTList.o
+# TARGET = ADTList
 
+# # Rules
+# all: $(TARGET)
 
-# # Object files
-# OBJS = mygraph.o ADTList.o 
+# $(TARGET): $(OBJ)
+# 	$(CC) $(CFLAGS) -o $(TARGET) $(OBJ)
 
-# # Το εκτελέσιμο πρόγραμμα
-# EXEC = mygraph
+# ADTList.o: ADTList.c ADTList.h 
+# 	$(CC) $(CFLAGS) -c ADTList.c
 
-# # Compile options. Το -I<dir> λέει στον compiler να αναζητήσει εκεί include files
-# CFLAGS = -Wall -Werror -g -I 
-# LDFLAGS = -lm
-
-# $(EXEC): $(OBJS)
-# 	$(CC) $(OBJS) -o $(EXEC) $(LDFLAGS)
-
+# run:
+# 	./$(TARGET)
+# # Clean up build files
 # clean:
-# 	rm -f $(OBJS) $(EXEC)
+# 	rm -f *.o $(TARGET)
 
-# run: $(EXEC)
-# 	./$(EXEC) 
-
-# valgrind: $(EXEC)
-# 	valgrind --error-exitcode=1 --leak-check=full --show-leak-kinds=all ./$(EXEC) $(ARGS)
+# # Phony target
+# .PHONY: clean all
 
 
-# Variables
+# Compiler and flags
 CC = gcc
-CFLAGS = -Wall -g
-OBJ = ADTList.o
-TARGET = ADTList
+CFLAGS = #-Wall -Wextra -g
 
-# Rules
+# Source files
+SRCS = ADTGraph.c ADTList.c
+
+# Header files
+HEADERS = ADTGraph.h ADTList.h
+
+# Object files
+OBJS = $(SRCS:.c=.o)
+
+# Executable name
+TARGET = program
+
+# Default rule to build the program
 all: $(TARGET)
 
-$(TARGET): $(OBJ)
-	$(CC) $(CFLAGS) -o $(TARGET) $(OBJ)
+# Rule to link object files and create the executable
+$(TARGET): $(OBJS)
+	$(CC) $(CFLAGS) -o $(TARGET) $(OBJS)
 
-ADTList.o: ADTList.c ADTList.h 
-	$(CC) $(CFLAGS) -c ADTList.c
+# Rule to compile .c files into .o files
+%.o: %.c $(HEADERS)
+	$(CC) $(CFLAGS) -c $< -o $@
 
-run:
-	./$(TARGET)
-# Clean up build files
+# Rule to clean up object files and the executable
 clean:
-	rm -f *.o $(TARGET)
+	rm -f $(OBJS) $(TARGET)
 
-# Phony target
-.PHONY: clean all
+# Phony targets
+.PHONY: all clean

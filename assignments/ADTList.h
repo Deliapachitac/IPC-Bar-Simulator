@@ -25,7 +25,7 @@ typedef struct list_node* ListNode;
 
 
 // Δημιουργεί και επιστρέφει μια νέα λίστα.
-List list_create();
+List list_create(CompareFunc compare);
 
 // Επιστρέφει τον αριθμό στοιχείων που περιέχει η λίστα.
 int list_size(List list);
@@ -53,4 +53,4 @@ Pointer list_node_value(List list, ListNode node);
 
 // Βρίσκει τo πρώτo στοιχείο που είναι ισοδύναμο με value (με βάση τη συνάρτηση compare).
 // Επιστρέφει τον κόμβο του στοιχείου, ή LIST_EOF αν δεν βρεθεί.
-ListNode list_find_node(List list, Pointer value, CompareFunc compare);
+ListNode list_find_node(List list, Pointer value);

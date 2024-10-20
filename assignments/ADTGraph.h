@@ -39,6 +39,8 @@ void graph_remove_edge(Graph graph, Pointer vertex_dest, Pointer vertex_sourse);
 int graph_get_money(Graph graph, GraphNode vertex_dest, GraphNode vertex_sourse);
 char* graph_get_date(Graph graph, GraphNode vertex_dest, GraphNode vertex_sourse);
 
+void graph_print(Graph graph);
+
 // Ελευθερώνει όλη τη μνήμη που δεσμεύει το γράφος.
 // Οποιαδήποτε λειτουργία πάνω στο γράφο μετά το destroy είναι μη ορισμένη.
 void graph_destroy(Graph graph);

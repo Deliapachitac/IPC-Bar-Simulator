@@ -3,7 +3,7 @@
 #include <fcntl.h>
 #include <unistd.h>
 
-#define BUFFER_SIZE 10000000
+#define BUFFER_SIZE 10
 
 int main(int argc, char *argv[]){
 
