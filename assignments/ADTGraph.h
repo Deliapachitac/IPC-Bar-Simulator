@@ -18,6 +18,7 @@ typedef struct vertex* Vertex;
 // τη συνάρτηση compare.
 
 Graph graph_create();
+GraphNode graph_node_create(int id);
 
 // Επιστρέφει τον αριθμό στοιχείων (κορυφών) που περιέχει ο γράφος graph.
 

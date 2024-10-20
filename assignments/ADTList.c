@@ -124,7 +124,11 @@ ListNode list_previous(List list, ListNode node) {
 
 Pointer list_node_value(List list, ListNode node) {
     assert(node != NULL);  // Ensure node is not null
-    return node->value;  
+    // if(node == NULL){
+    //     return NULL;
+    // }
+    return node->value; 
+
 }
 
 
