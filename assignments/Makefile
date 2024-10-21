@@ -24,12 +24,46 @@
 # .PHONY: clean all
 
 
+# # Compiler and flags
+# CC = gcc
+# CFLAGS = #-Wall -Wextra -g
+
+# # Source files
+# SRCS = ADTGraph.c ADTList.c
+
+# # Header files
+# HEADERS = ADTGraph.h ADTList.h
+
+# # Object files
+# OBJS = $(SRCS:.c=.o)
+
+# # Executable name
+# TARGET = program
+
+# # Default rule to build the program
+# all: $(TARGET)
+
+# # Rule to link object files and create the executable
+# $(TARGET): $(OBJS)
+# 	$(CC) $(CFLAGS) -o $(TARGET) $(OBJS)
+
+# # Rule to compile .c files into .o files
+# %.o: %.c $(HEADERS)
+# 	$(CC) $(CFLAGS) -c $< -o $@
+
+# # Rule to clean up object files and the executable
+# clean:
+# 	rm -f $(OBJS) $(TARGET)
+
+# # Phony targets
+# .PHONY: all clean
+
 # Compiler and flags
 CC = gcc
 CFLAGS = #-Wall -Wextra -g
 
 # Source files
-SRCS = ADTGraph.c ADTList.c
+SRCS = mygraph.c ADTGraph.c ADTList.c
 
 # Header files
 HEADERS = ADTGraph.h ADTList.h
@@ -57,3 +91,4 @@ clean:
 
 # Phony targets
 .PHONY: all clean
+

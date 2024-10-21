@@ -29,6 +29,7 @@ void graph_add_node(Graph graph, int id);
 
 void graph_remove_node(Graph graph, int id);
 
+Vertex graph_get_edge(Graph graph, GraphNode vertex_dest, GraphNode vertex_sourse);
 
 // Προσθέτει μια ακμή με βάρος weight στο γράφο
 void graph_insert_edge(Graph graph, GraphNode vertex_dest, GraphNode vertex_sourse, int money, char* mydate);
