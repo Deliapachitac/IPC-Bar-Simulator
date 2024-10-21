@@ -1,48 +1,49 @@
-
-////////////////////////////////////////////////////////////////////////
+//////////////////////////
 //
-// ADT Graph
+// ADT Graph 
 //
-////////////////////////////////////////////////////////////////////////
+/////////////////////////
 
-#pragma once 
-#include "ADTList.h"
+#pragma once
+#include "ADTList.h"  
 
-
+// Pointers to the structs
 typedef struct graph* Graph;
 typedef struct graph_node* GraphNode;
 typedef struct vertex* Vertex;
 
-
-// Δημιουργεί και επιστρέφει ένα γράφο, στο οποίο τα στοιχεία συγκρίνονται με βάση
-// τη συνάρτηση compare.
-
+// Creates and returns a new graph 
 Graph graph_create();
-GraphNode graph_node_create(int id);
 
-// Επιστρέφει τον αριθμό στοιχείων (κορυφών) που περιέχει ο γράφος graph.
+// Creates and returns a new graph node with a given id
+GraphNode graph_node_create(int id); 
 
+// Returns the number of elements contained in the graph
 int graph_size(Graph graph);
 
-//Προσθετει ενα κομβο στην λιστα του graph
+// Adds a node to the list of nodes in the graph.
 void graph_add_node(Graph graph, int id);
 
+// Removes a node from the graph based on the given id
 void graph_remove_node(Graph graph, int id);
 
+// Returns an edge between two nodes in the graph
 Vertex graph_get_edge(Graph graph, GraphNode vertex_dest, GraphNode vertex_sourse);
 
-// Προσθέτει μια ακμή με βάρος weight στο γράφο
+// Inserts an edge with a given weight (money and date mydate) between two nodes
 void graph_insert_edge(Graph graph, GraphNode vertex_dest, GraphNode vertex_sourse, int money, char* mydate);
 
-// Αφαιρεί μια ακμή από το γράφο
+// Removes an edge between two nodes 
 void graph_remove_edge(Graph graph, Pointer vertex_dest, Pointer vertex_sourse);
 
-// Επιστρέφει το βάρος της ακμής ανάμεσα στις δύο κορυφές
+// Returns the money the two given nodes
 int graph_get_money(Graph graph, GraphNode vertex_dest, GraphNode vertex_sourse);
+
+// Returns the date two nodes
 char* graph_get_date(Graph graph, GraphNode vertex_dest, GraphNode vertex_sourse);
 
+// Prints the graph 
 void graph_print(Graph graph);
 
-// Ελευθερώνει όλη τη μνήμη που δεσμεύει το γράφος.
-// Οποιαδήποτε λειτουργία πάνω στο γράφο μετά το destroy είναι μη ορισμένη.
+// Destroys a graph
 void graph_destroy(Graph graph);

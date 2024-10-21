@@ -8,7 +8,7 @@
 #include <stdbool.h>
 #include <assert.h>
 #include <stdbool.h> 
-#include <ADTGraph.h>
+
 
 // Pointer προς ένα αντικείμενο οποιουδήποτε τύπου.
 typedef void* Pointer;

@@ -1,10 +1,11 @@
 #include <stdio.h>
 #include "ADTGraph.h"
+#include "ADTHash.h"
 
 
 int main(void){
 
-    
+    HashTable hash;
     Graph mygraph = graph_create();
     printf("The size is : %d\n", graph_size(mygraph));
 

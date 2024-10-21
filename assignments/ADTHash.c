@@ -3,11 +3,10 @@
 // Υλοποίηση του ADT Hash Table
 //
 ///////////////////////////////////////////////////////////
-
+#include <math.h>
 #include <stdlib.h>
-#include <ADTHash.h>
 #include <string.h>
-
+#include "ADTHash.h"
 
 
 // Οι κόμβοι του map στην υλοποίηση με hash table, μπορούν να είναι σε 3 διαφορετικές καταστάσεις,
@@ -59,22 +58,22 @@ HashTable create_hash_table(int size){
 
 
 void delete_item(HashTableItem i) {
-    free(i->key);
-    free(i->value);
-    free(i->state);
-    free(i);
+    // free(i->key);
+    // free(i->value);
+    // free(i->state);
+    // free(i);
 }
 
 
 void delete_hash_table(HashTable ht) {
-    for (int i = 0; i < ht->size; i++) {
-        HashTable item = ht->items[i];
-        if (item != NULL) {
-            delete_item(item);
-        }
-    }
-    free(ht->items);
-    free(ht);
+    // for (int i = 0; i < ht->size; i++) {
+    //     HashTable item = ht->items[i];
+    //     if (item != NULL) {
+    //         delete_item(item);
+    //     }
+    // }
+    // free(ht->items);
+    // free(ht);
 }
 
 

@@ -63,10 +63,10 @@ CC = gcc
 CFLAGS = #-Wall -Wextra -g
 
 # Source files
-SRCS = mygraph.c ADTGraph.c ADTList.c
+SRCS = mygraph.c ADTGraph.c ADTList.c # ADTHash.c
 
 # Header files
-HEADERS = ADTGraph.h ADTList.h
+HEADERS = ADTGraph.h ADTList.h # ADTHash.h
 
 # Object files
 OBJS = $(SRCS:.c=.o)
