@@ -43,7 +43,7 @@ int graph_get_money(Graph graph, GraphNode vertex_dest, GraphNode vertex_sourse)
 char* graph_get_date(Graph graph, GraphNode vertex_dest, GraphNode vertex_sourse);
 
 // Prints the graph 
-void graph_print(Graph graph);
+void graph_print(Graph graph, int output_fd, int buffer_size);
 
 // Destroys a graph
 void graph_destroy(Graph graph);

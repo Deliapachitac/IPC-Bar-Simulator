@@ -8,6 +8,8 @@
 
 #include <stdlib.h>
 #include <stdio.h>
+#include <fcntl.h>
+#include <unistd.h>
 #include <stdint.h>
 #include <string.h>
 
@@ -186,27 +188,32 @@ char* graph_get_date(Graph graph, GraphNode vertex_dest, GraphNode vertex_sourse
 }
 
 
-// Prints the graph's nodes and edges for debugging or display
-void graph_print(Graph graph) {
-    printf("Graph contains %d nodes:\n", graph->size);
+void graph_print(Graph graph, int output_fd, int buffer_size){
 
     // Iterate through all nodes in the graph list
     ListNode node = list_first(graph->mylist);
-    while (node != NULL) {
+    while (node != NULL) {  
+        
+        char buffer[buffer_size];
         GraphNode graph_node = (GraphNode)list_node_value(graph->mylist, node);
-        printf("Node %d:", graph_node->id);
 
-        // Iterate through all outgoing edges of this node
+        
         ListNode outgoing_edge = list_first(graph_node->outgoing);
         if (outgoing_edge == NULL) {
-            printf("  NULL\n");
+            snprintf(buffer, sizeof(buffer), " Node sourse: %d -> NULL\n",graph_node->id);
+            write(output_fd, buffer, strlen(buffer));
         } else {
             while (outgoing_edge != NULL) {
                 Vertex dest_node = (Vertex)list_node_value(graph_node->outgoing, outgoing_edge);
-                printf("    -> Node %d\n", dest_node->dest->id);
+                
+                snprintf(buffer, sizeof(buffer), " Node sourse: %d  Node destination: %d, Money: %d, Date: %s\n",
+                    graph_node->id, dest_node->dest->id, dest_node->money, dest_node->mydate);
+                write(output_fd, buffer, strlen(buffer));
+
                 outgoing_edge = list_next(graph_node->outgoing, outgoing_edge);
             }
         }
+
 
         node = list_next(graph->mylist, node);
     }

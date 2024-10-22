@@ -63,7 +63,7 @@ CC = gcc
 CFLAGS = #-Wall -Wextra -g
 
 # Source files
-SRCS = mygraph.c ADTGraph.c ADTList.c # ADTHash.c
+SRCS = myprogram.c ADTGraph.c ADTList.c # ADTHash.c
 
 # Header files
 HEADERS = ADTGraph.h ADTList.h # ADTHash.h
@@ -72,7 +72,7 @@ HEADERS = ADTGraph.h ADTList.h # ADTHash.h
 OBJS = $(SRCS:.c=.o)
 
 # Executable name
-TARGET = program
+TARGET = miris
 
 # Default rule to build the program
 all: $(TARGET)
@@ -85,10 +85,12 @@ $(TARGET): $(OBJS)
 %.o: %.c $(HEADERS)
 	$(CC) $(CFLAGS) -c $< -o $@
 
-# Rule to clean up object files and the executable
+#
+run:
+	./$(TARGET) -i inputfile -o outputfile
+# Remove the object files
 clean:
 	rm -f $(OBJS) $(TARGET)
 
-# Phony targets
-.PHONY: all clean
+
 
