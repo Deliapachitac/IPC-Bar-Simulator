@@ -42,8 +42,11 @@ int graph_get_money(Graph graph, GraphNode vertex_dest, GraphNode vertex_sourse)
 // Returns the date two nodes
 char* graph_get_date(Graph graph, GraphNode vertex_dest, GraphNode vertex_sourse);
 
-// Prints the graph 
+// Printing functions of  the graph 
 void graph_print(Graph graph, int output_fd, int buffer_size);
+void graph_print_outgoing(Graph graph, int id);
+void graph_print_ingoing(Graph graph, int id);
+
 
 // Destroys a graph
 void graph_destroy(Graph graph);

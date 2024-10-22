@@ -84,12 +84,30 @@ int graph_size(Graph graph){
 
 void graph_add_node(Graph graph, int id){
     GraphNode new_node = graph_node_create(id);  // Create the new node
+    if(list_find_node(graph->mylist , new_node)!= NULL){
+        printf("The node with id %d already exists\n",id);
+        return;
+    }
     list_insert(graph->mylist, new_node);        // Insert it into the graph list
     graph->size++;                               // Increment the size of the graph
 }
 
 void graph_remove_node(Graph graph, int id){
     GraphNode node_to_remove = graph_node_create(id);  // Create a node to search for
+
+    for (ListNode node = list_first(graph->mylist); node != NULL; node = list_next(graph->mylist, node)) {
+        GraphNode graph_node = (GraphNode)list_node_value(graph->mylist, node);
+        
+        for (ListNode edge_node = list_first(graph_node->outgoing); edge_node != NULL; edge_node = list_next(graph_node->outgoing, edge_node)) {
+            Vertex edge = (Vertex)list_node_value(graph_node->outgoing, edge_node);
+            
+            if(edge->sourse->id == id || edge->dest->id == id){    
+                
+                graph_remove_edge(graph,edge->dest,edge->sourse);
+            }
+        
+        }
+    }
     list_remove(graph->mylist, list_find_node(graph->mylist, node_to_remove));  // Remove the node
 }
 
@@ -219,6 +237,46 @@ void graph_print(Graph graph, int output_fd, int buffer_size){
     }
 }
 
+void graph_print_outgoing(Graph graph, int id){
+
+    GraphNode node = graph_node_create(id);  
+    ListNode node_found1 = list_find_node(graph->mylist, node);
+    if(node_found1 == NULL){
+        printf("The node with doesnt exists\n");
+        return;
+    }
+    node =(GraphNode)list_node_value(graph->mylist, node_found1);
+    ListNode outgoing_edge = list_first(node->outgoing);
+    while (outgoing_edge != NULL) {
+        Vertex dest_node = (Vertex)list_node_value(node->outgoing, outgoing_edge);
+        
+        printf(" Node sourse: %d  Node destination: %d, Money: %d, Date: %s\n",
+            node->id, dest_node->dest->id, dest_node->money, dest_node->mydate);
+
+        outgoing_edge = list_next(node->outgoing, outgoing_edge);
+    }
+
+}
+void graph_print_ingoing(Graph graph, int id ){
+    GraphNode node = graph_node_create(id);  
+    ListNode node_found1 = list_find_node(graph->mylist, node);
+    if(node_found1 == NULL){
+        printf("The node with doesnt exists\n");
+        return;
+    }
+    node =(GraphNode)list_node_value(graph->mylist, node_found1);
+
+    ListNode ingoing_edge = list_first(node->ingoing);
+    while (ingoing_edge != NULL) {
+        Vertex sour_node = (Vertex)list_node_value(node->ingoing, ingoing_edge);
+        
+        printf(" Node sourse: %d  Node ingoing: %d, Money: %d, Date: %s\n",
+            node->id, sour_node->sourse->id, sour_node->money, sour_node->mydate);
+
+        ingoing_edge = list_next(node->ingoing, ingoing_edge);
+    }
+}
+
 void graph_destroy(Graph graph){
     
 }
@@ -226,21 +284,15 @@ void graph_destroy(Graph graph){
 ///////////////////////////////////////////////////////////
 
 // int main(void){
-
-    
 //     Graph mygraph = graph_create();
 //     printf("The size is : %d\n", graph_size(mygraph));
-
-   
 //     for (int i = 0; i < 10; i=i+2)
 //     {
-//         graph_add_node(mygraph, i);
-        
+//         graph_add_node(mygraph, i);  
 //     }
 //     printf("The size is : %d\n", graph_size(mygraph));
 //     GraphNode node =  graph_node_create(4);
 //     GraphNode node2 =  graph_node_create(7);
-
 //     if(list_find_node(mygraph->mylist, node )== NULL){
 //         printf("delia");
 //     }
@@ -250,17 +302,11 @@ void graph_destroy(Graph graph){
 //     }
 //     graph_print(mygraph);
 //     printf("The size is : %d\n", graph_size(mygraph));
-
-
 //     graph_insert_edge(mygraph, node, node2, 23, "12-3-4");
-
 //     graph_print(mygraph);
-
 //     printf(" the money is : %d",graph_get_money(mygraph,node,node2));
 //     printf(" the date is : %s",graph_get_date(mygraph,node,node2));
-
 //     // graph_remove_edge(mygraph,node,node2);
 //     // printf(" the money is : %d",graph_get_money(mygraph,node,node2));
-
 //     return 0;
 // }
