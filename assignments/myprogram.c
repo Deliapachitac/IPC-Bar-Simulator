@@ -63,9 +63,7 @@ int main(int argc, char *argv[]){
                 // Parse the line
                 if (sscanf(line, "%d %d %d %s", &node_id_source, &node_id_dest, &money, date) == 4) {
                    
-                    GraphNode node_sourse =  graph_node_create(node_id_source);
-                    GraphNode node_dest =  graph_node_create(node_id_dest);
-                    graph_insert_edge(mygraph,node_dest,node_sourse,money,date);
+                    graph_insert_edge(mygraph,node_id_dest,node_id_source,money,date);
                    
                 } else {
                     // If the line is not correctly formatted, skip it or print an error
@@ -156,7 +154,7 @@ int main(int argc, char *argv[]){
             }
             
             //if the nodes dont exists then it creates the new nodes and adds them into the graph
-            graph_insert_edge(mygraph, graph_node_create(ids[1]),graph_node_create(ids[0]),ids[2],date);
+            graph_insert_edge(mygraph, ids[1],ids[0],ids[2],date);
     
         }else if( strcmp(code, "d") == 0){
 

@@ -78,16 +78,6 @@ void delete_hash_table(HashTable ht) {
 }
 
 
-int hash_string(char* stringg, int a, int m) {
-	long hash = 0;
-    const int len_string = strlen(stringg);
-    for (int i = 0; i < len_string; i++) {
-        hash += (long)pow(a, len_string - (i+1)) * stringg[i];
-        hash = hash % m;
-    }
-    return (int)hash;
-}
-
 int hash_integer(int number, int m) {
 
     return number % m;

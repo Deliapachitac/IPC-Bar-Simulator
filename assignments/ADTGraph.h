@@ -27,20 +27,23 @@ void graph_add_node(Graph graph, int id);
 // Removes a node from the graph based on the given id
 void graph_remove_node(Graph graph, int id);
 
+// Get the node from the graph
+GraphNode graph_get_node(Graph graph, int id);
+
 // Returns an edge between two nodes in the graph
-Vertex graph_get_edge(Graph graph, GraphNode vertex_dest, GraphNode vertex_sourse);
+Vertex graph_get_edge(Graph graph, int id_dest, int id_sourse);
 
 // Inserts an edge with a given weight (money and date mydate) between two nodes
-void graph_insert_edge(Graph graph, GraphNode vertex_dest, GraphNode vertex_sourse, int money, char* mydate);
+void graph_insert_edge(Graph graph, int id_dest, int id_sourse, int money, char* mydate);
 
 // Removes an edge between two nodes 
 void graph_remove_edge(Graph graph, Pointer vertex_dest, Pointer vertex_sourse);
 
 // Returns the money the two given nodes
-int graph_get_money(Graph graph, GraphNode vertex_dest, GraphNode vertex_sourse);
+int graph_get_money(Graph graph, int id_dest, int id_sourse);
 
 // Returns the date two nodes
-char* graph_get_date(Graph graph, GraphNode vertex_dest, GraphNode vertex_sourse);
+char* graph_get_date(Graph graph, int id_dest, int id_sourse);
 
 // Printing functions of  the graph 
 void graph_print(Graph graph, int output_fd, int buffer_size);
