@@ -65,7 +65,6 @@ Graph graph_create(){
     Graph mygraph = malloc(sizeof(*mygraph));
     mygraph->size = 0;
     mygraph->mylist = list_create(compare_objects, destroy_value);
-
     return mygraph;
 }
 

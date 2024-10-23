@@ -12,28 +12,6 @@
 
 int main(int argc, char *argv[]){
 
-    // int opt;
-    // char *inputFile = NULL;
-    // char *outputFile = NULL;
-
-    // "i:o:" means -i requires an argument, -o requires an argument
-    // while ((opt = getopt(argc, argv, "i:o:")) != -1) {
-    //     switch (opt) {
-    //         case 'i':
-    //             inputFile = optarg;  // optarg holds the argument for -i
-    //             break;
-    //         case 'o':
-    //             outputFile = optarg; // optarg holds the argument for -o
-    //             break;
-    //         case '?': // Handle unknown options
-    //             if (optopt == 'i' || optopt == 'o') {
-    //                 fprintf(stderr, "Option -%c requires an argument.\n", optopt);
-    //             } else {
-    //                 fprintf(stderr, "Unknown option: -%c\n", optopt);
-    //             }
-    //             return 1;
-    //     }
-    // }
     
     // Open the input file for reading only  
     int input_fd = open(argv[2], O_RDONLY);
@@ -44,13 +22,14 @@ int main(int argc, char *argv[]){
     
     char buffer[BUFFER_SIZE];
     char line[BUFFER_SIZE];
+    int countline=0;
     int line_pos = 0;
     ssize_t bytes_read;
     int node_id_source, node_id_dest, money;
-    char date[20];
+    char date[20]; // To store the date 
 
     // Create the graph that we will use to enter the data from tyhe input file 
-    Graph mygraph =graph_create();
+    Graph mygraph =graph_create(countline);
 
     // Read the input file line by line
     while ((bytes_read = read(input_fd, buffer, sizeof(buffer))) > 0) {
@@ -64,7 +43,7 @@ int main(int argc, char *argv[]){
                 if (sscanf(line, "%d %d %d %s", &node_id_source, &node_id_dest, &money, date) == 4) {
                    
                     graph_insert_edge(mygraph,node_id_dest,node_id_source,money,date);
-                   
+                    countline++;
                 } else {
                     // If the line is not correctly formatted, skip it or print an error
                     fprintf(stderr, "Error parsing line: %s\n", line);
@@ -87,25 +66,23 @@ int main(int argc, char *argv[]){
 
     // Close the input file
     close(input_fd);
-
+        
+    printf("1.Insert a new node or more in the graph (i)\n");
+    printf("2.Insert a new edge between 2 nodes with money and a date (n)\n");
+    printf("3.Delete a node from the graph (d)\n");
+    printf("4.Delete an edge or more between 2 nodes (l)\n");
+    printf("5.Modify the money and the date between 2 edges (m)\n");
+    printf("6.Find all the outgoing transactions from the given node (f)\n");
+    printf("7.Find all the receiving transactions from the given node (r) \n");
+    printf("8.Exit the program and print in the output file (e) \n");
+        
+        
     bool flag = true;
     while(flag){
 
-        printf("\n\n\n\n\n");
-        printf("1.Insert a new node or more in the graph (i)\n");
-        printf("2.Insert a new edge between 2 nodes with money and a date (n)\n");
-        printf("3.Delete a node from the graph (d)\n");
-        printf("4.Delete an edge or more between 2 nodes (l)\n");
-        printf("5.Modify the money and the date between 2 edges (m)\n");
-        printf("6.Find all the outgoing transactions from the given node (f)\n");
-        printf("7.Find all the receiving transactions from the given node (r) \n");
-        printf("8.Exit the program and print in the output file (e) \n");
-        
-        
-        
+       
         char input[50]; // To store the whole input line
         char code[10]; // To store the command string
-        char date[20]; // To store the date 
         int ids[50]; // Array to store the ids
         int numCount = 0; // Count of numbers
             
@@ -255,7 +232,7 @@ int main(int argc, char *argv[]){
             //Close the output file 
             close(output_fd);
             
-            break;
+            flag= false;
 
         }else {
 

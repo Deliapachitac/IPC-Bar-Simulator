@@ -1,5 +1,7 @@
 {
     "files.associations": {
-        "adthash.h": "c"
+        "adthash.h": "c",
+        "unistd.h": "c",
+        "stdlib.h": "c"
     }
 }

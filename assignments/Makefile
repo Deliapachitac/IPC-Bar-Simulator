@@ -58,15 +58,16 @@
 # # Phony targets
 # .PHONY: all clean
 
+# //?///////////////////
 # Compiler and flags
 CC = gcc
 CFLAGS = #-Wall -Wextra -g
 
 # Source files
-SRCS = myprogram.c ADTGraph.c ADTList.c # ADTHash.c
+SRCS = myprogram.c ADTGraph.c ADTHash.c ADTList.c # 
 
 # Header files
-HEADERS = ADTGraph.h ADTList.h # ADTHash.h
+HEADERS = ADTGraph.h ADTHash.h ADTList.h # 
 
 # Object files
 OBJS = $(SRCS:.c=.o)
@@ -92,5 +93,39 @@ run:
 clean:
 	rm -f $(OBJS) $(TARGET)
 
+# ?///////////////////////////////////////////////////////////
+# # Compiler and flags
+# CC = gcc
+# CFLAGS = #-Wall -Wextra -std=c11
+
+# # Executable name
+# EXEC = myprogram
+
+# # Source files
+# SRCS = myprogram.c ADTGraph.c ADTHash.c ADTList.c
+
+# # Object files (compiled .o files from .c files)
+# OBJS = $(SRCS:.c=.o)
+
+# # Header files (for dependencies)
+# HEADERS = ADTGraph.h ADTHash.h ADTList.h
+
+# # Default target to build the executable
+# all: $(EXEC)
+
+# # Rule to link object files into the final executable
+# $(EXEC): $(OBJS)
+# 	$(CC) $(CFLAGS) -o $@ $(OBJS)
+
+# run:
+# 	./$(EXEC) -i inputfile -o outputfile
+
+# # Rule to compile .c files into .o files
+# %.o: %.c $(HEADERS)
+# 	$(CC) $(CFLAGS) -c $<
+
+# # Clean up object files and executable
+# clean:
+# 	rm -f $(OBJS) $(EXEC)
 
 

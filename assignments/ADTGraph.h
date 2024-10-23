@@ -5,7 +5,8 @@
 /////////////////////////
 
 #pragma once
-#include "ADTList.h"  
+#include "ADTList.h"
+#include "ADTHash.h"  
 
 // Pointers to the structs
 typedef struct graph* Graph;
