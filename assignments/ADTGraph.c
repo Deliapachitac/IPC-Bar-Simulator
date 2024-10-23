@@ -103,7 +103,7 @@ void graph_remove_node(Graph graph, int id){
             
             if(edge->sourse->id == id || edge->dest->id == id){    
                 
-                graph_remove_edge(graph,edge->dest,edge->sourse);
+                graph_remove_edge(graph,edge->dest->id,edge->sourse->id);
             }
         
         }
@@ -188,15 +188,15 @@ Vertex graph_get_edge(Graph graph, int id_dest, int id_sourse){
 }
 
 
-void graph_remove_edge(Graph graph, Pointer vertex_dest, Pointer vertex_sourse){
-    
-    Vertex edge = graph_get_edge(graph, vertex_dest, vertex_sourse);////////////////////////
+
+void graph_remove_edge(Graph graph,  int id_dest, int id_sourse){
+ 
+    Vertex edge = graph_get_edge(graph, id_dest, id_sourse);
     // If edge doesn't exist, exit function
     if (edge == NULL) {
         return;  
     }
-    ListNode node_found1 = list_find_node(graph->mylist, vertex_sourse);
-    GraphNode node1 = (GraphNode)list_node_value(graph->mylist, node_found1);
+    GraphNode node1 = graph_get_node(graph,id_sourse);
     
     // list_remove(node1->outgoing, edge);  
 }

@@ -38,7 +38,7 @@ Vertex graph_get_edge(Graph graph, int id_dest, int id_sourse);
 void graph_insert_edge(Graph graph, int id_dest, int id_sourse, int money, char* mydate);
 
 // Removes an edge between two nodes 
-void graph_remove_edge(Graph graph, Pointer vertex_dest, Pointer vertex_sourse);
+void graph_remove_edge(Graph graph, int id_dest, int id_sourse);
 
 // Returns the money the two given nodes
 int graph_get_money(Graph graph, int id_dest, int id_sourse);
