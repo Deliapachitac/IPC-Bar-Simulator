@@ -2,33 +2,33 @@
 CC = gcc
 
 # Source files
-SRCS = miris.c Graph.c Hash.c List.c 
+SRCS = lexan.c 
 
 # Header files
-HEADERS = Graph.h Hash.h List.h 
+HEADERS = 
 
 # Object files
 OBJS = $(SRCS:.c=.o)
 
 # Executable name
-TARGET = miris
+TARGET = lexan
 
 # Rule to link object files and create the executable
 $(TARGET): $(OBJS)
-        $(CC) -o $(TARGET) $(OBJS)
+	$(CC) -o $(TARGET) $(OBJS)
 
 %.o: %.c $(HEADERS)
-        $(CC) -c $< -o $@
+	$(CC) -c $< -o $@
 
 # Execute the program 
 run:
-        ./$(TARGET) -i inputfile -o outputfile
+	./$(TARGET) -i GreatExpectations.txt -l 15 -m 15 -t 10 -e ExclusionList -o output.txt
 
 # For the memory leaks
 valgrind:
-        valgrind --leak-check=full ./$(TARGET) -i inputfile -o outputfile
+	valgrind --leak-check=full ./$(TARGET)
 
 
 # Remove the object files
 clean:
-        rm -f $(OBJS) $(TARGET)
+	rm -f $(OBJS) $(TARGET)
