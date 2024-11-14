@@ -10,30 +10,24 @@
 #define BUFFER_SIZE 256
 #define INITIAL_WORD_CAPACITY 200
 
+struct transferdata
+{
+    int received_lines;
+    int line_position;
+};
+
+typedef struct tranferdata* TranferData;
 
 // Function that removes punctuation marks from a word( for example: , . [] " )
-void remove_punctuation(char *word) {
-    int i = 0, j = 0;
-    while (word[i] != '\0') {
-        //The function "isalpha" distinguish the alphabetic characters from the non-alphabetic
-        if (isalpha(word[i])) { 
-            word[j++] = word[i];
-        }
-        i++;
-    }
-    word[j] = '\0';  
-}
+void remove_punctuation(char *word) ;
 
 // Check if the word is an integer
-bool is_integer(const char *word) {
+bool is_integer(const char *word);
+ 
+//read a file 
+void readfile(const char *filename,const char *outputname, int numread, off_t offset);
 
-    for (int i = 0; word[i] != '\0'; i++) {
-        if (!isdigit(word[i])) {
-            return false; 
-        }
-    }
-    return true; 
-}
+off_t find_offset(const char *filename, int line_number);
 
 int main(int argc, char *argv[]) {
 
@@ -83,23 +77,8 @@ int main(int argc, char *argv[]) {
     }
 
     // Variables to store data while reading
-    char buffer[BUFFER_SIZE];
-    char line[BUFFER_SIZE];
-    int line_pos = 0;
     ssize_t bytes_read;
     int countline = 0;
-
-    // Dynamic array to store words (start with an initial capacity)
-    char **words = malloc(INITIAL_WORD_CAPACITY * sizeof(char *));
-    if (words == NULL) {
-        perror("Error allocating memory for words");
-        close(input_fd);
-        return 1;
-    }
-
-    int word_count = 0;
-    int word_capacity = INITIAL_WORD_CAPACITY;
-
 
     // Count the lines of the file
     char ch;
@@ -109,133 +88,106 @@ int main(int argc, char *argv[]) {
         }
     }
 
-    // Move to the beginning of the file to read again
-    lseek(input_fd, 0, SEEK_SET);
-
-    // Read the file and print each word
-    while ((bytes_read = read(input_fd, buffer, sizeof(buffer))) > 0) {
-        for (int i = 0; i < bytes_read; i++) {
-            if (buffer[i] == '\n' || buffer[i] == ' ') {
-            
-                // Null-terminate the word and print it
-                line[line_pos] = '\0';
-                
-                if ( line_pos > 0 ) {
-
-                    // Resize the array if necessary
-                    if (word_count >= word_capacity) {
-                        word_capacity *= 2;  // Double the capacity
-                        words = realloc(words, word_capacity * sizeof(char *));
-                        if (words == NULL) {
-                            perror("Error reallocating memory for words");
-                            close(input_fd);
-                            return 1;
-                        }
-                    }
-
-                    
-                    remove_punctuation(line);
-                    if (strlen(line) > 0 && !is_integer(line)) {  // Check if it's not an integer
-                        words[word_count] = strdup(line);
-                        if (words[word_count] == NULL) {
-                            perror("Error duplicating word");
-                            close(input_fd);
-                            return 1;
-                        }
-
-                        word_count++;
-                        // dprintf(output_fd, "Word: %s\n", line);  // Write the last word to the output file
-                    }
-                }
-
-                // Reset the line buffer for the next word
-                line_pos = 0;
-            } else {
-                // Save the character to the line buffer
-                line[line_pos++] = buffer[i];
-            }
-        }
-    }
-
-    // Handle any remaining word after the loop
-    if (line_pos > 0 ) {
-        line[line_pos] = '\0';
-        if (word_count >= word_capacity) {
-            word_capacity *= 2;
-            words = realloc(words, word_capacity * sizeof(char *));
-            if (words == NULL) {
-                perror("Error reallocating memory for words");
-                close(input_fd);
-                return 1;
-            }
-        }
-        remove_punctuation(line);
-        if (strlen(line) > 0 && !is_integer(line)) {  // Check if it's not an integer
-            words[word_count] = strdup(line);
-            if (words[word_count] == NULL) {
-                perror("Error duplicating word");
-                close(input_fd);
-                return 1;
-            }
-
-            word_count++;
-            // dprintf(output_fd, "Word: %s\n", line);  // Write the last word to the output file
-        }  
-    }
+    //Close the input file
     close(input_fd);
 
 
+    
+    // Dynamic array to store words (start with an initial capacity)
+    // char **words = malloc(INITIAL_WORD_CAPACITY * sizeof(char *));
+    // if (words == NULL) {
+    //     perror("Error allocating memory for words");
+    //     close(input_fd);
+    //     return 1;
+    // }
+    // int word_count = 0;
+    // int word_capacity = INITIAL_WORD_CAPACITY;
 
 
-
-
-
-
-
-
-
-
-    int lines_per_splitter = countline / numOfSplitter;
-    if (countline % numOfSplitter != 0) {
-        lines_per_splitter++; // If lines don't divide evenly, some splitters will process one more line
-    }
-
-    pid_t pid;
-
-    // // Loop to create numofsplitters child processes
-    // for (i = 0; i < numOfSplitter; i++) {
-    //     pid = fork(); // Create a new process (fork)
-
-    //     if (pid == 0) {
-    //         // Child process
-    //         printf("Child %d PID: %d\n", i+1, getpid()); // Print child process ID
-    //         sleep(1); // Simulate some work
-    //         exit(0); // Terminate child process
-    //     } else if (pid < 0) {
-
-    //         perror("fork failed");
-    //         exit(1);
+    // Read the file and print each word
+    // char line[BUFFER_SIZE];
+    // int line_pos = 0;
+    // char buffer[BUFFER_SIZE];
+    // while ((bytes_read = read(input_fd, buffer, sizeof(buffer))) > 0) {
+    //     for (int i = 0; i < bytes_read; i++) {
+    //         if (buffer[i] == '\n' || buffer[i] == ' ') {       
+    //             // Null-terminate the word and print it
+    //             line[line_pos] = '\0';         
+    //             if ( line_pos > 0 ) {
+    //                 // Resize the array if necessary
+    //                 if (word_count >= word_capacity) {
+    //                     word_capacity *= 2;  // Double the capacity
+    //                     words = realloc(words, word_capacity * sizeof(char *));
+    //                     if (words == NULL) {
+    //                         perror("Error reallocating memory for words");
+    //                         close(input_fd);
+    //                         return 1;
+    //                     }
+    //                 }              
+    //                 remove_punctuation(line);
+    //                 if (strlen(line) > 0 && !is_integer(line)) {  // Check if it's not an integer
+    //                     words[word_count] = strdup(line);
+    //                     if (words[word_count] == NULL) {
+    //                         perror("Error duplicating word");
+    //                         close(input_fd);
+    //                         return 1;
+    //                     }
+    //                     word_count++;
+    //                     // dprintf(output_fd, "Word: %s\n", line);  // Write the last word to the output file
+    //                 }
+    //             }
+    //             // Reset the line buffer for the next word
+    //             line_pos = 0;
+    //         } else {
+    //             // Save the character to the line buffer
+    //             line[line_pos++] = buffer[i];
+    //         }
     //     }
     // }
-    
-    // // Parent process
-    // for (i = 0; i < numOfSplitter; i++) {
-    //     // Wait for each child process to terminate
-    //     wait(NULL); // Wait for child processes to terminate
+    // Handle any remaining word after the loop
+    // if (line_pos > 0 ) {
+    //     line[line_pos] = '\0';
+    //     if (word_count >= word_capacity) {
+    //         word_capacity *= 2;
+    //         words = realloc(words, word_capacity * sizeof(char *));
+    //         if (words == NULL) {
+    //             perror("Error reallocating memory for words");
+    //             close(input_fd);
+    //             return 1;
+    //         }
+    //     }
+    //     remove_punctuation(line);
+    //     if (strlen(line) > 0 && !is_integer(line)) {  // Check if it's not an integer
+    //         words[word_count] = strdup(line);
+    //         if (words[word_count] == NULL) {
+    //             perror("Error duplicating word");
+    //             close(input_fd);
+    //             return 1;
+    //         }
+    //         word_count++;
+    //         // dprintf(output_fd, "Word: %s\n", line);  // Write the last word to the output file
+    //     }  
     // }
-    // // Print parent process ID
-    // printf("Parent PID: %d\n", getpid()); // Print parent process ID
-
     
+
+
+
+
+    printf("The file has lines:%d\n",countline);
+
+    pid_t pid;
+    int pipefds1[2];
+    if (pipe(pipefds1) == -1) { 
+        perror("pipe failed");
+        exit(1);
+    }
+    int pipefds2[2];
+    if (pipe(pipefds2) == -1) { 
+        perror("pipe failed");
+        exit(1);
+    }
 
     for (int i = 0; i < numOfSplitter; i++) {
-        
-        // Create a pipe
-        int pipefds[2];
-        if (pipe(pipefds) == -1) { 
-            perror("pipe failed");
-            exit(1);
-        }
 
         //Create a process
         pid = fork();
@@ -247,36 +199,57 @@ int main(int argc, char *argv[]) {
         // Child process
         if (pid == 0) {
             
-            close(pipefds[1]); // Close the write end of the pipe in the child process
+            close(pipefds1[1]); // Close the write end of the pipe in the child process
+            close(pipefds2[1]);
 
-            char buffer[100];
-            read(pipefds[0], buffer, sizeof(buffer)); // Read from the pipe
-            printf("Child %d PID: %d received: %s\n", i + 1, getpid(), buffer); // Print received message
-
-            close(pipefds[0]); // Close the read end after use
+            int received_data[2] ;
+            int data;
+            read(pipefds1[0], &data, sizeof(data));
+            received_data[0]=data;
+            read(pipefds2[0], &data, sizeof(data));
+            received_data[1]=data;
+            
+            
+            off_t offset=find_offset(inputFile,received_data[1]);
+            printf("the offset is : %ld\n",offset);
+            readfile(inputFile,outputFile,received_data[0], offset );
+            printf("Child %d PID: %d received: %d\n", i + 1, getpid(), received_data[1]); // Print received message
+            
+            
+            close(pipefds1[0]); // Close the read end after use
+            close(pipefds2[0]); // Close the read end after use
             exit(0); // Terminate child process
-        }else {
-            // Parent process
-            close(pipefds[0]); // Close the read end of the pipe in the parent process
-
-            char message[] = "Hello from parent"; // Message to send to the child
-            write(pipefds[1], message, sizeof(message)); // Write to the pipe
-
-            close(pipefds[1]); // Close the write end after writing
         }
     }
+    if (pid > 0) {
+        // Parent process
+        close(pipefds1[0]); // Close the read end of the pipe in the parent process
+        close(pipefds2[0]); // Close the read end of the pipe in the parent process
+        
+        //Calculate how many lines will each splitter have 
+        int calculating_lines = countline / numOfSplitter;
+        // if (countline % numOfSplitter != 0) {
+        //     calculating_lines++; // If lines don't divide evenly, some splitters will process one more line
+        // }
+        
+        int line;
+        for (int i = 0; i < numOfSplitter; i++)
+        {   
+            line=calculating_lines*i;
+            // printf("The line number :%d\n", line);
+            write(pipefds1[1], &calculating_lines, sizeof(calculating_lines)); 
+            write(pipefds2[1], &line, sizeof(line)); 
+        }
 
-    // Parent waits for each child process to terminate
-    for (int i = 0; i < numOfSplitter; i++) {
-        wait(NULL); // Wait for child processes to terminate
+        close(pipefds1[1]); // Close the write end after writing
+        close(pipefds2[1]); // Close the write end after writing
+
+        // Parent waits for each child process to terminate
+        for (int i = 0; i < numOfSplitter; i++) {
+            wait(NULL); // Wait for child processes to terminate
+        }
     }
-
-    // Print parent process ID
-    printf("Parent PID: %d\n", getpid()); // Print parent process ID
-
-
-
-
+   
 
 
 
@@ -296,16 +269,143 @@ int main(int argc, char *argv[]) {
     }
 
     // Now write all words to the output file
-    for (int i = 0; i < word_count; i++) {
-        dprintf(output_fd, "Word: %s\n", words[i]);
-        free(words[i]);  // Free the memory allocated for each word
-    }
-
-    // Free the memory for the array of words
-    free(words);
+    // for (int i = 0; i < word_count; i++) {
+    //     dprintf(output_fd, "Word: %s\n", words[i]);
+    //     free(words[i]);  // Free the memory allocated for each word
+    // }
+    // // Free the memory for the array of words
+    // free(words);
 
     close(output_fd);
 
 
     return 0;
+}
+
+
+void readfile(const char *filename,const char *outputname, int lineread, off_t offset) {
+    int fd = open(filename, O_RDONLY);
+    if (fd == -1) {
+        perror("Error opening file");
+        exit(1);
+    }
+
+    //Open the output file for writing (create if not exists)
+    int output_fd = open(outputname, O_WRONLY | O_CREAT | O_TRUNC);
+    if (output_fd == -1) {
+        perror("Error opening output file");
+        close(fd);
+        exit(1);
+    }
+
+    if (lseek(fd, offset, SEEK_SET) == -1) {
+        perror("Error seeking file");
+        close(fd);
+        exit(1);
+    }
+
+    char line[BUFFER_SIZE];
+    int line_pos = 0;
+    char buffer[BUFFER_SIZE];
+    ssize_t bytes_read;
+    int countline = 0;
+
+
+    while ((bytes_read = read(fd, buffer, sizeof(buffer))) > 0) {
+        
+        for (int i = 0; i < bytes_read; i++) {
+            if (buffer[i] == '\n' || buffer[i] == ' ') {       
+                
+                line[line_pos] = '\0';         
+                if ( line_pos > 0 ) {
+           
+                    remove_punctuation(line);
+                    if (strlen(line) > 0 && !is_integer(line)) {  // Check if it's not an integer
+    
+                        dprintf(output_fd, "Word: %s\n", line);  // Write the last word to the output file
+                    }
+                }
+
+                // Reset the line buffer for the next word
+                line_pos = 0;
+                countline++;
+                
+                // Stop reading if the desired number of lines is reached
+                if (countline >= lineread) {
+                    break;
+                }
+            } else {
+                // Save the character to the line buffer
+                line[line_pos++] = buffer[i];
+            }
+        }
+    }
+    // Handle any remaining word after the loop
+    if (line_pos > 0 ) {
+        line[line_pos] = '\0';
+
+        remove_punctuation(line);
+        if (strlen(line) > 0 && !is_integer(line)) {  // Check if it's not an integer
+        
+            dprintf(output_fd, "Word: %s\n", line);  // Write the last word to the output file
+        }  
+    }
+
+
+    // free(buffer);
+    close(fd);
+    close(output_fd);
+}
+
+off_t find_offset(const char *filename, int line_number) {
+    int fd = open(filename, O_RDONLY);
+    if (fd == -1) {
+        perror("Error opening file");
+        return -1;
+    }
+
+    off_t offset = 0;
+    char buffer;
+    int current_line = 1;
+
+    // Traverse the file character by character
+    while (read(fd, &buffer, 1) > 0) {
+        if (buffer == '\n') {
+            current_line++;
+            if (current_line == line_number) {
+                offset = lseek(fd, 0, SEEK_CUR);  // Get the current position
+                break;
+            }
+        }
+    }
+
+    if (current_line < line_number) {
+        fprintf(stderr, "Line number %d exceeds total number of lines in the file.\n", line_number);
+        offset = -1;
+    }
+
+    close(fd);
+    return offset;
+}
+
+void remove_punctuation(char *word) {
+    int i = 0, j = 0;
+    while (word[i] != '\0') {
+        //The function "isalpha" distinguish the alphabetic characters from the non-alphabetic
+        if (isalpha(word[i])) { 
+            word[j++] = word[i];
+        }
+        i++;
+    }
+    word[j] = '\0';  
+}
+
+bool is_integer(const char *word) {
+
+    for (int i = 0; word[i] != '\0'; i++) {
+        if (!isdigit(word[i])) {
+            return false; 
+        }
+    }
+    return true; 
 }

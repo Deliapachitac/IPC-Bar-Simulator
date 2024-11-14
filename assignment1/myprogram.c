@@ -244,7 +244,7 @@ int main(int argc, char *argv[]){
     return 0;
 } 
 
-// Graph mygraph = graph_create();
+    // Graph mygraph = graph_create();
     // printf("The size is : %d\n", graph_size(mygraph));
 
    

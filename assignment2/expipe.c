@@ -72,3 +72,27 @@ int main() {
     return 0;
 }
 
+   // // Loop to create numofsplitters child processes
+    // for (i = 0; i < numOfSplitter; i++) {
+    //     pid = fork(); // Create a new process (fork)
+
+    //     if (pid == 0) {
+    //         // Child process
+    //         printf("Child %d PID: %d\n", i+1, getpid()); // Print child process ID
+    //         sleep(1); // Simulate some work
+    //         exit(0); // Terminate child process
+    //     } else if (pid < 0) {
+
+    //         perror("fork failed");
+    //         exit(1);
+    //     }
+    // }
+    
+    // // Parent process
+    // for (i = 0; i < numOfSplitter; i++) {
+    //     // Wait for each child process to terminate
+    //     wait(NULL); // Wait for child processes to terminate
+    // }
+    // // Print parent process ID
+    // printf("Parent PID: %d\n", getpid()); // Print parent process ID
+    
