@@ -213,6 +213,7 @@ int main(int argc, char *argv[]) {
             off_t offset=find_offset(inputFile,received_data[1]);
             printf("the offset is : %ld\n",offset);
             readfile(inputFile,outputFile,received_data[0], offset );
+            
             printf("Child %d PID: %d received: %d\n", i + 1, getpid(), received_data[1]); // Print received message
             
             
@@ -250,15 +251,6 @@ int main(int argc, char *argv[]) {
         }
     }
    
-
-
-
-
-
-
-
-
-
 
     //Open the output file for writing (create if not exists)
     int output_fd = open(outputFile, O_WRONLY | O_CREAT | O_TRUNC);
@@ -309,10 +301,20 @@ void readfile(const char *filename,const char *outputname, int lineread, off_t o
     char buffer[BUFFER_SIZE];
     ssize_t bytes_read;
     int countline = 0;
+    char carry_over[BUFFER_SIZE] = ""; // Buffer to store partial word from the last read
+
 
 
     while ((bytes_read = read(fd, buffer, sizeof(buffer))) > 0) {
-        
+        int start_index = 0;
+
+        // If there is a carry-over from the last read, prepend it to the current buffer
+        if (strlen(carry_over) > 0) {
+            for (int i = 0; carry_over[i] != '\0'; i++) {
+                line[line_pos++] = carry_over[i];
+            }
+            carry_over[0] = '\0'; // Clear the carry-over buffer
+        }
         for (int i = 0; i < bytes_read; i++) {
             if (buffer[i] == '\n' || buffer[i] == ' ') {       
                 
@@ -322,7 +324,7 @@ void readfile(const char *filename,const char *outputname, int lineread, off_t o
                     remove_punctuation(line);
                     if (strlen(line) > 0 && !is_integer(line)) {  // Check if it's not an integer
     
-                        dprintf(output_fd, "Word: %s\n", line);  // Write the last word to the output file
+                        printf( "Word: %s\n", line);  // Write the last word to the output file
                     }
                 }
 
@@ -337,6 +339,15 @@ void readfile(const char *filename,const char *outputname, int lineread, off_t o
             } else {
                 // Save the character to the line buffer
                 line[line_pos++] = buffer[i];
+
+                // Check if we are at the end of the buffer without reaching a delimiter
+                if (i == bytes_read - 1 && buffer[i] != '\n' && buffer[i] != ' ') {
+                    // Store the partial word in carry_over
+                    line[line_pos] = '\0'; // Null-terminate
+                    strcpy(carry_over, line);
+                    line_pos = 0; // Reset the line position
+                }
+
             }
         }
     }
