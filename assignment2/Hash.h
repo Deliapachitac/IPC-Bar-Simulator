@@ -16,7 +16,7 @@ HashTable create_hash_table(int countline);
 
 //Function to find the index of the array 
 int hash_integer(HashTable table,int key);
-int hash_string(HashTable table,int key);
+int hash_string(HashTable table,Pointer key);
 
 //Function that inserts the value into the array
 void hash_add(HashTable table, int key,Pointer value);
