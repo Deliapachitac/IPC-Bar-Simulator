@@ -27,8 +27,6 @@ bool is_integer(const char *word);
 //read a file 
 void readfile(const char *filename,const char *outputname, int numread, off_t offset);
 
-off_t find_offset(const char *filename, int line_number);
-
 int main(int argc, char *argv[]) {
 
     //Variables to save the input parameters
@@ -91,18 +89,35 @@ int main(int argc, char *argv[]) {
     //Close the input file
     close(input_fd);
 
+    //open again the input file to map the first byte of every line 
+    input_fd = open(inputFile, O_RDONLY);
+    if (input_fd == -1) {
+        perror("Error opening input file");
+        return 1;
+    }
 
+
+    off_t offsets[countline];
+    off_t byte_offset = 0;
+    int line_number = 0;
+
+    if (line_number < countline) {
+        offsets[line_number] = byte_offset;
+    }
+
+    while (read(input_fd, &ch, 1) == 1) {
+        byte_offset++;
+        if (ch == '\n') {
+            line_number++;
+            if (line_number < countline) {
+                offsets[line_number] = byte_offset;
+            }
+        }
+    }
+
+    //Close the input file
+    close(input_fd);
     
-    // Dynamic array to store words (start with an initial capacity)
-    // char **words = malloc(INITIAL_WORD_CAPACITY * sizeof(char *));
-    // if (words == NULL) {
-    //     perror("Error allocating memory for words");
-    //     close(input_fd);
-    //     return 1;
-    // }
-    // int word_count = 0;
-    // int word_capacity = INITIAL_WORD_CAPACITY;
-
 
     // Read the file and print each word
     // char line[BUFFER_SIZE];
@@ -173,6 +188,8 @@ int main(int argc, char *argv[]) {
 
 
 
+    //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
     printf("The file has lines:%d\n",countline);
 
     pid_t pid;
@@ -186,6 +203,7 @@ int main(int argc, char *argv[]) {
         perror("pipe failed");
         exit(1);
     }
+
 
     for (int i = 0; i < numOfSplitter; i++) {
 
@@ -202,19 +220,15 @@ int main(int argc, char *argv[]) {
             close(pipefds1[1]); // Close the write end of the pipe in the child process
             close(pipefds2[1]);
 
-            int received_data[2] ;
-            int data;
-            read(pipefds1[0], &data, sizeof(data));
-            received_data[0]=data;
-            read(pipefds2[0], &data, sizeof(data));
-            received_data[1]=data;
+            int received_lines_to_read ;
+            read(pipefds1[0], &received_lines_to_read, sizeof(received_lines_to_read));
+            off_t offset_to_read;
+            read(pipefds2[0], &offset_to_read, sizeof(offset_to_read));
             
             
-            off_t offset=find_offset(inputFile,received_data[1]);
-            printf("the offset is : %ld\n",offset);
-            readfile(inputFile,outputFile,received_data[0], offset );
+            readfile(inputFile,outputFile,received_lines_to_read, offset_to_read );
             
-            printf("Child %d PID: %d received: %d\n", i + 1, getpid(), received_data[1]); // Print received message
+            printf("Child %d PID: %d received: %ld\n", i + 1, getpid(), offset_to_read); // Print received message
             
             
             close(pipefds1[0]); // Close the read end after use
@@ -239,7 +253,7 @@ int main(int argc, char *argv[]) {
             line=calculating_lines*i;
             // printf("The line number :%d\n", line);
             write(pipefds1[1], &calculating_lines, sizeof(calculating_lines)); 
-            write(pipefds2[1], &line, sizeof(line)); 
+            write(pipefds2[1], &offsets[line], sizeof(offsets[line])); 
         }
 
         close(pipefds1[1]); // Close the write end after writing
@@ -368,36 +382,6 @@ void readfile(const char *filename,const char *outputname, int lineread, off_t o
     close(output_fd);
 }
 
-off_t find_offset(const char *filename, int line_number) {
-    int fd = open(filename, O_RDONLY);
-    if (fd == -1) {
-        perror("Error opening file");
-        return -1;
-    }
-
-    off_t offset = 0;
-    char buffer;
-    int current_line = 1;
-
-    // Traverse the file character by character
-    while (read(fd, &buffer, 1) > 0) {
-        if (buffer == '\n') {
-            current_line++;
-            if (current_line == line_number) {
-                offset = lseek(fd, 0, SEEK_CUR);  // Get the current position
-                break;
-            }
-        }
-    }
-
-    if (current_line < line_number) {
-        fprintf(stderr, "Line number %d exceeds total number of lines in the file.\n", line_number);
-        offset = -1;
-    }
-
-    close(fd);
-    return offset;
-}
 
 void remove_punctuation(char *word) {
     int i = 0, j = 0;
