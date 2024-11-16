@@ -16,9 +16,6 @@ void remove_punctuation(char *word) ;
 
 // Check if the word is an integer
 bool is_integer(const char *word);
- 
-//read a file 
-void readfile(const char *filename, int numread, off_t offset);
 
 int main (int argc, char *argv[]){
 
@@ -141,7 +138,7 @@ int main (int argc, char *argv[]){
 
     close(fd);
 
-    delete_hash_table(exclusion_table);
+    // delete_hash_table(exclusion_table);
 }
 
 
