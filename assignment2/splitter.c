@@ -9,6 +9,8 @@
 
 #define BUFFER_SIZE 256
 
+#include "Hash.h"
+
 
 // Function that removes punctuation marks from a word( for example: , . [] " )
 void remove_punctuation(char *word) ;
@@ -17,7 +19,7 @@ void remove_punctuation(char *word) ;
 bool is_integer(const char *word);
  
 //read a file 
-void readfile(const char *filename,const char *outputname, int numread, off_t offset);
+void readfile(const char *filename, int numread, off_t offset);
 
 int main (int argc, char *argv[]){
 
@@ -26,22 +28,15 @@ int main (int argc, char *argv[]){
         printf("The parameters of the input command are wrong");
         exit(1);
     }
-
-    readfile(argv[1],argv[2],atoi(argv[3]),atoi(argv[4]));
+   
+    readfile(argv[1],atoi(argv[3]),atoi(argv[4]));
 }
 
-void readfile(const char *filename,const char *outputname, int lineread, off_t offset) {
+void readfile(const char *filename, int lineread, off_t offset) {
+    
     int fd = open(filename, O_RDONLY);
     if (fd == -1) {
         perror("Error opening file");
-        exit(1);
-    }
-
-    //Open the output file for writing (create if not exists)
-    int output_fd = open(outputname, O_WRONLY | O_CREAT | O_TRUNC);
-    if (output_fd == -1) {
-        perror("Error opening output file");
-        close(fd);
         exit(1);
     }
 
@@ -61,16 +56,13 @@ void readfile(const char *filename,const char *outputname, int lineread, off_t o
 
 
     while ((bytes_read = read(fd, buffer, sizeof(buffer))) > 0) {
-        int start_index = 0;
-
-        // If there is a carry-over from the last read, prepend it to the current buffer
-        if (strlen(carry_over) > 0) {
-            for (int i = 0; carry_over[i] != '\0'; i++) {
-                line[line_pos++] = carry_over[i];
-            }
-            carry_over[0] = '\0'; // Clear the carry-over buffer
-        }
+        
         for (int i = 0; i < bytes_read; i++) {
+            // Stop reading if the desired number of lines is reached
+            if (countline >= lineread) {
+                close(fd);
+                return;
+            }
             if (buffer[i] == '\n' || buffer[i] == ' ') {       
                 
                 line[line_pos] = '\0';         
@@ -79,48 +71,27 @@ void readfile(const char *filename,const char *outputname, int lineread, off_t o
                     remove_punctuation(line);
                     if (strlen(line) > 0 && !is_integer(line)) {  // Check if it's not an integer
     
-                        printf( "Word: %s\n", line);  // Write the last word to the output file
+                        // printf( "The line is  %d Word: %s\n",countline, line);  // Write the last word to the output file
+                        
                     }
                 }
 
-                // Reset the line buffer for the next word
                 line_pos = 0;
-                countline++;
-                
-                // Stop reading if the desired number of lines is reached
-                if (countline >= lineread) {
-                    break;
+                if(buffer[i] == '\n'){
+                    countline++;
                 }
+                
             } else {
                 // Save the character to the line buffer
                 line[line_pos++] = buffer[i];
 
-                // Check if we are at the end of the buffer without reaching a delimiter
-                if (i == bytes_read - 1 && buffer[i] != '\n' && buffer[i] != ' ') {
-                    // Store the partial word in carry_over
-                    line[line_pos] = '\0'; // Null-terminate
-                    strcpy(carry_over, line);
-                    line_pos = 0; // Reset the line position
-                }
-
             }
+           
         }
     }
-    // Handle any remaining word after the loop
-    if (line_pos > 0 ) {
-        line[line_pos] = '\0';
 
-        remove_punctuation(line);
-        if (strlen(line) > 0 && !is_integer(line)) {  // Check if it's not an integer
-        
-            dprintf(output_fd, "Word: %s\n", line);  // Write the last word to the output file
-        }  
-    }
-
-
-    // free(buffer);
     close(fd);
-    close(output_fd);
+
 }
 
 
