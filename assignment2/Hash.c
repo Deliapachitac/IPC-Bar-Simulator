@@ -11,16 +11,14 @@ struct hash_table {
 };
 
 struct hashnode{
-	int key;		// The key we use to find the index of the array 
-	Pointer value;  //We will save the graph nodesin this value 
+	Pointer value;
     HashNode next;  //Because we try to implement a hash table with seperate chaining this means that some elements may have the same index so we need the next node to save the elements
 };
 
 
-HashNode create_node(int key,Pointer value){
+HashNode create_node(Pointer value){
     //Allocate memory for the hash node we create
     HashNode item = malloc(sizeof(*item));
-    item->key=key;
     item->value = value;
     item->next = NULL;
 
@@ -31,7 +29,7 @@ HashTable create_hash_table(int countline){
 
     //Allocate memory for the hash table
     HashTable mytable= malloc(sizeof(*mytable));
-    mytable->size=countline*2; //Initialize  the size with the doublesize of the line in the file so we wont have to rehash
+    mytable->size=countline; 
     mytable->items = malloc(mytable->size * sizeof(HashNode));  
 
     //Itialize all the items with NULL 
@@ -42,27 +40,28 @@ HashTable create_hash_table(int countline){
     return mytable;
 }
 
-int hash_integer(HashTable table,int key) {
+int hash_string(HashTable table, Pointer value) { 
+    long long p = 31; // Base for the polynomial hash
+    long long m = table->size; // Table size (should be prime number)
+    unsigned long long hash = 0; // Use unsigned long long to prevent overflow
+    unsigned long long p_pow = 1; // p^i (power of p)
 
-    return key % (table->size); //calculating the index of the array
+    for (char* s = value; *s != '\0'; s++) {
+        // Use unsigned char to handle all characters properly
+        hash = (hash + ((unsigned char)*s) * p_pow) % m;
+        p_pow = (p_pow * p) % m;
+    }
+
+    return (int) hash; // Return the final hash value, cast to int
 }
 
-int hash_string(HashTable table,Pointer key){
-   
-    int hash = 5381;
-    for (char* s = key; *s != '\0'; s++)
-		hash = (hash << 5) + hash + *s;	
-    return hash;
-
-}
-
-void hash_add(HashTable table, int key, Pointer value) {
+void hash_add(HashTable table, Pointer value) {
 
     //calculating the index
-    int index = hash_integer(table, key);
+    int index = hash_string(table, value);
     
     //Create the new hash node that we will add to the array
-    HashNode new_node = create_node(key,value);
+    HashNode new_node = create_node(value);
 
     //If the hash table at the index is empty insert the new node
     if (table->items[index] == NULL) {
@@ -74,15 +73,15 @@ void hash_add(HashTable table, int key, Pointer value) {
     }
 }
 
-Pointer hash_find(HashTable table, int key) {
+Pointer hash_find(HashTable table, Pointer value) {
 
     //Calculating the index to find the position of the array we will search
-    int index = hash_integer(table,key);
+    int index = hash_string(table,value);
     
     // Traverse the list at the index to find the value
     HashNode temp = table->items[index];
     while (temp != NULL) {
-        if (temp->key == key) {
+        if (strcmp(temp->value,value)== 0) {
             return temp->value;  
         }
         temp = temp->next;
@@ -92,9 +91,9 @@ Pointer hash_find(HashTable table, int key) {
     return NULL;  
 }
 
-void delete_item(HashTable table, int id ) {
+void delete_item(HashTable table, Pointer value ) {
     //Find the item we want to delete and delete it 
-    Pointer node = hash_find(table,id);
+    Pointer node = hash_find(table,value);
     free(node);
 }
 
@@ -105,7 +104,7 @@ void delete_hash_table(HashTable table) {
         if (table->items[i] != NULL) {
             while (table->items[i] != NULL) {
                 HashNode next = table->items[i]->next;
-                free(table->items[i]);  //Free the current node
+                free(table->items[i]);        
                 table->items[i] = next;  
             };  
         }

@@ -7,7 +7,9 @@
 #include <fcntl.h> //for the O_WRONLY
 #include <ctype.h> //for the alpha
 
+#define BUFFER_SIZE 256
 
+#include "Hash.h"
 
 int main(int argc, char *argv[]) {
 
@@ -102,12 +104,6 @@ int main(int argc, char *argv[]) {
     close(input_fd);
     
 
-
-
-    //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-    printf("The file has lines:%d\n",countline);
-
     pid_t pid;
     int pipefds1[2];
     if (pipe(pipefds1) == -1) { 
@@ -162,6 +158,7 @@ int main(int argc, char *argv[]) {
                 NULL           
             };
 
+
             execvp(exec_args[0], exec_args);
             perror("execl failed");
             exit(0); 
@@ -211,16 +208,16 @@ int main(int argc, char *argv[]) {
     }
    
 
-   
+
 
     //Open the output file for writing (create if not exists)
-    // int output_fd = open(outputFile, O_WRONLY | O_CREAT | O_TRUNC);
-    // if (output_fd == -1) {
-    //     perror("Error opening output file");
-    //     close(input_fd);
-    //     return 0;
-    // }
-    // close(output_fd);
+    int output_fd = open(outputFile, O_WRONLY | O_CREAT | O_TRUNC);
+    if (output_fd == -1) {
+        perror("Error opening output file");
+        close(input_fd);
+        return 0;
+    }
+    close(output_fd);
 
 
     return 0;

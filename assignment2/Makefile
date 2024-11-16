@@ -2,20 +2,21 @@
 CC = gcc
 
 # Source files
-SRCS = lexan.c
+SRCS = lexan.c  
 
 # Header files
 HEADERS = 
 
 # Object files
-OBJS = lexan.o
+OBJS = $(SRCS:.c=.o) #lexan.o  Graph.o
 
 # Executable name
 TARGET = lexan
 
 # Rule to link object files and create the executable
+
 $(TARGET): $(OBJS)
-	gcc -o splitter splitter.c
+	gcc -o splitter splitter.c Hash.c
 	$(CC) -o $(TARGET) $(OBJS)
 
 %.o: %.c $(HEADERS)
@@ -23,7 +24,7 @@ $(TARGET): $(OBJS)
 
 # Execute the program  GreatExpectations.txt
 run:
-	./$(TARGET) -i GreatExpectations.txt -l 5 -m 5 -t 10 -e ExclusionList.txt -o output.txt
+	./$(TARGET) -i example.txt -l 5 -m 5 -t 10 -e ExclusionList.txt -o output.txt
 
 # For the memory leaks
 valgrind:
