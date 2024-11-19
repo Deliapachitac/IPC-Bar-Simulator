@@ -2,7 +2,6 @@ a
 ability
 able
 about
-about
 above
 accept
 according

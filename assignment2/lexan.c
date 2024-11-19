@@ -132,6 +132,8 @@ int main(int argc, char *argv[]) {
             exit(1);
         }
     }
+
+    ////////////////////////////////////////////////////////////////////////
     
     for (int i = 0; i < numOfSplitter; i++) {
 
@@ -162,33 +164,54 @@ int main(int argc, char *argv[]) {
             close(pipe_splitters2[0]); // Close the read end after use
             
 
-            // Convert int and off_t and the pipe betwwen the splitter and the builder to strings
+           
+            // Dynamically allocate memory for arguments
+            int total_args =6+ (numOfBuilders * 2) + 1; // Basic arguments + 2 per pipe + NULL
+            char **exec_args = malloc(total_args * sizeof(char *));
+            if (!exec_args) {
+                perror("malloc failed");
+                exit(1);
+            }
+
             char lines_to_read_str[10];
             char offset_str[20];
-            char write_fd_str[10];
-        
+            char numbuilder[10];
         
             // Use sprintf to convert the int and off_t values to strings
             sprintf(lines_to_read_str, "%d", received_lines_to_read);
             sprintf(offset_str, "%ld", offset_to_read);  
-            sprintf(write_fd_str, "%d", pipe_builder_splitter[i][1]);
+            sprintf(numbuilder, "%d",numOfBuilders);
 
+            exec_args[0] = "./splitter";
+            exec_args[1]= inputFile;
+            exec_args[2] =exclusionList;
+            exec_args[3]= lines_to_read_str;
+            exec_args[4] =offset_str;
+            exec_args[5] =numbuilder;
 
-            printf("splitter %d with PID %d created.\n", i , getpid());
-            char *exec_args[] = {
-                "./splitter",  // Assuming the compiled output of splitter.c is named "splitter"
-                inputFile,     
-                exclusionList,    
-                lines_to_read_str,
-                offset_str,
-                write_fd_str,    
-                NULL           
-            };
+            
+
+            int arg_idx = 6;
+            for (int j = 0; j < numOfBuilders; j++) {
+                char *write_fd_str = malloc(10 * sizeof(char));
+                if (!write_fd_str) {
+                    perror("malloc failed");
+                    exit(1);
+                }
+                sprintf(write_fd_str, "%d", pipe_builder_splitter[j][1]);
+
+                exec_args[arg_idx++] = write_fd_str;
+            }  
+            exec_args[arg_idx]=NULL;     
+
             execvp(exec_args[0], exec_args);
             perror("exevp failed");
             exit(0); 
         }
     }
+    
+    ////////////////////////////////////////////////////////////////////////
+    
     for (int i = 0; i < numOfBuilders; i++) {
 
         pid = fork();
@@ -197,32 +220,34 @@ int main(int argc, char *argv[]) {
             exit(1);
         }
         
-        if (pid == 0) {
+        if (pid == 0) {  // Child process
 
-            // close();
-            for (int i = 0; i < numOfBuilders; i++)
-            {
-                close(pipe_builder_splitter[i][1]);
+            // Close write ends of all pipes
+            for (int j = 0; j < numOfBuilders; j++) {
+                close(pipe_builder_splitter[j][1]);  // Close write ends
+                if (j != i) {
+                    close(pipe_builder_splitter[j][0]);  // Close read ends of other pipes
+                }
             }
 
             char read_fd_str[10];
-            
+            sprintf(read_fd_str, "%d", pipe_builder_splitter[i][0]);  // Pass FD of assigned pipe
 
-            sprintf(read_fd_str, "%d", pipe_builder_splitter[i][0]);
-
-
-            printf("Builder %d with PID %d created.\n", i , getpid());
             char *exec_args[] = {
-                "./builder",  // Assuming the compiled output of splitter.c is named "splitter"
-                read_fd_str,
-                NULL           
+                "./builder",
+                read_fd_str, // FD of the assigned pipe
+                NULL         // Null-terminated list
             };
-            
+
+            printf("Builder %d with PID %d created.\n", i, getpid());
+
             execvp(exec_args[0], exec_args);
             perror("execvp failed");
-            exit(0); 
+            exit(0);
         }
     }
+
+    //////////////////////////////////////////////////////////////////////////////////////
     if (pid > 0) {
         
         // Parent process
@@ -261,6 +286,10 @@ int main(int argc, char *argv[]) {
         close(pipe_splitters1[1]); // Close the write end after writing
         close(pipe_splitters2[1]); // Close the write end after writing
         
+        for (int i = 0; i < numOfBuilders; i++) {
+            close(pipe_builder_splitter[i][1]);  // Close the write ends in the parent
+            close(pipe_builder_splitter[i][0]);  // Optionally close the read ends in the parent
+        }
 
         // Parent waits for each child process to terminate
         for (int i = 0; i < (numOfSplitter+numOfBuilders); i++) {

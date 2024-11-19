@@ -17,13 +17,15 @@ void remove_punctuation(char *word) ;
 // Check if the word is an integer
 bool is_integer(const char *word);
 
+int hash_for_builders(const char *str, int numbuilders);
+
 int main (int argc, char *argv[]){
 
 
-    if(argc!= 6){
-        printf("The parameters of the input command are wrong");
-        exit(1);
-    }
+    // if(argc!= 6){
+    //     printf("The parameters of the input command are wrong");
+    //     exit(1);
+    // }
     
     ssize_t bytes_read;
     char line[BUFFER_SIZE];
@@ -47,7 +49,7 @@ int main (int argc, char *argv[]){
     
     lseek(fd_exclusionlist, 0, SEEK_SET);
     char temp_word[50];
-    HashTable exclusion_table = create_hash_table(countline_execlusion);
+    HashTable exclusion_table = create_hash_table(countline_execlusion^2);
 
     while ((bytes_read = read(fd_exclusionlist, buffer, sizeof(buffer))) > 0) {
         
@@ -60,7 +62,6 @@ int main (int argc, char *argv[]){
            
                     strcpy(temp_word,line);
                     hash_add(exclusion_table,temp_word);  
-                    
                 }
 
                 line_pos = 0;
@@ -75,12 +76,39 @@ int main (int argc, char *argv[]){
         }
         
     }
-    
+   
     close(fd_exclusionlist);
-    
+
     //read input file
     int lineread = atoi(argv[3]);
     off_t offset=atoi(argv[4]);
+    int numOfBuilders = atoi(argv[5]);
+    int *pipe_write_fds = malloc(numOfBuilders * sizeof(int));
+    if (!pipe_write_fds) {
+        perror("malloc failed");
+        return 1;
+    }
+
+    for (int i = 0; i < numOfBuilders; i++) {
+        pipe_write_fds[i] = atoi(argv[6 + i]);
+    }
+
+
+    // Simulate data processing and writing to pipes
+    // for (int i = 0; i < numOfBuilders; i++) {
+    //     char message[100];
+    //     snprintf(message, sizeof(message), "%s", word_to_send);
+
+    //     // Write to the corresponding pipe
+    //     if (write(pipe_write_fds[i], message, strlen(message)) == -1) {
+    //         perror("write to pipe failed");
+    //         free(pipe_write_fds);
+    //         return 1;
+    //     }
+    // }
+
+    
+
     line_pos = 0;
     int countline = 0;
     int flag = 0;
@@ -112,10 +140,22 @@ int main (int argc, char *argv[]){
            
                     remove_punctuation(line);
                     if (strlen(line) > 0 && !is_integer(line)) {  // Check if it's not an integer
-    
-                        if (!hash_find(exclusion_table, line)) {
+                        
+                        if (hash_find(exclusion_table, line) == NULL) {
+                            
+                            
+                            int index_builder= hash_for_builders(line,numOfBuilders);
+
+                            // Write to the corresponding pipe
+                            if (write(pipe_write_fds[index_builder], line, strlen(line)) == -1) {
+                                perror("write to pipe failed");
+                                free(pipe_write_fds);
+                                return 1;
+                            }
+
                             // printf("The line is %d Word: %s\n", countline, line);  // Print word if not in hash table
                         }
+                    
                     }
                 }
 
@@ -137,9 +177,21 @@ int main (int argc, char *argv[]){
     }
 
     close(fd);
-
+    
     delete_hash_table(exclusion_table);
     exit(0);
+}
+
+int hash_for_builders(const char *str, int numbuilders){
+
+    unsigned long hash = 5381;  // Starting value for djb2
+    int c;
+
+    // Iterate over each character of the string
+    while ((c = *str++)) {
+        hash = ((hash << 5) + hash) + c;  // hash * 33 + c
+    }
+    return hash % numbuilders;
 }
 
 
