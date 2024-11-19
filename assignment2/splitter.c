@@ -20,7 +20,7 @@ bool is_integer(const char *word);
 int main (int argc, char *argv[]){
 
 
-    if(argc!= 5){
+    if(argc!= 6){
         printf("The parameters of the input command are wrong");
         exit(1);
     }
@@ -114,7 +114,7 @@ int main (int argc, char *argv[]){
                     if (strlen(line) > 0 && !is_integer(line)) {  // Check if it's not an integer
     
                         if (!hash_find(exclusion_table, line)) {
-                            printf("The line is %d Word: %s\n", countline, line);  // Print word if not in hash table
+                            // printf("The line is %d Word: %s\n", countline, line);  // Print word if not in hash table
                         }
                     }
                 }
@@ -138,7 +138,8 @@ int main (int argc, char *argv[]){
 
     close(fd);
 
-    // delete_hash_table(exclusion_table);
+    delete_hash_table(exclusion_table);
+    exit(0);
 }
 
 

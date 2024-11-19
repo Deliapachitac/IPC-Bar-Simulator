@@ -17,6 +17,7 @@ TARGET = lexan
 
 $(TARGET): $(OBJS)
 	gcc -o splitter splitter.c Hash.c
+	gcc -o builder builder.c Hash.c
 	$(CC) -o $(TARGET) $(OBJS)
 
 %.o: %.c $(HEADERS)

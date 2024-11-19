@@ -119,11 +119,11 @@ int main(int argc, char *argv[]) {
         perror("pipe failed");
         exit(1);
     }
-    int pipe_builders1[2];
-    if (pipe(pipe_builders1) == -1) { 
-        perror("pipe failed");
-        exit(1);
-    }
+    // int pipe_builders1[2];
+    // if (pipe(pipe_builders1) == -1) { 
+    //     perror("pipe failed");
+    //     exit(1);
+    // }
     
     int pipe_builder_splitter[numOfBuilders][2];  // Pipes between each builder and corresponding splitter
     for (int i = 0; i < numOfBuilders; i++) {
@@ -132,22 +132,7 @@ int main(int argc, char *argv[]) {
             exit(1);
         }
     }
-    // for (int i = 0; i < numOfBuilders; i++) {
-
-    //     // pid = fork();
-    //     if (pid < 0) {
-    //         perror("fork failed");
-    //         exit(1);
-    //     }
-        
-    //     if (pid == 0) {
-    //         close(pipe_builders1[0]);  // Close the read end of the builder pipe
-    //         printf("Builder %d with PID %d created.\n", i , getpid());
-            
-
-    //         exit(0);  
-    //     }
-    // }
+    
     for (int i = 0; i < numOfSplitter; i++) {
 
         //Create a process
@@ -162,6 +147,11 @@ int main(int argc, char *argv[]) {
             
             close(pipe_splitters1[1]); // Close the write end of the pipe in the child process
             close(pipe_splitters2[1]);
+            for (int i = 0; i < numOfBuilders; i++)
+            {
+                close(pipe_builder_splitter[i][0]);
+            }
+            
 
             int received_lines_to_read ;
             read(pipe_splitters1[0], &received_lines_to_read, sizeof(received_lines_to_read));
@@ -170,16 +160,19 @@ int main(int argc, char *argv[]) {
             
             close(pipe_splitters1[0]); // Close the read end after use
             close(pipe_splitters2[0]); // Close the read end after use
-            close(pipe_builders1[1]);  // Close the read end of the builder pipe
             
 
-            // Convert int and off_t values to strings
+            // Convert int and off_t and the pipe betwwen the splitter and the builder to strings
             char lines_to_read_str[10];
             char offset_str[20];
-
+            char write_fd_str[10];
+        
+        
             // Use sprintf to convert the int and off_t values to strings
             sprintf(lines_to_read_str, "%d", received_lines_to_read);
-            sprintf(offset_str, "%ld", offset_to_read);  // off_t is typically long int, so use %ld
+            sprintf(offset_str, "%ld", offset_to_read);  
+            sprintf(write_fd_str, "%d", pipe_builder_splitter[i][1]);
+
 
             printf("splitter %d with PID %d created.\n", i , getpid());
             char *exec_args[] = {
@@ -187,22 +180,55 @@ int main(int argc, char *argv[]) {
                 inputFile,     
                 exclusionList,    
                 lines_to_read_str,
-                offset_str,    
+                offset_str,
+                write_fd_str,    
                 NULL           
             };
             execvp(exec_args[0], exec_args);
-            perror("execl failed");
+            perror("exevp failed");
             exit(0); 
         }
     }
-    
+    for (int i = 0; i < numOfBuilders; i++) {
+
+        pid = fork();
+        if (pid < 0) {
+            perror("fork failed");
+            exit(1);
+        }
+        
+        if (pid == 0) {
+
+            // close();
+            for (int i = 0; i < numOfBuilders; i++)
+            {
+                close(pipe_builder_splitter[i][1]);
+            }
+
+            char read_fd_str[10];
+            
+
+            sprintf(read_fd_str, "%d", pipe_builder_splitter[i][0]);
+
+
+            printf("Builder %d with PID %d created.\n", i , getpid());
+            char *exec_args[] = {
+                "./builder",  // Assuming the compiled output of splitter.c is named "splitter"
+                read_fd_str,
+                NULL           
+            };
+            
+            execvp(exec_args[0], exec_args);
+            perror("execvp failed");
+            exit(0); 
+        }
+    }
     if (pid > 0) {
         
         // Parent process
         close(pipe_splitters1[0]); // Close the read end of the pipe in the parent process
         close(pipe_splitters2[0]); // Close the read end of the pipe in the parent process
-        close(pipe_builders1[1]);  // Close the write end of the builder pipe
-
+        
         //Calculate how many lines will each splitter have 
         int add=0;
         
@@ -234,10 +260,10 @@ int main(int argc, char *argv[]) {
 
         close(pipe_splitters1[1]); // Close the write end after writing
         close(pipe_splitters2[1]); // Close the write end after writing
-        close(pipe_builders1[0]);  // Close the read end of the builder pipe
+        
 
         // Parent waits for each child process to terminate
-        for (int i = 0; i < numOfSplitter; i++) {
+        for (int i = 0; i < (numOfSplitter+numOfBuilders); i++) {
             wait(NULL); // Wait for child processes to terminate
         }
     }
