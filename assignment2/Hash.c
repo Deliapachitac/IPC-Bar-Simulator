@@ -1,6 +1,7 @@
 #include <math.h>
 #include <stdlib.h>
 #include <string.h>
+#include <stdio.h>
 
 #include "Hash.h"
 
@@ -11,6 +12,7 @@ struct hash_table {
 };
 
 struct hashnode{
+    int counter;
 	Pointer value;
     HashNode next;  //Because we try to implement a hash table with seperate chaining this means that some elements may have the same index so we need the next node to save the elements
 };
@@ -20,6 +22,7 @@ HashNode create_node(Pointer value){
     //Allocate memory for the hash node we create
     HashNode item = malloc(sizeof(*item));
     item->value = value;
+    item->counter= 0 ;
     item->next = NULL;
 
     return item;
@@ -57,23 +60,46 @@ int hash_string(HashTable table, Pointer value) {
 
 void hash_add(HashTable table, Pointer value) {
 
+    if (value == NULL) {
+        printf( "Error: Null value \n");
+        exit(1);
+    }
+
     //calculating the index
     int index = hash_string(table, value);
     
+    // Search for the value in the linked list at the given index
+    HashNode current = table->items[index];
+    while (current != NULL) {
+        if (strcmp(current->value, value) == 0) { 
+            current->counter++;
+            return; // Value already exists, no need to insert
+        }
+        current = current->next;
+    }
+
     //Create the new hash node that we will add to the array
     HashNode new_node = create_node(value);
 
-    //If the hash table at the index is empty insert the new node
+    // Insert the new node at the end of the linked list
     if (table->items[index] == NULL) {
+        // If the bucket is empty, the new node is the first (and only) node
         table->items[index] = new_node;
+        table->items[index]->counter++;
     } else {
-        // Otherwise insert in the list (separate chaining)
-        new_node->next = table->items[index];
-        table->items[index] = new_node;
+        // If the bucket is not empty, traverse to the end of the list
+        HashNode last = table->items[index];
+        while (last->next != NULL) {
+            last = last->next;
+        }
+        last->next = new_node;
+        table->items[index]->counter++;
     }
+
+
 }
 
-Pointer hash_find(HashTable table, Pointer value) {
+HashNode hash_find(HashTable table, Pointer value) {
 
     //Calculating the index to find the position of the array we will search
     int index = hash_string(table,value);
@@ -82,7 +108,7 @@ Pointer hash_find(HashTable table, Pointer value) {
     HashNode temp = table->items[index];
     while (temp != NULL) {
         if (strcmp(temp->value,value)== 0) {
-            return temp->value;  
+            return temp;  
         }
         temp = temp->next;
     }
@@ -91,10 +117,77 @@ Pointer hash_find(HashTable table, Pointer value) {
     return NULL;  
 }
 
+int get_counter(HashTable table,Pointer value){
+    HashNode node = hash_find(table, value);
+    if (node != NULL) {
+        return node->counter; // Return the counter if the node exists
+    }
+    return 0; // Return 0 if the value is not found
+
+}
+
+HashNode hash_first(HashTable table) {
+	
+	for (int i = 0; i < table->size; i++){
+        if (table->items[i]!= NULL){
+            return table->items[i];
+        }
+    }	
+
+	return NULL;
+}
+
+HashNode hash_next(HashTable table, HashNode node) {
+	
+    if (hash_find(table,node->value)==NULL){
+        return NULL;
+    }
+	int index = hash_string(table,node->value); 
+
+     
+    if(table->items[index]->next!=NULL){
+        return table->items[index]->next;
+    }else {
+        for (int i = index+1; i < table->size; i++)
+        {
+            if(table->items[i]!=NULL){
+                return table->items[i];
+            }
+        }
+        
+    }
+
+	return NULL;
+}
+
+Pointer hash_find_value(HashTable table, HashNode node){
+    if (node->value !=NULL)
+    {
+        return node->value;
+    }
+    return NULL;
+    
+}
+
 void delete_item(HashTable table, Pointer value ) {
-    //Find the item we want to delete and delete it 
-    Pointer node = hash_find(table,value);
-    free(node);
+    //Find the item we want to delete and delete it
+    int index = hash_string(table, value);
+    HashNode current = table->items[index];
+    HashNode prev = NULL;
+
+    while (current != NULL) {
+        if (strcmp(current->value, value) == 0) {
+            if (prev == NULL) {
+                table->items[index] = current->next;  // Remove from head
+            } else {
+                prev->next = current->next;  // Remove from middle or end
+            }
+            free(current);  // Free the node
+            return;
+        }
+        prev = current;
+        current = current->next;
+    }
 }
 
 

@@ -5,6 +5,7 @@
 #include <stdbool.h> //boolean
 #include <fcntl.h> //for the O_WRONLY
 #include <ctype.h> //for the alpha
+#include <signal.h>  // For kill(
 
 #define BUFFER_SIZE 256
 
@@ -49,7 +50,7 @@ int main (int argc, char *argv[]){
     
     lseek(fd_exclusionlist, 0, SEEK_SET);
     char temp_word[50];
-    HashTable exclusion_table = create_hash_table(countline_execlusion^2);
+    HashTable exclusion_table = create_hash_table(countline_execlusion*countline_execlusion);
 
     while ((bytes_read = read(fd_exclusionlist, buffer, sizeof(buffer))) > 0) {
         
@@ -60,8 +61,7 @@ int main (int argc, char *argv[]){
                 line[line_pos] = '\0';         
                 if ( line_pos > 0 ) {
            
-                    strcpy(temp_word,line);
-                    hash_add(exclusion_table,temp_word);  
+                    hash_add(exclusion_table,strdup(line));  
                 }
 
                 line_pos = 0;
@@ -69,15 +69,12 @@ int main (int argc, char *argv[]){
             } else {
                 // Save the character to the line buffer
                 line[line_pos++] = buffer[i];
-
             }
-            
-           
-        }
-        
+        }     
     }
    
     close(fd_exclusionlist);
+
 
     //read input file
     int lineread = atoi(argv[3]);
@@ -92,21 +89,6 @@ int main (int argc, char *argv[]){
     for (int i = 0; i < numOfBuilders; i++) {
         pipe_write_fds[i] = atoi(argv[6 + i]);
     }
-
-
-    // Simulate data processing and writing to pipes
-    // for (int i = 0; i < numOfBuilders; i++) {
-    //     char message[100];
-    //     snprintf(message, sizeof(message), "%s", word_to_send);
-
-    //     // Write to the corresponding pipe
-    //     if (write(pipe_write_fds[i], message, strlen(message)) == -1) {
-    //         perror("write to pipe failed");
-    //         free(pipe_write_fds);
-    //         return 1;
-    //     }
-    // }
-
     
 
     line_pos = 0;
@@ -146,6 +128,9 @@ int main (int argc, char *argv[]){
                             
                             int index_builder= hash_for_builders(line,numOfBuilders);
 
+                            // Append a space to the word before writing
+                            strcat(line, " ");
+
                             // Write to the corresponding pipe
                             if (write(pipe_write_fds[index_builder], line, strlen(line)) == -1) {
                                 perror("write to pipe failed");
@@ -153,7 +138,6 @@ int main (int argc, char *argv[]){
                                 return 1;
                             }
 
-                            // printf("The line is %d Word: %s\n", countline, line);  // Print word if not in hash table
                         }
                     
                     }
@@ -179,6 +163,10 @@ int main (int argc, char *argv[]){
     close(fd);
     
     delete_hash_table(exclusion_table);
+    if ( kill(getppid(), SIGUSR1)) {
+        perror("Failed to send SIGUSR1 to parent");
+    }
+    
     exit(0);
 }
 

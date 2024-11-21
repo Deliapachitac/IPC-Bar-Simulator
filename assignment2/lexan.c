@@ -6,12 +6,34 @@
 #include <stdbool.h> //boolean
 #include <fcntl.h> //for the O_WRONLY
 #include <ctype.h> //for the alpha
-
-#define BUFFER_SIZE 256
+#include <signal.h> // For signal handling
 
 #include "Hash.h"
 
+#define BUFFER_SIZE 256
+
+int count_signal_splitters = 0;  //Global counter for USR1 signals
+int count_signal_builders=0;
+void handle_usr1(int sig) {
+    count_signal_splitters++;  // Increment the counter when SIGUSR1 is received
+}
+void handle_usr2(int sig) {
+    count_signal_builders++;  // Increment the counter when SIGUSR1 is received
+}
+
 int main(int argc, char *argv[]) {
+
+    // Register the signal handler for SIGUSR1
+    if (signal(SIGUSR1, handle_usr1) == SIG_ERR) {
+        perror("Unable to catch SIGUSR1");
+        exit(1);
+    }
+
+    // Register the signal handler for SIGUSR1
+    if (signal(SIGUSR2, handle_usr2) == SIG_ERR) {
+        perror("Unable to catch SIGUSR2");
+        exit(1);
+    }
 
     //Variables to save the input parameters
     char inputFile[20];
@@ -233,13 +255,17 @@ int main(int argc, char *argv[]) {
             char read_fd_str[10];
             sprintf(read_fd_str, "%d", pipe_builder_splitter[i][0]);  // Pass FD of assigned pipe
 
+            char countile_fd[20];
+            sprintf(countile_fd, "%d", countline);  // Pass FD of assigned pipe
+
             char *exec_args[] = {
                 "./builder",
                 read_fd_str, // FD of the assigned pipe
+                countile_fd,
                 NULL         // Null-terminated list
             };
 
-            printf("Builder %d with PID %d created.\n", i, getpid());
+            // printf("Builder %d with PID %d created.\n", i, getpid());
 
             execvp(exec_args[0], exec_args);
             perror("execvp failed");
@@ -295,6 +321,8 @@ int main(int argc, char *argv[]) {
         for (int i = 0; i < (numOfSplitter+numOfBuilders); i++) {
             wait(NULL); // Wait for child processes to terminate
         }
+        printf("Number of SIGUSR1 signals received: %d\n", count_signal_splitters);
+        printf("Number of SIGUSR2 signals received: %d\n", count_signal_builders);
     }
    
 

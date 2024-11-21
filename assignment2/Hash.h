@@ -21,7 +21,16 @@ int hash_string(HashTable table,Pointer value);
 void hash_add(HashTable table, Pointer value);
 
 //Finds the value in O(1) complexity 
-Pointer hash_find(HashTable table, Pointer value);
+HashNode hash_find(HashTable table, Pointer value);
+
+//
+HashNode hash_first(HashTable table);
+
+HashNode hash_next(HashTable table, HashNode node) ;
+
+//Function that returns the counter
+int get_counter(HashTable table,Pointer value);
+Pointer hash_find_value(HashTable table, HashNode node);
 
 // Deleting functions
 void delete_item(HashTable table, Pointer value);

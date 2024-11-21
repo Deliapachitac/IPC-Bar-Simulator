@@ -1,16 +1,22 @@
 #include <stdlib.h>
 #include <stdio.h>
 
-int global_var = 42;  // Initialized data segment
+//initialized data segment must be or a global variable or a static one
+int global_var = 42;
+
+
+void print_fun(){// a text segment can be a function address
+    printf("Delia\n");
+}
 
 int main() {
     char *stack_v[10];// Stack
     char *heap_v = (char *)malloc(10);// Heap
 
-    printf("Text segment  %p\n", &main);
-    printf("Initialized data segment: %p\n", &global_var);
-    printf("Stack: %p\n", &stack_v);
-    printf("Heap: %p\n", &heap_v);
+    printf("text segment %p\n", print_fun);
+    printf("initialized data  %p\n", &global_var);
+    printf("stack %p\n", &stack_v);
+    printf("heap %p\n", &heap_v);
 
     free(heap_v); 
     return 0;
