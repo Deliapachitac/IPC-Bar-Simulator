@@ -141,12 +141,6 @@ int main(int argc, char *argv[]) {
         perror("pipe failed");
         exit(1);
     }
-    // int pipe_builders1[2];
-    // if (pipe(pipe_builders1) == -1) { 
-    //     perror("pipe failed");
-    //     exit(1);
-    // }
-    
     int pipe_builder_splitter[numOfBuilders][2];  // Pipes between each builder and corresponding splitter
     for (int i = 0; i < numOfBuilders; i++) {
         if (pipe(pipe_builder_splitter[i]) == -1) {
@@ -154,7 +148,13 @@ int main(int argc, char *argv[]) {
             exit(1);
         }
     }
-
+    int pipe_builders_root[numOfBuilders][2];
+    for (int i = 0; i < numOfBuilders; i++) {
+        if (pipe(pipe_builders_root[i]) == -1) {
+            perror("Pipe for builder-splitter communication failed");
+            exit(1);
+        }
+    }
     ////////////////////////////////////////////////////////////////////////
     
     for (int i = 0; i < numOfSplitter; i++) {
@@ -251,6 +251,12 @@ int main(int argc, char *argv[]) {
                     close(pipe_builder_splitter[j][0]);  // Close read ends of other pipes
                 }
             }
+            for (int j = 0; j < numOfBuilders; j++) {
+                close(pipe_builders_root[j][0]);  // Close read ends
+                if (j != i) {
+                    close(pipe_builder_splitter[j][1]);  // Close write ends of other pipes
+                }
+            }
 
             char read_fd_str[10];
             sprintf(read_fd_str, "%d", pipe_builder_splitter[i][0]);  // Pass FD of assigned pipe
@@ -315,6 +321,22 @@ int main(int argc, char *argv[]) {
         for (int i = 0; i < numOfBuilders; i++) {
             close(pipe_builder_splitter[i][1]);  // Close the write ends in the parent
             close(pipe_builder_splitter[i][0]);  // Optionally close the read ends in the parent
+        }
+        for (int i = 0; i < numOfBuilders; i++)
+        {
+            close(pipe_builders_root[i][1]);//
+        }
+
+
+
+
+
+
+
+
+        for (int i = 0; i < numOfBuilders; i++) {
+            close(pipe_builders_root[i][1]);  // Close the write ends in the parent
+            close(pipe_builders_root[i][0]);  // Optionally close the read ends in the parent
         }
 
         // Parent waits for each child process to terminate

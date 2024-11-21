@@ -15,9 +15,13 @@
 // Function that removes punctuation marks from a word( for example: , . [] " )
 void remove_punctuation(char *word) ;
 
+//
+void transform_capitals(char *str);
+
 // Check if the word is an integer
 bool is_integer(const char *word);
 
+//
 int hash_for_builders(const char *str, int numbuilders);
 
 int main (int argc, char *argv[]){
@@ -122,7 +126,7 @@ int main (int argc, char *argv[]){
            
                     remove_punctuation(line);
                     if (strlen(line) > 0 && !is_integer(line)) {  // Check if it's not an integer
-                        
+                        transform_capitals(line);
                         if (hash_find(exclusion_table, line) == NULL) {
                             
                             
@@ -203,4 +207,12 @@ bool is_integer(const char *word) {
         }
     }
     return true; 
+}
+
+void transform_capitals(char *str) {
+    int i = 0;
+    while (str[i] != '\0') { // Traverse until the end of the string
+        str[i] = tolower(str[i]); // Convert character to lowercase
+        i++;
+    }
 }

@@ -39,7 +39,7 @@ int main(int argc, char *argv[]){
                     word[i - start] = '\0'; // Null-terminate the word
 
                     hash_add(mytable,strdup(word));
-                    // printf("Word: %s\n", word);
+                    printf("Word: %s\n", word);
                 }
                 start = i + 1; // Move to the start of the next word
             }
@@ -50,9 +50,9 @@ int main(int argc, char *argv[]){
         perror("read failed");
     }
     
-    // if(hash_find(mytable,"y")!=NULL){
-    //     printf("the number  %d\n",get_counter(mytable,"y"));
-    // }
+    if(hash_find(mytable,"the")!=NULL){
+        printf("the number  %d\n",get_counter(mytable,"the"));
+    }
         
     // printf("den yparxeiiiii %s \n",(char *)hash_find_value(mytable, hash_first(mytable)));
     
