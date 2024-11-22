@@ -261,13 +261,18 @@ int main(int argc, char *argv[]) {
             char read_fd_str[10];
             sprintf(read_fd_str, "%d", pipe_builder_splitter[i][0]);  // Pass FD of assigned pipe
 
+            char write_fd_str[10];
+            sprintf(write_fd_str, "%d", pipe_builders_root[i][1]);  // Pass FD of assigned pipe
+
             char countile_fd[20];
             sprintf(countile_fd, "%d", countline);  // Pass FD of assigned pipe
+
 
             char *exec_args[] = {
                 "./builder",
                 read_fd_str, // FD of the assigned pipe
                 countile_fd,
+                write_fd_str,
                 NULL         // Null-terminated list
             };
 
@@ -329,7 +334,20 @@ int main(int argc, char *argv[]) {
 
 
 
+        for (int i = 0; i < numOfBuilders; i++) {
+       
+            // Read data from each builder
+            int word_length;
+            char word[BUFFER_SIZE];
+            while (read(pipe_builders_root[i][0], &word_length, sizeof(word_length)) > 0) {
+                if (read(pipe_builders_root[i][0], word, word_length) == word_length) {
+                    word[word_length] = '\0'; // Null-terminate
+                    printf("Word: %s\n", word);
+                }
+            }
 
+           
+        }
 
 
 

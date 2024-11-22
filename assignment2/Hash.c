@@ -137,28 +137,50 @@ HashNode hash_first(HashTable table) {
 	return NULL;
 }
 
+
 HashNode hash_next(HashTable table, HashNode node) {
-	
-    if (hash_find(table,node->value)==NULL){
-        return NULL;
+    if (node == NULL) {
+        return NULL; // No current node, nothing to iterate over
     }
-	int index = hash_string(table,node->value); 
+
+    // If there's a next node in the current chain, return it
+    if (node->next != NULL) {
+        return node->next;
+    }
+
+    // Otherwise, move to the next bucket
+    int index = hash_string(table, node->value); // Find the bucket of the current node
+    for (int i = index + 1; i < table->size; i++) {
+        if (table->items[i] != NULL) {
+            return table->items[i]; // Return the first non-NULL bucket
+        }
+    }
+
+    // If no further nodes are found, return NULL
+    return NULL;
+}
+// HashNode hash_next(HashTable table, HashNode node) {
+	
+//     if (hash_find(table,node->value)==NULL){
+//         return NULL;
+//     }
+// 	int index = hash_string(table,node->value); 
 
      
-    if(table->items[index]->next!=NULL){
-        return table->items[index]->next;
-    }else {
-        for (int i = index+1; i < table->size; i++)
-        {
-            if(table->items[i]!=NULL){
-                return table->items[i];
-            }
-        }
+//     if(table->items[index]->next!=NULL){
+//         return table->items[index]->next;
+//     }else {
+//         for (int i = index+1; i < table->size; i++)
+//         {
+//             if(table->items[i]!=NULL){
+//                 return table->items[i];
+//             }
+//         }
         
-    }
+//     }
 
-	return NULL;
-}
+// 	return NULL;
+// }
 
 Pointer hash_find_value(HashTable table, HashNode node){
     if (node->value !=NULL)

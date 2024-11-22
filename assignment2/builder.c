@@ -17,8 +17,9 @@ int main(int argc, char *argv[]){
     int numOfBuilders = atoi(argv[1]);
     int countline = atoi(argv[2]);
   
-    // Parse the pipe read ends
+    //  pipe read ends
     int pipe_read_fd= atoi(argv[1]);
+    int pipe_write_fd= atoi(argv[3]);
     
     // Buffer for reading data
     char buffer[BUFFER_SIZE];
@@ -39,7 +40,17 @@ int main(int argc, char *argv[]){
                     word[i - start] = '\0'; // Null-terminate the word
 
                     hash_add(mytable,strdup(word));
-                    printf("Word: %s\n", word);
+
+                    // int word_length = strlen(word);
+                    // if (write(pipe_write_fd, &word_length, sizeof(word_length)) == -1) {
+                    //     perror("write length to pipe failed");
+                    // }
+                    // if (write(pipe_write_fd, word, word_length) == -1) {
+                    //     perror("write word to pipe failed");
+                    // }
+                   
+
+                    // printf("Word: %s\n", word);
                 }
                 start = i + 1; // Move to the start of the next word
             }
@@ -49,10 +60,35 @@ int main(int argc, char *argv[]){
     if (bytesRead == -1) {
         perror("read failed");
     }
-    
-    if(hash_find(mytable,"the")!=NULL){
-        printf("the number  %d\n",get_counter(mytable,"the"));
+
+
+
+    HashNode node = hash_first(mytable);
+    while (node != NULL) {
+        const char *value = hash_find_value(mytable, node);
+        if (value == NULL) {
+            break; // Safety check, should not happen
+        }
+
+        int word_length = strlen(value);
+        if (write(pipe_write_fd, &word_length, sizeof(word_length)) == -1) {
+            perror("write length to pipe failed");
+        }
+        if (write(pipe_write_fd, value, word_length) == -1) {
+            perror("write word to pipe failed");
+        }
+
+        node = hash_next(mytable, node);
     }
+    
+    if (write(pipe_write_fd, "\n", 1) == -1) {
+        perror("write termination marker failed");
+    }
+
+    
+    // if(hash_find(mytable,"the")!=NULL){
+    //     printf("the number  %d\n",get_counter(mytable,"the"));
+    // }
         
     // printf("den yparxeiiiii %s \n",(char *)hash_find_value(mytable, hash_first(mytable)));
     
