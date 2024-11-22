@@ -2,34 +2,50 @@
 #include <stdlib.h>
 #include <string.h>
 #include <unistd.h>
-#include <sys/wait.h> // wait
-#include <stdbool.h> //boolean
-#include <fcntl.h> //for the O_WRONLY
-#include <ctype.h> //for the alpha
-#include <signal.h> // For signal handling
+#include <sys/wait.h> 
+#include <stdbool.h> 
+#include <fcntl.h>
+#include <ctype.h> 
+#include <signal.h> 
 
-#include "Hash.h"
+// #include "Hash.h"
 
 #define BUFFER_SIZE 256
 
-int count_signal_splitters = 0;  //Global counter for USR1 signals
+//a helpful struct to save in the array the word and the frequency
+typedef struct {
+    char word[BUFFER_SIZE];
+    int frequency;
+} WordFrequency;
+
+//function to compare the frequency 
+int compareFrequency(const void *a, const void *b) {
+    WordFrequency *wordA = (WordFrequency *)a;
+    WordFrequency *wordB = (WordFrequency *)b;
+    return wordB->frequency - wordA->frequency; //
+}
+
+//Global counter for USR1 signals and USR2 signals
+int count_signal_splitters = 0;  
 int count_signal_builders=0;
+
+//functions for signal handling
 void handle_usr1(int sig) {
-    count_signal_splitters++;  // Increment the counter when SIGUSR1 is received
+    count_signal_splitters++;  //increment the counter when signal from splitter is received
 }
 void handle_usr2(int sig) {
-    count_signal_builders++;  // Increment the counter when SIGUSR1 is received
+    count_signal_builders++; //increment the counter when signal from builder is received
 }
 
 int main(int argc, char *argv[]) {
 
-    // Register the signal handler for SIGUSR1
+    // The signal handler for signal USR1
     if (signal(SIGUSR1, handle_usr1) == SIG_ERR) {
         perror("Unable to catch SIGUSR1");
         exit(1);
     }
 
-    // Register the signal handler for SIGUSR1
+    // The signal handler for signal USR2
     if (signal(SIGUSR2, handle_usr2) == SIG_ERR) {
         perror("Unable to catch SIGUSR2");
         exit(1);
@@ -84,7 +100,7 @@ int main(int argc, char *argv[]) {
     ssize_t bytes_read;
     int countline = 0;
 
-    // Count the lines of the file
+    // Count the lines of the file so we can calculate how many lines will each splitter read 
     char ch;
     while ((bytes_read = read(input_fd, &ch, 1)) > 0) {
         if (ch == '\n') {
@@ -95,7 +111,6 @@ int main(int argc, char *argv[]) {
     //Close the input file
     close(input_fd);
 
-
     //open again the input file to map the first byte of every line 
     input_fd = open(inputFile, O_RDONLY);
     if (input_fd == -1) {
@@ -103,15 +118,12 @@ int main(int argc, char *argv[]) {
         return 1;
     }
 
-
     off_t offsets[countline];
     off_t byte_offset = 0;
     int line_number = 0;
 
-    if (line_number < countline) {
-        offsets[line_number] = byte_offset;
-    }
-
+    //count every byte and save to the array offsets the first byte of every line 
+    offsets[line_number] = byte_offset;
     while (read(input_fd, &ch, 1) == 1) {
         byte_offset++;
         if (ch == '\n') {
@@ -125,81 +137,79 @@ int main(int argc, char *argv[]) {
     //Close the input file
     close(input_fd);
 
-    ///////////////////////////////////////////////////////////////////////////////////////////////////
-    ///////////////////////////////////////////////////////////////////////////////////////////////////
-    ///////////////////////////////////////////////////////////////////////////////////////////////////
-    ///////////////////////////////////////////////////////////////////////////////////////////////////
-
+    //create all the pipes we need for the program 
     pid_t pid;
-    int pipe_splitters1[2];
+    int pipe_splitters1[2]; //pipe between root and splitter for sending the number of lines every splitter will read
     if (pipe(pipe_splitters1) == -1) { 
         perror("pipe failed");
         exit(1);
     }
-    int pipe_splitters2[2];
+    int pipe_splitters2[2];//pipe between root and splitter for sending the number of the offset the splitter will start reading
     if (pipe(pipe_splitters2) == -1) { 
         perror("pipe failed");
         exit(1);
     }
-    int pipe_builder_splitter[numOfBuilders][2];  // Pipes between each builder and corresponding splitter
+    int pipe_builder_splitter[numOfBuilders][2];  // Pipes between the splitters and each builder for sending the words excluding the words from exclusion list 
     for (int i = 0; i < numOfBuilders; i++) {
         if (pipe(pipe_builder_splitter[i]) == -1) {
             perror("Pipe for builder-splitter communication failed");
             exit(1);
         }
     }
-    int pipe_builders_root[numOfBuilders][2];
+    int pipe_builders_root[numOfBuilders][2]; // Pipes between each builder and the root for sending the words with the frequency
     for (int i = 0; i < numOfBuilders; i++) {
         if (pipe(pipe_builders_root[i]) == -1) {
             perror("Pipe for builder-splitter communication failed");
             exit(1);
         }
     }
-    ////////////////////////////////////////////////////////////////////////
-    
+
+
+
+    // Create the splitters and execute the operations needed    
     for (int i = 0; i < numOfSplitter; i++) {
 
-        //Create a process
+        //Create the process using forks
         pid = fork();
         if (pid < 0) {
             perror("fork failed");
             exit(1);
         }
         
-        // Child process
+        // Splitter process
         if (pid == 0) {
             
-            close(pipe_splitters1[1]); // Close the write end of the pipe in the child process
+            // Close the write end of the pipe in the splitter process
+            close(pipe_splitters1[1]); 
             close(pipe_splitters2[1]);
+
+            //close the read ends of the pipe between the splitter and builders that we will send through the arguments
             for (int i = 0; i < numOfBuilders; i++)
             {
                 close(pipe_builder_splitter[i][0]);
             }
             
-
+            //save into variables how many lines every splitter will read and the byte we will start to read 
             int received_lines_to_read ;
             read(pipe_splitters1[0], &received_lines_to_read, sizeof(received_lines_to_read));
             off_t offset_to_read;
             read(pipe_splitters2[0], &offset_to_read, sizeof(offset_to_read));
             
-            close(pipe_splitters1[0]); // Close the read end after use
-            close(pipe_splitters2[0]); // Close the read end after use
+            //After use clode the read ends
+            close(pipe_splitters1[0]);
+            close(pipe_splitters2[0]); 
             
-
            
-            // Dynamically allocate memory for arguments
-            int total_args =6+ (numOfBuilders * 2) + 1; // Basic arguments + 2 per pipe + NULL
+            // Dynamically allocate memory for the variables and pipes we will put in the arguments of the exec
+            int total_args =6+ numOfBuilders + 1; 
             char **exec_args = malloc(total_args * sizeof(char *));
-            if (!exec_args) {
-                perror("malloc failed");
-                exit(1);
-            }
 
+            //variables to save the converting data
             char lines_to_read_str[10];
             char offset_str[20];
             char numbuilder[10];
         
-            // Use sprintf to convert the int and off_t values to strings
+            // Use sprintf to convert the values into strings
             sprintf(lines_to_read_str, "%d", received_lines_to_read);
             sprintf(offset_str, "%ld", offset_to_read);  
             sprintf(numbuilder, "%d",numOfBuilders);
@@ -211,61 +221,56 @@ int main(int argc, char *argv[]) {
             exec_args[4] =offset_str;
             exec_args[5] =numbuilder;
 
-            
-
+            //convert every pipe into a string so we can use it as argument in the execvp
             int arg_idx = 6;
             for (int j = 0; j < numOfBuilders; j++) {
                 char *write_fd_str = malloc(10 * sizeof(char));
-                if (!write_fd_str) {
-                    perror("malloc failed");
-                    exit(1);
-                }
                 sprintf(write_fd_str, "%d", pipe_builder_splitter[j][1]);
 
-                exec_args[arg_idx++] = write_fd_str;
+                exec_args[arg_idx++] = write_fd_str;//save in the array
             }  
-            exec_args[arg_idx]=NULL;     
+            exec_args[arg_idx]=NULL; // the last argument is null   
 
-            execvp(exec_args[0], exec_args);
-            perror("exevp failed");
+            execvp(exec_args[0], exec_args); //the exec replaces this line in the process with a new program
+            perror("exevp failed");// if the program will continue after the exec then the exec failed
             exit(0); 
         }
     }
     
-    ////////////////////////////////////////////////////////////////////////
-    
+
+    //Create the builders and execute the operations needed 
     for (int i = 0; i < numOfBuilders; i++) {
 
+        //Create the process using forks
         pid = fork();
         if (pid < 0) {
             perror("fork failed");
             exit(1);
         }
         
-        if (pid == 0) {  // Child process
+        // builder process
+        if (pid == 0) {
 
-            // Close write ends of all pipes
+            // Close the ends the builder will not use 
             for (int j = 0; j < numOfBuilders; j++) {
-                close(pipe_builder_splitter[j][1]);  // Close write ends
-                if (j != i) {
-                    close(pipe_builder_splitter[j][0]);  // Close read ends of other pipes
-                }
+                close(pipe_builder_splitter[j][1]);  // Close write ends of the pipe between splitter and builder because in the builder we will only read  
+                close(pipe_builders_root[j][0]);  //close read ends of the pipe between root and builder because in the builder we will only write the results  
             }
-            for (int j = 0; j < numOfBuilders; j++) {
-                close(pipe_builders_root[j][0]);  // Close read ends
-                if (j != i) {
-                    close(pipe_builder_splitter[j][1]);  // Close write ends of other pipes
-                }
-            }
+            // for (int j = 0; j < numOfBuilders; j++) {
+            //      // Close read ends
+            //     // if (j != i) {
+            //     //     close(pipe_builder_splitter[j][1]);  // Close write ends of other pipes
+            //     // }
+            // }
 
             char read_fd_str[10];
-            sprintf(read_fd_str, "%d", pipe_builder_splitter[i][0]);  // Pass FD of assigned pipe
+            sprintf(read_fd_str, "%d", pipe_builder_splitter[i][0]); 
 
             char write_fd_str[10];
-            sprintf(write_fd_str, "%d", pipe_builders_root[i][1]);  // Pass FD of assigned pipe
+            sprintf(write_fd_str, "%d", pipe_builders_root[i][1]); 
 
             char countile_fd[20];
-            sprintf(countile_fd, "%d", countline);  // Pass FD of assigned pipe
+            sprintf(countile_fd, "%d", countline);  
 
 
             char *exec_args[] = {
@@ -334,29 +339,86 @@ int main(int argc, char *argv[]) {
 
 
 
+        
+        WordFrequency *wordFreqArray = NULL; // Dynamic array
+        int wordCount = 0;                   // Number of elements
+        int arrayCapacity = 10;              // Initial capacity
+
+        // Allocate initial memory for the array
+        wordFreqArray = malloc(arrayCapacity * sizeof(WordFrequency));
+        if (wordFreqArray == NULL) {
+            perror("Failed to allocate memory");
+            return EXIT_FAILURE;
+        }
         for (int i = 0; i < numOfBuilders; i++) {
-       
-            // Read data from each builder
             int word_length;
             char word[BUFFER_SIZE];
-            while (read(pipe_builders_root[i][0], &word_length, sizeof(word_length)) > 0) {
-                if (read(pipe_builders_root[i][0], word, word_length) == word_length) {
-                    word[word_length] = '\0'; // Null-terminate
-                    printf("Word: %s\n", word);
-                }
-            }
+            int frequency;
 
-           
+            // Read data from each builder until a termination marker is encountered
+            while (read(pipe_builders_root[i][0], &word_length, sizeof(word_length)) > 0) {
+                if (word_length == 0) {
+                    // Termination marker indicates end of data from this builder
+                    break;
+                }
+
+                // Read the word
+                if (read(pipe_builders_root[i][0], word, word_length) != word_length) {
+                    perror("read word from pipe failed");
+                    break;
+                }
+                word[word_length] = '\0'; // Null-terminate the string
+
+                // Read the frequency
+                if (read(pipe_builders_root[i][0], &frequency, sizeof(frequency)) != sizeof(frequency)) {
+                    perror("read frequency from pipe failed");
+                    break;
+                }
+                if (wordCount == arrayCapacity) {
+                    arrayCapacity *= 2; // Double the capacity
+                    WordFrequency *temp = realloc(wordFreqArray, arrayCapacity * sizeof(WordFrequency));
+                    if (temp == NULL) {
+                        perror("Failed to reallocate memory");
+                        free(wordFreqArray);
+                        return EXIT_FAILURE;
+                    }
+                    wordFreqArray = temp;
+                }
+
+                // Add the word and frequency to the array
+                strcpy(wordFreqArray[wordCount].word, word);
+                wordFreqArray[wordCount].frequency = frequency;
+                wordCount++;
+            
+                // Output the word and its frequency
+                // printf("Word: %s, Frequency: %d\n", word, frequency);
+            }
+        }
+        qsort(wordFreqArray, wordCount, sizeof(WordFrequency), compareFrequency);
+
+        // Open the output file for writing (create if not exists)
+        int output_fd = open(outputFile, O_WRONLY | O_CREAT | O_TRUNC);
+        if (output_fd == -1) {
+            perror("Error opening output file");
+            close(input_fd);
+            return 0;
+        }
+        
+
+        // Print the sorted words and frequencies
+        dprintf(output_fd, "Sorted words by frequency:\n");
+        for (int i = 0; i < wordCount; i++) {
+            dprintf(output_fd, "Word: %s, Frequency: %d\n", wordFreqArray[i].word, wordFreqArray[i].frequency);
         }
 
 
 
-
+        free(wordFreqArray);
         for (int i = 0; i < numOfBuilders; i++) {
             close(pipe_builders_root[i][1]);  // Close the write ends in the parent
             close(pipe_builders_root[i][0]);  // Optionally close the read ends in the parent
         }
-
+        close(output_fd);
         // Parent waits for each child process to terminate
         for (int i = 0; i < (numOfSplitter+numOfBuilders); i++) {
             wait(NULL); // Wait for child processes to terminate
@@ -368,16 +430,7 @@ int main(int argc, char *argv[]) {
 
 
 
-    //Open the output file for writing (create if not exists)
-    // int output_fd = open(outputFile, O_WRONLY | O_CREAT | O_TRUNC);
-    // if (output_fd == -1) {
-    //     perror("Error opening output file");
-    //     close(input_fd);
-    //     return 0;
-    // }
-    // close(output_fd);
-
-
+    
     return 0;
 }
 

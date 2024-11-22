@@ -40,16 +40,7 @@ int main(int argc, char *argv[]){
                     word[i - start] = '\0'; // Null-terminate the word
 
                     hash_add(mytable,strdup(word));
-
-                    // int word_length = strlen(word);
-                    // if (write(pipe_write_fd, &word_length, sizeof(word_length)) == -1) {
-                    //     perror("write length to pipe failed");
-                    // }
-                    // if (write(pipe_write_fd, word, word_length) == -1) {
-                    //     perror("write word to pipe failed");
-                    // }
-                   
-
+                    
                     // printf("Word: %s\n", word);
                 }
                 start = i + 1; // Move to the start of the next word
@@ -65,23 +56,28 @@ int main(int argc, char *argv[]){
 
     HashNode node = hash_first(mytable);
     while (node != NULL) {
-        const char *value = hash_find_value(mytable, node);
+        char *value = hash_find_value(mytable, node);
+        int frequency_number=get_counter(mytable,value);
         if (value == NULL) {
             break; // Safety check, should not happen
         }
 
-        int word_length = strlen(value);
-        if (write(pipe_write_fd, &word_length, sizeof(word_length)) == -1) {
+        int length = strlen(value);
+        if (write(pipe_write_fd, &length, sizeof(length)) == -1) {
             perror("write length to pipe failed");
         }
-        if (write(pipe_write_fd, value, word_length) == -1) {
+        if (write(pipe_write_fd, value, strlen(value)) == -1) {
             perror("write word to pipe failed");
         }
-
+        // Write the frequency number
+        if (write(pipe_write_fd, &frequency_number, sizeof(frequency_number)) == -1) {
+            perror("write frequency to pipe failed");
+        }
         node = hash_next(mytable, node);
     }
     
-    if (write(pipe_write_fd, "\n", 1) == -1) {
+    int termination_marker = 0;
+    if (write(pipe_write_fd, &termination_marker, sizeof(termination_marker)) == -1) {
         perror("write termination marker failed");
     }
 

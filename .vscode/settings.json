@@ -3,6 +3,7 @@
         "adthash.h": "c",
         "unistd.h": "c",
         "stdlib.h": "c",
-        "fcntl.h": "c"
+        "fcntl.h": "c",
+        "hash.h": "c"
     }
 }

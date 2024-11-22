@@ -22,7 +22,7 @@ HashNode create_node(Pointer value){
     //Allocate memory for the hash node we create
     HashNode item = malloc(sizeof(*item));
     item->value = value;
-    item->counter= 0 ;
+    item->counter= 1 ;
     item->next = NULL;
 
     return item;
@@ -85,7 +85,6 @@ void hash_add(HashTable table, Pointer value) {
     if (table->items[index] == NULL) {
         // If the bucket is empty, the new node is the first (and only) node
         table->items[index] = new_node;
-        table->items[index]->counter++;
     } else {
         // If the bucket is not empty, traverse to the end of the list
         HashNode last = table->items[index];
@@ -93,7 +92,6 @@ void hash_add(HashTable table, Pointer value) {
             last = last->next;
         }
         last->next = new_node;
-        table->items[index]->counter++;
     }
 
 
