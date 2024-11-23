@@ -48,12 +48,6 @@ int main(int argc, char *argv[]){
         }
     }
 
-    if (bytesRead == -1) {
-        perror("read failed");
-    }
-
-
-
     HashNode node = hash_first(mytable);
     while (node != NULL) {
         char *value = hash_find_value(mytable, node);
@@ -81,13 +75,7 @@ int main(int argc, char *argv[]){
         perror("write termination marker failed");
     }
 
-    
-    // if(hash_find(mytable,"the")!=NULL){
-    //     printf("the number  %d\n",get_counter(mytable,"the"));
-    // }
-        
-    // printf("den yparxeiiiii %s \n",(char *)hash_find_value(mytable, hash_first(mytable)));
-    
+    //send a signal when the builder ends his process
     if (kill(getppid(), SIGUSR2) == -1) {
         perror("Failed to send SIGUSR2 to parent");
     }

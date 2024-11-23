@@ -157,28 +157,6 @@ HashNode hash_next(HashTable table, HashNode node) {
     // If no further nodes are found, return NULL
     return NULL;
 }
-// HashNode hash_next(HashTable table, HashNode node) {
-	
-//     if (hash_find(table,node->value)==NULL){
-//         return NULL;
-//     }
-// 	int index = hash_string(table,node->value); 
-
-     
-//     if(table->items[index]->next!=NULL){
-//         return table->items[index]->next;
-//     }else {
-//         for (int i = index+1; i < table->size; i++)
-//         {
-//             if(table->items[i]!=NULL){
-//                 return table->items[i];
-//             }
-//         }
-        
-//     }
-
-// 	return NULL;
-// }
 
 Pointer hash_find_value(HashTable table, HashNode node){
     if (node->value !=NULL)
