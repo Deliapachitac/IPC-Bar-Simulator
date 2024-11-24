@@ -25,7 +25,7 @@ $(TARGET): $(OBJS)
 
 # Execute the program  GreatExpectations.txt
 run:
-	./$(TARGET) -i GreatExpectations.txt -l 5 -m 7 -t 10 -e ExclusionList.txt -o output.txt
+	./$(TARGET) -i GreatExpectations.txt -l 100 -m 150 -t 10 -e ExclusionList.txt -o output.txt
 
 # For the memory leaks
 valgrind:
