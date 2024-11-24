@@ -7,13 +7,13 @@
 
 
 struct hash_table {
-	int size;		//The variable size will be used to calculate the index
+	int size;		//The variable size will be used to calculate the index of the array
     HashNode* items; // An array of hashnode items			
 };
 
 struct hashnode{
-    int counter;
-	Pointer value;
+    int counter; // this variable is used to save how many times a word has been added to the hash table
+	Pointer value; // we wiil save the word in the table
     HashNode next;  //Because we try to implement a hash table with seperate chaining this means that some elements may have the same index so we need the next node to save the elements
 };
 
@@ -22,7 +22,7 @@ HashNode create_node(Pointer value){
     //Allocate memory for the hash node we create
     HashNode item = malloc(sizeof(*item));
     item->value = value;
-    item->counter= 1 ;
+    item->counter= 1 ; // initialize with one because when the node is created with a value
     item->next = NULL;
 
     return item;
@@ -43,25 +43,25 @@ HashTable create_hash_table(int countline){
     return mytable;
 }
 
+
 int hash_string(HashTable table, Pointer value) { 
-    long long p = 31; // Base for the polynomial hash
-    long long m = table->size; // Table size (should be prime number)
-    unsigned long long hash = 0; // Use unsigned long long to prevent overflow
-    unsigned long long p_pow = 1; // p^i (power of p)
+    long long p = 31; 
+    long long m = table->size; 
+    unsigned long long hash = 0;
+    unsigned long long p_pow = 1;
 
     for (char* s = value; *s != '\0'; s++) {
-        // Use unsigned char to handle all characters properly
         hash = (hash + ((unsigned char)*s) * p_pow) % m;
         p_pow = (p_pow * p) % m;
     }
 
-    return (int) hash; // Return the final hash value, cast to int
+    return (int) hash; // Return the final hash value cast to int
 }
 
 void hash_add(HashTable table, Pointer value) {
 
     if (value == NULL) {
-        printf( "Error: Null value \n");
+        printf( "Null value \n");
         exit(1);
     }
 
@@ -69,24 +69,25 @@ void hash_add(HashTable table, Pointer value) {
     int index = hash_string(table, value);
     
     // Search for the value in the linked list at the given index
+    //if the value already exists we have to increase the counter(frequency)
     HashNode current = table->items[index];
     while (current != NULL) {
         if (strcmp(current->value, value) == 0) { 
             current->counter++;
-            return; // Value already exists, no need to insert
+            return;
         }
         current = current->next;
     }
 
-    //Create the new hash node that we will add to the array
+    //If the value doesnt already exists create the new hash node that we will add to the array
     HashNode new_node = create_node(value);
 
     // Insert the new node at the end of the linked list
     if (table->items[index] == NULL) {
-        // If the bucket is empty, the new node is the first (and only) node
+        // If the list is empty add the new node 
         table->items[index] = new_node;
     } else {
-        // If the bucket is not empty, traverse to the end of the list
+        // If the list is not empty traverse to the end of the list and add it there
         HashNode last = table->items[index];
         while (last->next != NULL) {
             last = last->next;
@@ -115,6 +116,7 @@ HashNode hash_find(HashTable table, Pointer value) {
     return NULL;  
 }
 
+//returns the frequency of the word
 int get_counter(HashTable table,Pointer value){
     HashNode node = hash_find(table, value);
     if (node != NULL) {
@@ -124,8 +126,10 @@ int get_counter(HashTable table,Pointer value){
 
 }
 
+
 HashNode hash_first(HashTable table) {
 	
+    //the first node will be the first node in the fist not null list
 	for (int i = 0; i < table->size; i++){
         if (table->items[i]!= NULL){
             return table->items[i];
@@ -135,26 +139,25 @@ HashNode hash_first(HashTable table) {
 	return NULL;
 }
 
-
 HashNode hash_next(HashTable table, HashNode node) {
     if (node == NULL) {
-        return NULL; // No current node, nothing to iterate over
+        return NULL; 
     }
 
-    // If there's a next node in the current chain, return it
+    // If there's a next node in the current chain return it
     if (node->next != NULL) {
         return node->next;
     }
 
-    // Otherwise, move to the next bucket
-    int index = hash_string(table, node->value); // Find the bucket of the current node
+    // Else move to the next node of the array
+    int index = hash_string(table, node->value); // Find the index of the current node
     for (int i = index + 1; i < table->size; i++) {
         if (table->items[i] != NULL) {
-            return table->items[i]; // Return the first non-NULL bucket
+            return table->items[i]; // Return the first non-NULL node of the array
         }
     }
 
-    // If no further nodes are found, return NULL
+    // If no further nodes are found return NULL
     return NULL;
 }
 
@@ -168,15 +171,14 @@ Pointer hash_find_value(HashTable table, HashNode node){
 }
 
 void delete_item(HashTable table, Pointer value ) {
-    //Find the item we want to delete and delete it
+    //Find the item we want to delete using the hash_string function
     int index = hash_string(table, value);
     HashNode current = table->items[index];
-    HashNode prev = NULL;
-
+    HashNode prev = NULL; 
     while (current != NULL) {
         if (strcmp(current->value, value) == 0) {
             if (prev == NULL) {
-                table->items[index] = current->next;  // Remove from head
+                table->items[index] = current->next;  // Remove the first node
             } else {
                 prev->next = current->next;  // Remove from middle or end
             }
@@ -190,7 +192,7 @@ void delete_item(HashTable table, Pointer value ) {
 
 
 void delete_hash_table(HashTable table) {
-    //Traverse every item in the table 
+    //Traverse every item in the table and delete
     for (int i = 0; i < table->size; i++) {
         if (table->items[i] != NULL) {
             while (table->items[i] != NULL) {
@@ -200,6 +202,6 @@ void delete_hash_table(HashTable table) {
             };  
         }
     }
-    free(table->items);  // Free the array of items
-    free(table);  // Free the hash table itself
+    free(table->items);  
+    free(table); 
 }

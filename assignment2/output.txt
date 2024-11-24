@@ -1,14 +1,25 @@
-Number of SIGUSR1 signals received from splitter: 5
-Number of SIGUSR2 signals received from builder: 7
+This are the times for each builder
+Builder 1: Real time = 0.080000 sec, CPU time = 0.030000 sec
+Builder 2: Real time = 0.080000 sec, CPU time = 0.030000 sec
+Builder 3: Real time = 0.080000 sec, CPU time = 0.040000 sec
+Builder 4: Real time = 0.070000 sec, CPU time = 0.040000 sec
+Builder 5: Real time = 0.080000 sec, CPU time = 0.040000 sec
+Builder 6: Real time = 0.080000 sec, CPU time = 0.030000 sec
+Builder 7: Real time = 0.080000 sec, CPU time = 0.030000 sec
 
 The top 10 popular words in the file are :
 Word: the, Frequency: 8101
 Word: i, Frequency: 6420
-Word: was, Frequency: 2817
-Word: had, Frequency: 2080
-Word: said, Frequency: 1342
-Word: were, Frequency: 791
-Word: mr, Frequency: 709
+Word: was, Frequency: 2811
+Word: had, Frequency: 2084
+Word: said, Frequency: 1333
+Word: were, Frequency: 788
+Word: mr, Frequency: 710
 Word: joe, Frequency: 681
 Word: is, Frequency: 649
 Word: been, Frequency: 607
+
+Number of SIGUSR1 signals received from splitter: 5
+Number of SIGUSR2 signals received from builder: 7
+
+Run time of the main program was 0.500000 sec and we used the CPU for 0.420000 sec 

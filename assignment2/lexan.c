@@ -7,8 +7,9 @@
 #include <fcntl.h>
 #include <ctype.h> 
 #include <signal.h> 
+#include <sys/times.h> 
 
-// #include "Hash.h"
+
 
 #define BUFFER_SIZE 256
 
@@ -38,6 +39,13 @@ void handle_usr2(int sig) {
 }
 
 int main(int argc, char *argv[]) {
+ 
+    //variables for calculating the time based on the given program in the project
+    double t1 , t2 , cpu_time ;
+    struct tms tb1 , tb2 ;
+    double ticspersec ;
+    ticspersec = ( double ) sysconf ( _SC_CLK_TCK );
+    t1 = ( double ) times (& tb1) ;// start the clock
 
     // The signal handler for signal USR1
     if (signal(SIGUSR1, handle_usr1) == SIG_ERR) {
@@ -281,12 +289,6 @@ int main(int argc, char *argv[]) {
                 close(pipe_builder_splitter[j][1]);  // Close write ends of the pipe between splitter and builder because in the builder we will only read  
                 close(pipe_builders_root[j][0]);  //close read ends of the pipe between root and builder because in the builder we will only write the results  
             }
-            // for (int j = 0; j < numOfBuilders; j++) {
-            //      // Close read ends
-            //     // if (j != i) {
-            //     //     close(pipe_builder_splitter[j][1]);  // Close write ends of other pipes
-            //     // }
-            // }
 
             //variables to save the converting data so we will use as arguments in the exevp
             char read_fd_str[10];
@@ -366,8 +368,17 @@ int main(int argc, char *argv[]) {
             close(pipe_builder_splitter[i][0]); 
             close(pipe_builders_root[i][1]);  
         }
-       
-         
+
+        // Open the output file for writing (create if not exists)
+        int output_fd = open(outputFile, O_WRONLY | O_CREAT | O_TRUNC);
+        if (output_fd == -1) {
+            perror("Error opening output file");
+            close(input_fd);
+            return 0;
+        }
+        dprintf(output_fd,"This are the times for each builder\n");
+
+    
         int wordCount = 0;   // Number of words in the array
         int arrayCapacity = 100;     //Initial capacity for the array
 
@@ -384,7 +395,8 @@ int main(int argc, char *argv[]) {
             // Read data from each builder until a termination marker is encountered
             while (read(pipe_builders_root[i][0], &word_length, sizeof(word_length)) > 0) {
                 
-                //if the length is 0 then we are done reading the data from the pipe 
+                //if the length is 0 then we are done reading the data from the pipe
+                //the 0 is the termination marker send from the builder 
                 if (word_length == 0) {
                     break;
                 }
@@ -418,23 +430,21 @@ int main(int argc, char *argv[]) {
                 wordCount++;
             
             }
+
+            // After the termination marke read the timing information of each builder
+            double real_time, cpu_time;
+            read(pipe_builders_root[i][0], &real_time, sizeof(real_time));
+            read(pipe_builders_root[i][0], &cpu_time, sizeof(cpu_time));
+            dprintf(output_fd,"Builder %d: Real time = %lf sec, CPU time = %lf sec\n", i + 1, real_time, cpu_time);
+
         }
 
         //sort the array by the frequency
         qsort(sortedarray, wordCount, sizeof(SortedArray), compareFrequency);
 
-        // Open the output file for writing (create if not exists)
-        int output_fd = open(outputFile, O_WRONLY | O_CREAT | O_TRUNC);
-        if (output_fd == -1) {
-            perror("Error opening output file");
-            close(input_fd);
-            return 0;
-        }
-
-        // Print the signals, top popular words and the time needed for the program 
-        dprintf(output_fd,"Number of SIGUSR1 signals received from splitter: %d\n", count_signal_splitters);
-        dprintf(output_fd,"Number of SIGUSR2 signals received from builder: %d\n\n", count_signal_builders);
-        dprintf(output_fd, "The top %d popular words in the file are :\n",topPopular);
+        
+        // Print the top popular words 
+        dprintf(output_fd, "\nThe top %d popular words in the file are :\n",topPopular);
         for (int i = 0; i < topPopular; i++) {
             dprintf(output_fd, "Word: %s, Frequency: %d\n", sortedarray[i].word, sortedarray[i].frequency);
         }
@@ -449,17 +459,24 @@ int main(int argc, char *argv[]) {
             close(pipe_builders_root[i][0]); 
         }
 
-        //clopse the output file
-        close(output_fd);
+        // Print the signals in the outputfile
+        dprintf(output_fd,"\nNumber of SIGUSR1 signals received from splitter: %d\n", count_signal_splitters);
+        dprintf(output_fd,"Number of SIGUSR2 signals received from builder: %d\n\n", count_signal_builders);
+         
+        // print the time needed to terminate the program
+        t2 = ( double ) times (& tb2) ;
+        cpu_time = ( double ) (( tb2 . tms_utime + tb2 . tms_stime ) -( tb1 . tms_utime + tb1 . tms_stime ));
+        dprintf (output_fd,"Run time of the main program was %lf sec and we used the CPU for %lf sec \n", (t2 - t1) / ticspersec , cpu_time / ticspersec );
 
         // Parent waits for each child process to terminate
         for (int i = 0; i < (numOfSplitter+numOfBuilders); i++) {
             wait(NULL); 
         }
         
+        //close the output file
+        close(output_fd);
     }
    
+    
     return 0;
 }
-
-

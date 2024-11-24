@@ -23,13 +23,18 @@ void hash_add(HashTable table, Pointer value);
 //Finds the value in O(1) complexity 
 HashNode hash_find(HashTable table, Pointer value);
 
-//
+//finds the first node of the has table 
 HashNode hash_first(HashTable table);
 
+//finds the next node of the hash
+//because the hash table is implemented with separate chaining the next node will be the next from the list 
+//if the list has ended then the node will be from the table in the struct
 HashNode hash_next(HashTable table, HashNode node) ;
 
-//Function that returns the counter
+//Function that returns the counter(frequency)
 int get_counter(HashTable table,Pointer value);
+
+//functions for returning the value
 Pointer hash_find_value(HashTable table, HashNode node);
 
 // Deleting functions
