@@ -161,7 +161,7 @@ HashNode hash_next(HashTable table, HashNode node) {
     return NULL;
 }
 
-Pointer hash_find_value(HashTable table, HashNode node){
+Pointer hash_get_value(HashTable table, HashNode node){
     if (node->value !=NULL)
     {
         return node->value;

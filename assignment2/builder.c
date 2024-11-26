@@ -60,7 +60,7 @@ int main(int argc, char *argv[]){
     HashNode node = hash_first(mytable);
     while (node != NULL) {
 
-        char *value = hash_find_value(mytable, node); //get the value of the word 
+        char *value = hash_get_value(mytable, node); //get the value of the word 
         int frequency_number=get_counter(mytable,value); //and get the frequency of the word
 
         int length = strlen(value);
@@ -104,12 +104,6 @@ int main(int argc, char *argv[]){
     if (kill(getppid(), SIGUSR2) == -1) {
         perror("Failed to send SIGUSR2 to parent");
     }
-
-    // End timing
-    // t2 = times(&tb2);
-    // t2 = ( double ) times (& tb2) ;
-    // cpu_time = ( double ) (( tb2 . tms_utime + tb2 . tms_stime ) -( tb1 . tms_utime + tb1 . tms_stime ));
-    // printf ("Run time was %lf sec ( REAL time ) although we used the CPU for %lf sec ( CPU time ).\n", (t2 - t1) / ticspersec , cpu_time / ticspersec );
 
     exit(0);
 }

@@ -4,9 +4,6 @@ CC = gcc
 # Source files
 SRCS = lexan.c  
 
-# Header files
-HEADERS = 
-
 # Object files
 OBJS = $(SRCS:.c=.o) #lexan.o  Graph.o
 

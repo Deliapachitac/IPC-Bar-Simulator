@@ -35,7 +35,7 @@ HashNode hash_next(HashTable table, HashNode node) ;
 int get_counter(HashTable table,Pointer value);
 
 //functions for returning the value
-Pointer hash_find_value(HashTable table, HashNode node);
+Pointer hash_get_value(HashTable table, HashNode node);
 
 // Deleting functions
 void delete_item(HashTable table, Pointer value);

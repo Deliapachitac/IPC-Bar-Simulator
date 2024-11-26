@@ -172,14 +172,7 @@ int main(int argc, char *argv[]) {
         }
     }
 
-
-   
-    // int add = 0;  //variable to track how many additional lines we are going to add
-    // int line[numOfSplitter+1];
-    // line[0]=0; 
-    // int array;  
-    // int calculating_lines = countline / numOfSplitter;
-            
+    
     // Create the splitters and execute the operations needed    
     for (int i = 0; i < numOfSplitter; i++) {
 
@@ -223,25 +216,6 @@ int main(int argc, char *argv[]) {
             char offset_str[20];
             char numbuilder[10];
         
-            // //check if the total number of lines cannot be divided exactly for each splitter
-            // if (countline % numOfSplitter != 0) {
-            //     add++; 
-            //     if (add <= countline % numOfSplitter) {
-            //         // Add to each splitter a line until we have completed the remaing lines
-            //         array = calculating_lines + 1;
-            //         line[i+1]=line[i-1]+array;
-            //     } else {
-            //         // If we have completed the lines that remained assign the calculated number 
-            //         array = calculating_lines;
-            //         line[i+1]=line[i-1]+array;
-
-            //     }
-            // } else {
-            //     // If the lines are divided exactly assign the calculated number to each splitter
-            //     array = calculating_lines;
-            //     line[i+1]=line[i-1]+array;
-            // }
-    
             // Use sprintf to convert the values into strings
             sprintf(lines_to_read_str, "%d", received_lines_to_read);//array
             sprintf(offset_str, "%ld", offset_to_read);  //offsets[line[i]]
@@ -369,6 +343,11 @@ int main(int argc, char *argv[]) {
             close(pipe_builders_root[i][1]);  
         }
 
+        // Parent waits for each child process to terminate
+        for (int i = 0; i < (numOfSplitter+numOfBuilders); i++) {
+            wait(NULL); 
+        }
+
         // Open the output file for writing (create if not exists)
         int output_fd = open(outputFile, O_WRONLY | O_CREAT | O_TRUNC);
         if (output_fd == -1) {
@@ -381,6 +360,11 @@ int main(int argc, char *argv[]) {
     
         int wordCount = 0;   // Number of words in the array
         int arrayCapacity = 100;     //Initial capacity for the array
+
+        // Parent waits for each child process to terminate
+        for (int i = 0; i < (numOfSplitter+numOfBuilders); i++) {
+            wait(NULL); 
+        }
 
         // Allocate initial memory for the array
         SortedArray *sortedarray = malloc(arrayCapacity * sizeof(SortedArray));
@@ -405,7 +389,7 @@ int main(int argc, char *argv[]) {
                     perror("read word from pipe failed");
                     break;
                 }
-                word[word_length] = '\0'; // Null-terminate the string
+                word[word_length] = '\0'; 
 
                 //Read the frequency of the word
                 read(pipe_builders_root[i][0], &frequency, sizeof(frequency));
@@ -468,11 +452,6 @@ int main(int argc, char *argv[]) {
         cpu_time = ( double ) (( tb2 . tms_utime + tb2 . tms_stime ) -( tb1 . tms_utime + tb1 . tms_stime ));
         dprintf (output_fd,"Run time of the main program was %lf sec and we used the CPU for %lf sec \n", (t2 - t1) / ticspersec , cpu_time / ticspersec );
 
-        // Parent waits for each child process to terminate
-        for (int i = 0; i < (numOfSplitter+numOfBuilders); i++) {
-            wait(NULL); 
-        }
-        
         //close the output file
         close(output_fd);
     }
