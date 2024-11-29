@@ -13,17 +13,17 @@
 
 #define BUFFER_SIZE 256
 
-//a helpful struct to save in the array the word and the frequency
+//a helpful struct to save in the array the word and the number of how many times the word was written
 typedef struct {
     char word[BUFFER_SIZE];
-    int frequency;
+    int countwords;
 } SortedArray;
 
-//function to compare the frequency 
-int compareFrequency(const void *a, const void *b) {
+//function to compare the countwords of the struct
+int CompareCountwords(const void *a, const void *b) {
     SortedArray *wordA = (SortedArray *)a;
     SortedArray *wordB = (SortedArray *)b;
-    return wordB->frequency - wordA->frequency; 
+    return wordB->countwords - wordA->countwords; 
 }
 
 //Global counter for USR1 signals and USR2 signals
@@ -368,13 +368,14 @@ int main(int argc, char *argv[]) {
 
         // Allocate initial memory for the array
         SortedArray *sortedarray = malloc(arrayCapacity * sizeof(SortedArray));
+        int intresting_words=0; //a variable to count the total number of intresting words so we can calculte the frequency
     
         //for each builder save the words and the frequency 
         for (int i = 0; i < numOfBuilders; i++) {
             
             int word_length;
             char word[BUFFER_SIZE];
-            int frequency;
+            int countwords;
 
             // Read data from each builder until a termination marker is encountered
             while (read(pipe_builders_root[i][0], &word_length, sizeof(word_length)) > 0) {
@@ -391,8 +392,8 @@ int main(int argc, char *argv[]) {
                 }
                 word[word_length] = '\0'; 
 
-                //Read the frequency of the word
-                read(pipe_builders_root[i][0], &frequency, sizeof(frequency));
+                //Read the number of the word
+                read(pipe_builders_root[i][0], &countwords, sizeof(countwords));
 
                 //if the array is full we need to reallocate more memory
                 if (wordCount == arrayCapacity) {
@@ -406,9 +407,12 @@ int main(int argc, char *argv[]) {
                     sortedarray = temp;
                 }
 
-                // Add the word and frequency to the array
+                // Add the word and countwords to the array
                 strcpy(sortedarray[wordCount].word, word);
-                sortedarray[wordCount].frequency = frequency;
+                sortedarray[wordCount].countwords = countwords;
+                
+                //add every time variable countwords which has saved how many times the word was writen
+                intresting_words+=countwords;
 
                 //next word 
                 wordCount++;
@@ -423,14 +427,13 @@ int main(int argc, char *argv[]) {
 
         }
 
-        //sort the array by the frequency
-        qsort(sortedarray, wordCount, sizeof(SortedArray), compareFrequency);
+        //sort the array by the countwords
+        qsort(sortedarray, wordCount, sizeof(SortedArray), CompareCountwords);
 
-        
         // Print the top popular words 
         dprintf(output_fd, "\nThe top %d popular words in the file are :\n",topPopular);
         for (int i = 0; i < topPopular; i++) {
-            dprintf(output_fd, "Word: %s, Frequency: %d\n", sortedarray[i].word, sortedarray[i].frequency);
+            dprintf(output_fd, "Word: %s, Frequency: %.2f %% \n", sortedarray[i].word, (float)sortedarray[i].countwords / intresting_words * 100);
         }
 
 
