@@ -1,6 +1,7 @@
 # Compiler and flags
 CC = gcc
-CFLAGS = 
+CFLAGS= 
+CLIBS= -lpthread -lrt
 
 # Targets
 RECEPTIONIST = receptionist
@@ -8,19 +9,19 @@ MONITOR = monitor
 VISITOR = visitor
 
 # Default target
-all: $(RECEPTIONIST) $(MONITOR) $(VISITOR)
+#all: $(RECEPTIONIST) $(MONITOR) $(VISITOR)
 
 # Compile receptionist.c
-$(RECEPTIONIST): receptionist.c
-	$(CC) $(CFLAGS) -o $(RECEPTIONIST) receptionist.c
+#$(RECEPTIONIST): receptionist.c
+#	$(CC) $(CFLAGS) -o $(RECEPTIONIST) receptionist.c
 
 # Compile monitor.c
-$(MONITOR): monitor.c
-	$(CC) $(CFLAGS) -o $(MONITOR) monitor.c
+#$(MONITOR): monitor.c
+#	 $(CC) $(CFLAGS) -o $(MONITOR) monitor.c
 
 # Compile visitor.c
 $(VISITOR): visitor.c
-	$(CC) $(CFLAGS) -o $(VISITOR) visitor.c
+	$(CC) $(CFLAGS) -o $(VISITOR) visitor.c $(CLIBS)
 
 # Clean up build files
 clean:
