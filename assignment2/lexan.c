@@ -361,10 +361,6 @@ int main(int argc, char *argv[]) {
         int wordCount = 0;   // Number of words in the array
         int arrayCapacity = 100;     //Initial capacity for the array
 
-        // Parent waits for each child process to terminate
-        for (int i = 0; i < (numOfSplitter+numOfBuilders); i++) {
-            wait(NULL); 
-        }
 
         // Allocate initial memory for the array
         SortedArray *sortedarray = malloc(arrayCapacity * sizeof(SortedArray));
