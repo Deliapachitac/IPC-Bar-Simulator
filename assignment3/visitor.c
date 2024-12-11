@@ -23,14 +23,10 @@
 #define SEM_TABLE_2 "/table2_semaphore"
 #define SEM_TABLE_3 "/table3_semaphore"
 
-
 typedef struct {
-    unsigned int table1_customers; // Number of customers at table 1
-    unsigned int table2_customers; // Number of customers at table 2
-    unsigned int table3_customers; // Number of customers at table 3
-    unsigned int table1_cleared;   // Whether table 1 is fully cleared (0 or 1)
-    unsigned int table2_cleared;   // Whether table 2 is fully cleared (0 or 1)
-    unsigned int table3_cleared;   // Whether table 3 is fully cleared (0 or 1)
+    int table1_customers; // Number of customers at table 1
+    int table2_customers; // Number of customers at table 2
+    int table3_customers; // Number of customers at table 3
 } SharedTableState;
 
 // Global variables for shared memory and semaphores
@@ -55,7 +51,6 @@ void simulateCustomer(int customer_id) {
     printf("Customer %d: Looking for a table...\n", customer_id);
     usleep(rand() % (3 * SECOND));
 
-    // Attempt to join a table (search for availability)
     if (sem_trywait(sem_table_1) == 0 && sharedState->table1_customers < NUM_CHAIRS) {
         // Join table 1
         sharedState->table1_customers++;
@@ -83,6 +78,25 @@ void simulateCustomer(int customer_id) {
     } else {
         printf("Customer %d: Could not find a table, leaving...\n", customer_id);
     }
+}
+
+// Open or create a semaphore
+sem_t *open_or_create_semaphore(const char *name, unsigned int value) {
+    sem_t *sem = sem_open(name, O_CREAT | O_EXCL, 0600, value);
+    if (sem == SEM_FAILED) {
+        if (errno == EEXIST) {
+            // If the semaphore already exists, open it
+            sem = sem_open(name, 0);
+            if (sem == SEM_FAILED) {
+                perror("sem_open failed");
+                exit(EXIT_FAILURE);
+            }
+        } else {
+            perror("sem_open failed");
+            exit(EXIT_FAILURE);
+        }
+    }
+    return sem;
 }
 
 int main(int argc, char *argv[]) {
@@ -114,25 +128,21 @@ int main(int argc, char *argv[]) {
     srand(time(0));
     signal(SIGUSR1, cleanup);
 
+
     // Create semaphores for the 3 tables
-    sem_table_1 = sem_open(SEM_TABLE_1, O_CREAT | O_EXCL, 0600, NUM_CHAIRS);
-    sem_table_2 = sem_open(SEM_TABLE_2, O_CREAT | O_EXCL, 0600, NUM_CHAIRS);
-    sem_table_3 = sem_open(SEM_TABLE_3, O_CREAT | O_EXCL, 0600, NUM_CHAIRS);
+    sem_table_1 = open_or_create_semaphore(SEM_TABLE_1, NUM_CHAIRS);
+    sem_table_2 = open_or_create_semaphore(SEM_TABLE_2, NUM_CHAIRS);
+    sem_table_3 = open_or_create_semaphore(SEM_TABLE_3, NUM_CHAIRS);
 
     if (sem_table_1 == SEM_FAILED || sem_table_2 == SEM_FAILED || sem_table_3 == SEM_FAILED) {
-        perror("sem_open failed");
+        printf("sem_open failed");
         exit(1);
     }
 
-    // Create shared memory for tables' states
+    // Create shared memory for tables states
     key_t key = ftok(argv[0], 0);
     int shm_id = shmget(key, sizeof(SharedTableState), IPC_CREAT | 0600);
     sharedState = shmat(shm_id, NULL, 0);
-
-    if (sharedState == (void *)-1) {
-        perror("shmat failed");
-        exit(1);
-    }
 
     sharedState->table1_customers = 0;
     sharedState->table2_customers = 0;
@@ -141,7 +151,7 @@ int main(int argc, char *argv[]) {
     int num_customers = 20; // Number of customers to simulate
     for (int i = 0; i < num_customers; i++) {
         if (fork() == 0) {
-            simulateCustomer(i + 1);
+            simulateCustomer(i);
             exit(0);
         }
         usleep(rand() % (2 * SECOND));
@@ -164,8 +174,5 @@ int main(int argc, char *argv[]) {
     shmdt((void *)sharedState);
     shmctl(shm_id, IPC_RMID, NULL);
 
-
-
     return 0;
-
 }
