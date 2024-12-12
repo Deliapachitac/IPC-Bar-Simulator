@@ -6,6 +6,7 @@
         "fcntl.h": "c",
         "hash.h": "c",
         "stdio.h": "c",
-        "stdbool.h": "c"
+        "stdbool.h": "c",
+        "segment.h": "c"
     }
 }

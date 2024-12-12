@@ -5,7 +5,7 @@ CC = gcc
 SRCS = lexan.c  
 
 # Object files
-OBJS = $(SRCS:.c=.o) #lexan.o  Graph.o
+OBJS = $(SRCS:.c=.o) 
 
 # Executable name
 TARGET = lexan
