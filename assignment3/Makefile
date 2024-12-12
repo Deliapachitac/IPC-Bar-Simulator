@@ -22,11 +22,11 @@ all:  $(VISITOR) $(INITIALLIZER) #$(RECEPTIONIST) $(MONITOR)
 
 # Compile visitor.c
 $(VISITOR): visitor.c
-	$(CC) $(CFLAGS) -o $(VISITOR) visitor.c $(CLIBS) 
+	$(CC) $(CFLAGS) -o $(VISITOR) visitor.c segment.c $(CLIBS) 
 
 # Compile initiallizer.c
 $(INITIALLIZER): initiallizer.c
-	$(CC) $(CFLAGS) -o $(INITIALLIZER) initiallizer.c $(CLIBS) 
+	$(CC) $(CFLAGS) -o $(INITIALLIZER) initiallizer.c segment.c $(CLIBS) 
 
 # Clean up build files
 clean:

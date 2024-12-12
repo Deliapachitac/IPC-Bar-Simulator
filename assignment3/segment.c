@@ -1,6 +1,6 @@
 #include "segment.h"
 
-// Initialize circular buffer
+
 void initBuffer(WaitingBuffer *cb) {
     cb->head = 0;
     cb->tail = 0;

@@ -10,7 +10,7 @@
 #include <stdbool.h>
 #include <semaphore.h>
 
-#define MAX_VISITORS 100 
+#define MAX_VISITORS 10 
 #define NUM_TABLES 3
 #define NUM_CHAIRS 4
 
@@ -64,8 +64,8 @@ typedef struct {
 } SharedMemoryStruct;
 
 
-// void initBuffer(WaitingBuffer *cb);
-// bool isFull(WaitingBuffer *cb);
-// bool isEmpty(WaitingBuffer *cb);
-// bool dequeue(WaitingBuffer *cb, int *value);
-// bool enqueue(WaitingBuffer *cb, int value);
+void initBuffer(WaitingBuffer *cb);
+bool isFull(WaitingBuffer *cb);
+bool isEmpty(WaitingBuffer *cb);
+bool dequeue(WaitingBuffer *cb, int *value);
+bool enqueue(WaitingBuffer *cb, int value);
