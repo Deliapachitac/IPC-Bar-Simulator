@@ -10,14 +10,14 @@
 #include <stdbool.h>
 #include <semaphore.h>
 
-#define MAX_VISITORS 10 
+#define MAX_VISITORS 20 
 #define NUM_TABLES 3
 #define NUM_CHAIRS 4
 
 #define MEMORY_NAME "/path_to_nemea"
 
 //Struct for the statistics of the bar 
-struct stats
+typedef struct
 {
     float avarage_waiting_time;
     float total_waiting_time;
@@ -31,7 +31,7 @@ struct stats
     int counter_cheese;
 
     int total_visitors;
-};
+}Stats;
 
 typedef struct
 {
@@ -40,27 +40,35 @@ typedef struct
     int tail;
     int count;
     sem_t position_sem[MAX_VISITORS];
+    sem_t buffer_access; 
 
 }WaitingBuffer;
 
-struct table
+typedef struct 
 {
     bool full;
-    pid_t chairs[4];//who sits where
-    int full_chairs;
-};
+    pid_t chairs[NUM_CHAIRS];//who sits where
+    int full_chairs; //how many chairs are full in the table 
+}Table;
 
-struct order_buffer
+typedef struct 
 {
-    int order_buffer[12];
-    int front;
-    int back;
-    sem_t chair_sem[12];
-};
+    int order_buffer[NUM_CHAIRS*NUM_TABLES];
+    int head;
+    int tail;
+    int count;
+    sem_t chair_sem[NUM_CHAIRS*NUM_TABLES];
+}OrderBuffer;
 
 typedef struct {
     int available[NUM_TABLES]; // Array to track availability of tables
-    WaitingBuffer customerQueue; // Embedded circular buffer
+    WaitingBuffer customerQueue; // 
+    Stats statistics;
+    Table table[NUM_TABLES];
+    sem_t mutex_access;
+    sem_t receptionist_access;
+    
+
 } SharedMemoryStruct;
 
 

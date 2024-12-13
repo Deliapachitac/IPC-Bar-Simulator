@@ -1,46 +1,57 @@
 #include "segment.h"
 
-
-
 int main(int argc, char *argv[]) {
     srand(time(0));
 
-    // Create POSIX shared memory
+    // Create a POSIX shared memory
     int shm_fd = shm_open(MEMORY_NAME, O_CREAT | O_RDWR, 0666);
     if (shm_fd == -1) {
         perror("shm_open");
-        exit(EXIT_FAILURE);
+        exit(0);
     }
 
-    // Set the size of shared memory
+    // Set the size of shared memory based on the struct in the segment.h
     if (ftruncate(shm_fd, sizeof(SharedMemoryStruct)) == -1) {
         perror("ftruncate");
-        exit(EXIT_FAILURE);
+        exit(0);
     }
 
-    // Map shared memory
+    // Map the shared memory
     SharedMemoryStruct *sharedState = (SharedMemoryStruct *)mmap(NULL, sizeof(SharedMemoryStruct), PROT_READ | PROT_WRITE, MAP_SHARED, shm_fd, 0);
     if (sharedState == MAP_FAILED) {
         perror("mmap");
-        exit(EXIT_FAILURE);
+        exit(0);
     }
 
-    // Initialize table availability and circular buffer
+    // Initialize shared memory structures
     for (int i = 0; i < NUM_TABLES; i++) {
-        sharedState->available[i] = NUM_CHAIRS;
+        sharedState->table[i].full = false;
+        sharedState->table[i].full_chairs = 0;
+        for (int j = 0; j < NUM_CHAIRS; j++) {
+            sharedState->table[i].chairs[j] = 0; // Empty chairs
+        }
     }
     initBuffer(&sharedState->customerQueue);
 
-    int num_customers = 20; // Number of customers to simulate
 
+    //
+    int num_customers = 20; 
     for (int i = 0; i < num_customers; i++) {
         pid_t pid = fork();
         if (pid == 0) {
 
+
+            // Child process
+            sem_wait(&sharedState->customerQueue.buffer_access); // Wait for buffer access
+
             if (!enqueue(&sharedState->customerQueue, i)) {
                 printf("Customer %d: Could not join the queue, leaving...\n", i);
-                exit(0);
+                sem_post(&sharedState->customerQueue.buffer_access); // Release semaphore
+                exit(1);
             }
+
+            sem_post(&sharedState->customerQueue.buffer_access); // Release semaphore
+
 
             // Child process: Execute visitor.c
             char customer_id[10];
@@ -51,13 +62,13 @@ int main(int argc, char *argv[]) {
 
             // If execvp fails
             perror("execvp");
-            exit(EXIT_FAILURE);
+            exit(0);
         } else if (pid < 0) {
             perror("fork");
-            exit(EXIT_FAILURE);
+            exit(0);
         }
 
-        usleep(rand() % (2 * 1000)); // Simulate staggered customer arrivals
+        usleep(rand() % (1000 * 300)); // Simulate staggered customer arrival
     }
 
     // Wait for all child processes to finish
@@ -68,9 +79,11 @@ int main(int argc, char *argv[]) {
     // Clean up shared memory
     if (munmap(sharedState, sizeof(SharedMemoryStruct)) == -1) {
         perror("munmap");
+        exit(0);
     }
     if (shm_unlink(MEMORY_NAME) == -1) {
         perror("shm_unlink");
+        exit(0);
     }
 
     return 0;
