@@ -10,11 +10,10 @@
 #include <stdbool.h>
 #include <semaphore.h>
 
-#define MAX_VISITORS 20 
+#define MAX_VISITORS 15
 #define NUM_TABLES 3
 #define NUM_CHAIRS 4
 
-#define MEMORY_NAME "/path_to_nemea"
 
 //Struct for the statistics of the bar 
 typedef struct
@@ -40,7 +39,6 @@ typedef struct
     int tail;
     int count;
     sem_t position_sem[MAX_VISITORS];
-    sem_t buffer_access; 
 
 }WaitingBuffer;
 
@@ -67,13 +65,13 @@ typedef struct {
     Table table[NUM_TABLES];
     sem_t mutex_access;
     sem_t receptionist_access;
-    
+    sem_t buffer_access; 
 
 } SharedMemoryStruct;
 
 
-void initBuffer(WaitingBuffer *cb);
-bool isFull(WaitingBuffer *cb);
-bool isEmpty(WaitingBuffer *cb);
-bool dequeue(WaitingBuffer *cb, int *value);
-bool enqueue(WaitingBuffer *cb, int value);
+void initBuffer(WaitingBuffer *cb,SharedMemoryStruct *sharedState);
+bool isFull(WaitingBuffer *cb,SharedMemoryStruct *sharedState);
+bool isEmpty(WaitingBuffer *cb,SharedMemoryStruct *sharedState);
+bool dequeue(WaitingBuffer *cb,SharedMemoryStruct *sharedState, int *value);
+bool enqueue(WaitingBuffer *cb,SharedMemoryStruct *sharedState, int value);

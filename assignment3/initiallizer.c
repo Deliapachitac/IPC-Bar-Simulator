@@ -1,10 +1,31 @@
 #include "segment.h"
 
 int main(int argc, char *argv[]) {
-    srand(time(0));
+
+    int resttime ,ordertime;
+    char shmname[50];
+    if(argc!=7){
+        printf("Incorrect input command line\n");
+        exit(0);
+    }  
+    for (int i = 1; i < argc; i++) {
+        if (strcmp(argv[i], "-v") == 0 && i + 1 < argc) {
+            i++;
+            resttime = atoi(argv[i]);
+        } else if (strcmp(argv[i], "-s") == 0 && i + 1 < argc) {
+            i++;
+            strcpy(shmname, argv[i]);
+        }else if (strcmp(argv[i], "-r") == 0 && i + 1 < argc) {
+            i++;
+            ordertime = atoi(argv[i]);
+        } else {
+            printf("Unknown flag : %s\n", argv[i]);
+            exit(0);
+        }
+    }
 
     // Create a POSIX shared memory
-    int shm_fd = shm_open(MEMORY_NAME, O_CREAT | O_RDWR, 0666);
+    int shm_fd = shm_open(shmname, O_CREAT | O_RDWR, 0666);
     if (shm_fd == -1) {
         perror("shm_open");
         exit(0);
@@ -31,44 +52,46 @@ int main(int argc, char *argv[]) {
             sharedState->table[i].chairs[j] = 0; // Empty chairs
         }
     }
-    initBuffer(&sharedState->customerQueue);
+    initBuffer(&sharedState->customerQueue,sharedState);
 
 
-    //
-    int num_customers = 20; 
+    // Initialize the semaphore
+    if (sem_init(&sharedState->buffer_access, 1, 1) == -1) { // Shared semaphore
+        perror("sem_init");
+        exit(1);
+    }
+
+    int num_customers = 15;
     for (int i = 0; i < num_customers; i++) {
         pid_t pid = fork();
         if (pid == 0) {
-
-
             // Child process
-            sem_wait(&sharedState->customerQueue.buffer_access); // Wait for buffer access
+            // sem_wait(&sharedState->customerQueue.buffer_access); // Wait for buffer access
 
-            if (!enqueue(&sharedState->customerQueue, i)) {
-                printf("Customer %d: Could not join the queue, leaving...\n", i);
-                sem_post(&sharedState->customerQueue.buffer_access); // Release semaphore
-                exit(1);
-            }
+            printf("Child process: the i is %d\n", i);
 
-            sem_post(&sharedState->customerQueue.buffer_access); // Release semaphore
+            // if (!enqueue(&sharedState->customerQueue,sharedState, i)) {
+            //     printf("Customer %d: Could not join the queue, leaving...\n", i);
+            //     sem_post(&sharedState->buffer_access); // Release semaphore
+            //     exit(1);
+            // }
 
+            // sem_post(&sharedState->customerQueue.buffer_access); // Release semaphore
 
-            // Child process: Execute visitor.c
-            char customer_id[10];
-            sprintf(customer_id, "%d", i);
+            // Execute visitor.c
+            char visitor_resttime[10];
+            sprintf(visitor_resttime, "%d", resttime);
 
-            char *args[] = {"./visitor", customer_id, NULL};
+            char *args[] = {"./visitor", "-d",visitor_resttime,"-s",shmname, NULL};
             execvp(args[0], args);
 
             // If execvp fails
             perror("execvp");
-            exit(0);
+            exit(1);
         } else if (pid < 0) {
             perror("fork");
-            exit(0);
+            exit(1);
         }
-
-        usleep(rand() % (1000 * 300)); // Simulate staggered customer arrival
     }
 
     // Wait for all child processes to finish
@@ -81,7 +104,7 @@ int main(int argc, char *argv[]) {
         perror("munmap");
         exit(0);
     }
-    if (shm_unlink(MEMORY_NAME) == -1) {
+    if (shm_unlink(shmname) == -1) {
         perror("shm_unlink");
         exit(0);
     }

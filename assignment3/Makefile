@@ -28,6 +28,9 @@ $(VISITOR): visitor.c
 $(INITIALLIZER): initiallizer.c
 	$(CC) $(CFLAGS) -o $(INITIALLIZER) initiallizer.c segment.c $(CLIBS) 
 
+run:
+	./initiallizer -v 30 -r 20 -s /path_to_nemea
+
 # Clean up build files
 clean:
 	rm -f $(RECEPTIONIST) $(MONITOR) $(VISITOR) $(INITIALLIZER)
