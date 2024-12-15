@@ -73,7 +73,5 @@ typedef struct {
 
 
 void initBuffer(WaitingBuffer *cb,SharedMemoryStruct *sharedState);
-// bool isFull(WaitingBuffer *cb,SharedMemoryStruct *sharedState);
-// bool isEmpty(WaitingBuffer *cb,SharedMemoryStruct *sharedState);
 bool dequeue(WaitingBuffer *cb,int *value);
 bool enqueue(WaitingBuffer *cb, int value);

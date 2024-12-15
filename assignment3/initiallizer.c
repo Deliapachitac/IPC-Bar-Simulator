@@ -56,7 +56,7 @@ int main(int argc, char *argv[]) {
 
 
     // Initialize the semaphore
-    if (sem_init(&sharedState->buffer_access, 1, 1) == -1) { // Shared semaphore
+    if (sem_init(&sharedState->waiting_buffer_access, 1, 1) == -1) { // Shared semaphore
         perror("sem_init");
         exit(1);
     }
