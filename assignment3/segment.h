@@ -10,7 +10,7 @@
 #include <stdbool.h>
 #include <semaphore.h>
 
-#define MAX_VISITORS 15
+#define MAX_VISITORS 20
 #define NUM_TABLES 3
 #define NUM_CHAIRS 4
 
@@ -47,6 +47,7 @@ typedef struct
     bool full;
     pid_t chairs[NUM_CHAIRS];//who sits where
     int full_chairs; //how many chairs are full in the table 
+    sem_t table_sem;
 }Table;
 
 typedef struct 
@@ -59,19 +60,20 @@ typedef struct
 }OrderBuffer;
 
 typedef struct {
-    int available[NUM_TABLES]; // Array to track availability of tables
-    WaitingBuffer customerQueue; // 
+    WaitingBuffer customerQueue;  
+    sem_t waiting_buffer_access; 
     Stats statistics;
     Table table[NUM_TABLES];
+
     sem_t mutex_access;
     sem_t receptionist_access;
-    sem_t buffer_access; 
+    
 
 } SharedMemoryStruct;
 
 
 void initBuffer(WaitingBuffer *cb,SharedMemoryStruct *sharedState);
-bool isFull(WaitingBuffer *cb,SharedMemoryStruct *sharedState);
-bool isEmpty(WaitingBuffer *cb,SharedMemoryStruct *sharedState);
-bool dequeue(WaitingBuffer *cb,SharedMemoryStruct *sharedState, int *value);
-bool enqueue(WaitingBuffer *cb,SharedMemoryStruct *sharedState, int value);
+// bool isFull(WaitingBuffer *cb,SharedMemoryStruct *sharedState);
+// bool isEmpty(WaitingBuffer *cb,SharedMemoryStruct *sharedState);
+bool dequeue(WaitingBuffer *cb,int *value);
+bool enqueue(WaitingBuffer *cb, int value);

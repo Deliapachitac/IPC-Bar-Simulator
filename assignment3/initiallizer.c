@@ -61,7 +61,7 @@ int main(int argc, char *argv[]) {
         exit(1);
     }
 
-    int num_customers = 15;
+    int num_customers = 20;
     for (int i = 0; i < num_customers; i++) {
         pid_t pid = fork();
         if (pid == 0) {
