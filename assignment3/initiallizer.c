@@ -53,6 +53,7 @@ int main(int argc, char *argv[]) {
         }
         sem_init(&sharedState->table[i].table_sem, 1, 1);
     }
+    sem_init(&sharedState->total_table_sem, 1, 0);
 
     //Initialize the waiting buffer
     initBuffer(&sharedState->customerQueue,sharedState);
@@ -111,6 +112,7 @@ int main(int argc, char *argv[]) {
     sem_destroy(&sharedState->mutex_buffer);
     sem_destroy(&sharedState->mutex_access);
     sem_destroy(&sharedState->receptionist_access);
+    sem_destroy(&sharedState->total_table_sem);
     for (int i = 0; i < NUM_TABLES; i++)
     {
         sem_destroy(&sharedState->table[i].table_sem);  

@@ -59,6 +59,7 @@ int main(int argc, char *argv[]) {
 
         if (!sharedState->table[i].full) {
 
+            // Try to find an empty chair at the table
             int j;
             for ( j = 0; j < NUM_CHAIRS; j++)
             {
@@ -73,6 +74,7 @@ int main(int argc, char *argv[]) {
             sharedState->table[i].full_chairs++;
             table_found = true;
 
+            // Mark the table as full if all chairs are occupied
             if(sharedState->table[i].full_chairs == NUM_CHAIRS){
                 sharedState->table[i].full = true;
             }
@@ -83,7 +85,7 @@ int main(int argc, char *argv[]) {
             // Simulate dining time for a random duration between [0.70 * resttime , resttime]
             int min_dining_time = (int)(0.7 * resttime);
             int random_dining_time = min_dining_time + rand() % (resttime - min_dining_time + 1);
-            printf("Customer %d is dining for %d seconds\n", dequeued_customer, random_dining_time);    
+            // printf("Customer %d is dining for %d seconds\n", dequeued_customer, random_dining_time);    
             sleep(random_dining_time);
 
 
@@ -92,13 +94,22 @@ int main(int argc, char *argv[]) {
             {
                 sharedState->table[i].full_chairs--; 
             }
-            sharedState->table[i].full = true;
             sharedState->table[i].chairs[j] = 0;
-            
+            // If all chairs are empty, mark the table as not full
+            if (sharedState->table[i].full_chairs == 0) {
+                sharedState->table[i].full = false;
+            }
             printf("Customer %d left Table %d from chair %d\n", dequeued_customer, i ,j);
+            sem_post(&sharedState->total_table_sem);
+            break;
 
-
+        }else if (sharedState->table[i].full && i==NUM_TABLES-1)
+        {
+            printf("Customer %d: No tables available. Waiting...\n", dequeued_customer);
+            sem_wait(&sharedState->total_table_sem);
+            i = -1;
         }
+        
         if (table_found) {
             break;
         }

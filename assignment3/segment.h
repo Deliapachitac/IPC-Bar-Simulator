@@ -68,7 +68,7 @@ typedef struct {
     sem_t mutex_access; // Semaphore for mutual exclusion of shared memory 
     
     Table table[NUM_TABLES];
-
+    sem_t total_table_sem;
     
     sem_t receptionist_access;
     
