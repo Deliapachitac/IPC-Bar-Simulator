@@ -44,39 +44,47 @@ int main(int argc, char *argv[]) {
         exit(0);
     }
 
-    // Initialize shared memory structures
+    // Initialize the tables structs
     for (int i = 0; i < NUM_TABLES; i++) {
-        sharedState->table[i].full = false;
-        sharedState->table[i].full_chairs = 0;
+        sharedState->table[i].full = false; // Empty table
+        sharedState->table[i].full_chairs = 0; // Empty chairs
         for (int j = 0; j < NUM_CHAIRS; j++) {
-            sharedState->table[i].chairs[j] = 0; // Empty chairs
+            sharedState->table[i].chairs[j] = 0; // No one is sitting
         }
+        sem_init(&sharedState->table[i].table_sem, 1, 1);
     }
+
+    //Initialize the waiting buffer
     initBuffer(&sharedState->customerQueue,sharedState);
 
+    // Initialize all the semaphores
+    sem_init(&sharedState->empty_buffer , 1, MAX_VISITORS-1);
+    sem_init(&sharedState->full_buffer , 1, 0);
+    sem_init(&sharedState->mutex_buffer , 1, 1);
 
-    // Initialize the semaphore
-    if (sem_init(&sharedState->waiting_buffer_access, 1, 1) == -1) { // Shared semaphore
-        perror("sem_init");
-        exit(1);
-    }
+    //
+    sem_init(&sharedState->mutex_access, 1, 1);
+    sem_init(&sharedState->receptionist_access, 1, 1);
 
+    // Initialize all the varibles in  statistics struct
+    sharedState->statistics.avarage_staying_time = 0;
+    sharedState->statistics.avarage_waiting_time = 0;
+    sharedState->statistics.counter_cheese = 0;
+    sharedState->statistics.counter_salad = 0;
+    sharedState->statistics.counter_water = 0;
+    sharedState->statistics.counter_wine = 0;
+    sharedState->statistics.total_visitors = 0;
+    sharedState->statistics.total_staying_time = 0;
+    sharedState->statistics.total_waiting_time = 0;
+    
+
+    // Create child processes
     int num_customers = 20;
     for (int i = 0; i < num_customers; i++) {
         pid_t pid = fork();
         if (pid == 0) {
-            // Child process
-            // sem_wait(&sharedState->customerQueue.buffer_access); // Wait for buffer access
-
+            
             printf("Child process: the i is %d\n", i);
-
-            // if (!enqueue(&sharedState->customerQueue,sharedState, i)) {
-            //     printf("Customer %d: Could not join the queue, leaving...\n", i);
-            //     sem_post(&sharedState->buffer_access); // Release semaphore
-            //     exit(1);
-            // }
-
-            // sem_post(&sharedState->customerQueue.buffer_access); // Release semaphore
 
             // Execute visitor.c
             char visitor_resttime[10];
@@ -98,6 +106,22 @@ int main(int argc, char *argv[]) {
     for (int i = 0; i < num_customers; i++) {
         wait(NULL);
     }
+
+    // Destroy the semaphores
+    sem_destroy(&sharedState->empty_buffer);
+    sem_destroy(&sharedState->full_buffer);
+    sem_destroy(&sharedState->mutex_buffer);
+    sem_destroy(&sharedState->mutex_access);
+    sem_destroy(&sharedState->receptionist_access);
+    for (int i = 0; i < NUM_TABLES; i++)
+    {
+        sem_destroy(&sharedState->table[i].table_sem);  
+    }
+    
+
+    // Clean up the waiting buffer
+    cleanupBuffer(&sharedState->customerQueue);
+
 
     // Clean up shared memory
     if (munmap(sharedState, sizeof(SharedMemoryStruct)) == -1) {

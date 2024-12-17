@@ -4,9 +4,7 @@
 void initBuffer(WaitingBuffer *cb,SharedMemoryStruct *sharedState ) {
     cb->head = 0;
     cb->tail = 0;
-    cb->count = 0;
-    sem_init(&sharedState->waiting_buffer_access , 1, 1); // Shared semaphore (pshared = 1)
-
+    
     // Initialize position semaphores
     for (int i = 0; i < MAX_VISITORS; i++) {
         sem_init(&cb->position_sem[i], 1, 1);
@@ -52,9 +50,8 @@ bool dequeue(WaitingBuffer *cb, int *value) {
     return true;
 }
 
-void cleanupBuffer(WaitingBuffer *cb,SharedMemoryStruct *sharedState ) {
-    sem_destroy(&sharedState->waiting_buffer_access);
-
+void cleanupBuffer(WaitingBuffer *cb ) {
+   
     for (int i = 0; i < MAX_VISITORS; i++) {
         sem_destroy(&cb->position_sem[i]);
     }

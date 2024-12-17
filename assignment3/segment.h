@@ -37,7 +37,6 @@ typedef struct
     pid_t waiting_buffer[MAX_VISITORS];
     int head;
     int tail;
-    int count;
     sem_t position_sem[MAX_VISITORS];
 
 }WaitingBuffer;
@@ -55,17 +54,22 @@ typedef struct
     int order_buffer[NUM_CHAIRS*NUM_TABLES];
     int head;
     int tail;
-    int count;
     sem_t chair_sem[NUM_CHAIRS*NUM_TABLES];
 }OrderBuffer;
 
 typedef struct {
     WaitingBuffer customerQueue;  
-    sem_t waiting_buffer_access; 
+    sem_t mutex_buffer; // Semaphore for mutual exclusion of the buffer
+    sem_t full_buffer; // Semaphore for full buffer
+    sem_t empty_buffer; // Semaphore for empty buffer
+
+
     Stats statistics;
+    sem_t mutex_access; // Semaphore for mutual exclusion of shared memory 
+    
     Table table[NUM_TABLES];
 
-    sem_t mutex_access;
+    
     sem_t receptionist_access;
     
 
@@ -75,3 +79,4 @@ typedef struct {
 void initBuffer(WaitingBuffer *cb,SharedMemoryStruct *sharedState);
 bool dequeue(WaitingBuffer *cb,int *value);
 bool enqueue(WaitingBuffer *cb, int value);
+void cleanupBuffer(WaitingBuffer *cb );

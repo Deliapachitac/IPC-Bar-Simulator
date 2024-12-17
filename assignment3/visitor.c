@@ -35,59 +35,76 @@ int main(int argc, char *argv[]) {
         exit(EXIT_FAILURE);
     }
     
-    sem_wait(&sharedState->waiting_buffer_access); // Wait for access to the buffer
-    if (!enqueue(&sharedState->customerQueue, getpid()%2078800)) {
-        printf("Customer %d: Could not join the queue, leaving...\n", getpid()%2077800);
-        sem_post(&sharedState->waiting_buffer_access); // Release semaphore
-        exit(1);
-    }
-    sem_post(&sharedState->waiting_buffer_access); // Release the semaphore
+    // Simulate customer behavior
+    sem_wait(&sharedState->empty_buffer); // Wait for access to the buffer
+    sem_wait(&sharedState->mutex_buffer); // Synchronize access to the buffer
+    enqueue(&sharedState->customerQueue, getpid());
+    sem_post(&sharedState->mutex_buffer); // Release access to the buffer
+    sem_post(&sharedState->full_buffer); // Signal that the buffer is full
     
-    while (true) {
-        int dequeued_customer;
-        sem_wait(&sharedState->waiting_buffer_access); // Synchronize access to the buffer
-        if (!dequeue(&sharedState->customerQueue, &dequeued_customer)){
-            sem_post(&sharedState->waiting_buffer_access); // Release the semaphore
+    
+    int dequeued_customer;
+    sem_wait(&sharedState->full_buffer); // Synchronize access to the buffer
+    sem_wait(&sharedState->mutex_buffer); // Wait for access to the buffer
+    dequeue(&sharedState->customerQueue, &dequeued_customer);
+    sharedState->statistics.total_visitors++;
+    sem_post(&sharedState->mutex_buffer); // Release access to the buffer
+    sem_post(&sharedState->empty_buffer); // Release access to the buffer
+
+    printf("Customer %d: Looking for a table...\n", dequeued_customer);
+    bool table_found = false;
+
+    for (int i = 0; i < NUM_TABLES; i++) {
+
+
+        if (!sharedState->table[i].full) {
+
+            int j;
+            for ( j = 0; j < NUM_CHAIRS; j++)
+            {
+                if (sharedState->table[i].chairs[j] == 0)
+                {
+                    sharedState->table[i].chairs[j] = dequeued_customer;
+                    printf("Customer %d sat at Table %d at chair %d\n", dequeued_customer, i,j);
+                    break;
+                }
+            }
+
+            sharedState->table[i].full_chairs++;
+            table_found = true;
+
+            if(sharedState->table[i].full_chairs == NUM_CHAIRS){
+                sharedState->table[i].full = true;
+            }
+           
+
+            // Seed the random number generator
+            srand(time(NULL));
+            // Simulate dining time for a random duration between 0.70 * resttime and resttime
+            int min_dining_time = (int)(0.70 * resttime);
+            int random_dining_time = min_dining_time + rand() % (resttime - min_dining_time + 1);
+            sleep(random_dining_time);
+
+
+            // Customer leaves the table
+            if (sharedState->table[i].full_chairs > 0)
+            {
+                sharedState->table[i].full_chairs--; 
+            }
+            sharedState->table[i].full = true;
+            sharedState->table[i].chairs[j] = 0;
+            
+            printf("Customer %d left Table %d from chair %d\n", dequeued_customer, i ,j);
+
+
+        }
+        if (table_found) {
             break;
         }
-        sem_post(&sharedState->waiting_buffer_access); // Release the semaphore
-
-        printf("Customer %d: Looking for a table...\n", dequeued_customer);
-        usleep(rand() % (3 * 1000));
-
-        bool found_table = false;
-
-        for (int i = 0; i < NUM_TABLES; i++) {
-
-            // sem_wait(&sharedState->table[i].table_sem);
-            if (!sharedState->table[i].full) {
-                sharedState->table[i].full = true;
-                sharedState->table[i].chairs[0] = dequeued_customer;
-                sharedState->table[i].full_chairs++;
-                printf("Customer %d sat at Table %d\n", dequeued_customer, i + 1);
-                found_table = true;
-
-                // Simulate dining time
-                usleep(resttime * 1000);
-
-                sharedState->table[i].chairs[--sharedState->table[i].full_chairs] = 0;
-                if (sharedState->table[i].full_chairs == 0) {
-                    sharedState->table[i].full = false;
-                }
-
-                printf("Customer %d left Table %d\n", dequeued_customer, i + 1);
-                // sem_post(&sharedState->table[i].table_sem);
-                break;
-            }
-            // sem_post(&sharedState->table[i].table_sem);
-        }
-         if (!found_table) {
-            printf("Customer %d: Could not find a table, leaving...\n", dequeued_customer);
-        }
-
-        break;
     }
+    
 
+   
     // Clean up
     if (munmap(sharedState, sizeof(SharedMemoryStruct)) == -1) {
         perror("munmap");
