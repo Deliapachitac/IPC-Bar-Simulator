@@ -79,10 +79,11 @@ int main(int argc, char *argv[]) {
            
 
             // Seed the random number generator
-            srand(time(NULL));
-            // Simulate dining time for a random duration between 0.70 * resttime and resttime
-            int min_dining_time = (int)(0.70 * resttime);
+            srand(time(NULL)^ getpid());
+            // Simulate dining time for a random duration between [0.70 * resttime , resttime]
+            int min_dining_time = (int)(0.7 * resttime);
             int random_dining_time = min_dining_time + rand() % (resttime - min_dining_time + 1);
+            printf("Customer %d is dining for %d seconds\n", dequeued_customer, random_dining_time);    
             sleep(random_dining_time);
 
 

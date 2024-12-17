@@ -83,8 +83,6 @@ int main(int argc, char *argv[]) {
     for (int i = 0; i < num_customers; i++) {
         pid_t pid = fork();
         if (pid == 0) {
-            
-            printf("Child process: the i is %d\n", i);
 
             // Execute visitor.c
             char visitor_resttime[10];
