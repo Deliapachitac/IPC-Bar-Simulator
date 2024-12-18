@@ -84,7 +84,6 @@ int main(int argc, char *argv[]) {
     sem_post(&sharedState->full_buffer); // Signal that the buffer is full
     
     
-
     int dequeued_customer;
     sem_wait(&sharedState->full_buffer); // Synchronize access to the buffer
     sem_wait(&sharedState->mutex_buffer); // Wait for access to the buffer
@@ -122,11 +121,13 @@ int main(int argc, char *argv[]) {
             }
             
             Order order = generateRandomOrder();
-            printf("Order: Water=%d, Wine=%d, Cheese=%d, Salad=%d\n", order.water, order.wine, order.cheese, order.salad);
+            // printf("Order: Water=%d, Wine=%d, Cheese=%d, Salad=%d\n", order.water, order.wine, order.cheese, order.salad);
             sharedState->statistics.counter_water += order.water;
             sharedState->statistics.counter_wine += order.wine;
             sharedState->statistics.counter_cheese += order.cheese;
             sharedState->statistics.counter_salad += order.salad;
+
+            
 
             // Seed the random number generator
             srand(time(NULL)^ getpid());

@@ -46,12 +46,12 @@ typedef struct
     bool full;
     pid_t chairs[NUM_CHAIRS];//who sits where
     int full_chairs; //how many chairs are full in the table 
-    sem_t table_sem; 
+    // sem_t table_sem; 
 }Table;
 
 typedef struct 
 {
-    int order_buffer[NUM_CHAIRS*NUM_TABLES];
+    pid_t order_buffer[NUM_CHAIRS*NUM_TABLES];
     int head;
     int tail;
     sem_t chair_sem[NUM_CHAIRS*NUM_TABLES];
@@ -82,7 +82,12 @@ typedef struct {
 } SharedMemoryStruct;
 
 
-void initBuffer(WaitingBuffer *cb,SharedMemoryStruct *sharedState);
+void initBuffer(WaitingBuffer *cb);
 bool dequeue(WaitingBuffer *cb,int *value);
 bool enqueue(WaitingBuffer *cb, int value);
 void cleanupBuffer(WaitingBuffer *cb );
+
+void initOrderBuffer(OrderBuffer *ob);
+bool enqueueOrder(OrderBuffer *ob, int value);
+bool dequeueOrder(OrderBuffer *ob, int *value);
+void cleanupOrderBuffer(OrderBuffer *ob);

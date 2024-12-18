@@ -52,12 +52,13 @@ int main(int argc, char *argv[]) {
         for (int j = 0; j < NUM_CHAIRS; j++) {
             sharedState->table[i].chairs[j] = 0; // No one is sitting
         }
-        sem_init(&sharedState->table[i].table_sem, 1, 1);
+        // sem_init(&sharedState->table[i].table_sem, 1, 1);
     }
     sem_init(&sharedState->total_table_sem, 1, 0);
 
     //Initialize the waiting buffer
-    initBuffer(&sharedState->customerQueue,sharedState);
+    initBuffer(&sharedState->customerQueue);
+    initOrderBuffer(&sharedState->order_Buffer);
 
     // Initialize all the semaphores
     sem_init(&sharedState->empty_buffer , 1, MAX_VISITORS-1);
@@ -80,21 +81,21 @@ int main(int argc, char *argv[]) {
     sharedState->statistics.total_waiting_time = 0;
     
     // //Create the receptionist process
-    // pid_t receptionist_pid = fork();
-    // if (receptionist_pid == 0) {
-    //     char receptionist_ordertime[10];
-    //     sprintf(receptionist_ordertime, "%d", ordertime);
+    pid_t receptionist_pid = fork();
+    if (receptionist_pid == 0) {
+        char receptionist_ordertime[10];
+        sprintf(receptionist_ordertime, "%d", ordertime);
 
-    //     char *args[] = {"./receptionist", "-d",receptionist_ordertime,"-s",shmname, NULL};
-    //     execvp(args[0], args);
+        char *args[] = {"./receptionist", "-d",receptionist_ordertime,"-s",shmname, NULL};
+        execvp(args[0], args);
 
-    //     // If execvp fails
-    //     perror("execvp");
-    //     exit(1);
-    // } else if (receptionist_pid < 0) {
-    //     perror("fork");
-    //     exit(1);
-    // }
+        // If execvp fails
+        perror("execvp");
+        exit(1);
+    } else if (receptionist_pid < 0) {
+        perror("fork");
+        exit(1);
+    }
 
     // Create child processes
     int num_customers = 20;
@@ -132,13 +133,13 @@ int main(int argc, char *argv[]) {
     sem_destroy(&sharedState->total_table_sem);
     for (int i = 0; i < NUM_TABLES; i++)
     {
-        sem_destroy(&sharedState->table[i].table_sem);  
+        // sem_destroy(&sharedState->table[i].table_sem);  
     }
     
 
     // Clean up the waiting buffer
     cleanupBuffer(&sharedState->customerQueue);
-
+    cleanupOrderBuffer(&sharedState->order_Buffer);
 
     // Clean up shared memory
     if (munmap(sharedState, sizeof(SharedMemoryStruct)) == -1) {
