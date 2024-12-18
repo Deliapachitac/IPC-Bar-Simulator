@@ -44,6 +44,7 @@ int main(int argc, char *argv[]) {
         exit(0);
     }
 
+
     // Initialize the tables structs
     for (int i = 0; i < NUM_TABLES; i++) {
         sharedState->table[i].full = false; // Empty table
@@ -78,6 +79,22 @@ int main(int argc, char *argv[]) {
     sharedState->statistics.total_staying_time = 0;
     sharedState->statistics.total_waiting_time = 0;
     
+    // //Create the receptionist process
+    // pid_t receptionist_pid = fork();
+    // if (receptionist_pid == 0) {
+    //     char receptionist_ordertime[10];
+    //     sprintf(receptionist_ordertime, "%d", ordertime);
+
+    //     char *args[] = {"./receptionist", "-d",receptionist_ordertime,"-s",shmname, NULL};
+    //     execvp(args[0], args);
+
+    //     // If execvp fails
+    //     perror("execvp");
+    //     exit(1);
+    // } else if (receptionist_pid < 0) {
+    //     perror("fork");
+    //     exit(1);
+    // }
 
     // Create child processes
     int num_customers = 20;

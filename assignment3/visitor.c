@@ -43,6 +43,7 @@ int main(int argc, char *argv[]) {
     sem_post(&sharedState->full_buffer); // Signal that the buffer is full
     
     
+
     int dequeued_customer;
     sem_wait(&sharedState->full_buffer); // Synchronize access to the buffer
     sem_wait(&sharedState->mutex_buffer); // Wait for access to the buffer
@@ -53,9 +54,9 @@ int main(int argc, char *argv[]) {
 
     printf("Customer %d: Looking for a table...\n", dequeued_customer);
     bool table_found = false;
-
+    //if the monitor wants to use the shared memory it should wait until the visitor is done
+    // sem_wait(&sharedState->mutex_access);
     for (int i = 0; i < NUM_TABLES; i++) {
-
 
         if (!sharedState->table[i].full) {
 
@@ -96,11 +97,12 @@ int main(int argc, char *argv[]) {
             }
             sharedState->table[i].chairs[j] = 0;
             // If all chairs are empty, mark the table as not full
-            if (sharedState->table[i].full_chairs == 0) {
+            if (sharedState->table[i].full_chairs == 0 ) {
                 sharedState->table[i].full = false;
+                sem_post(&sharedState->total_table_sem);
             }
             printf("Customer %d left Table %d from chair %d\n", dequeued_customer, i ,j);
-            sem_post(&sharedState->total_table_sem);
+            
             break;
 
         }else if (sharedState->table[i].full && i==NUM_TABLES-1)
@@ -111,10 +113,12 @@ int main(int argc, char *argv[]) {
         }
         
         if (table_found) {
+            
             break;
         }
     }
-    
+    //monitor access to the shared memory
+    // sem_post(&sharedState->mutex_access);
 
    
     // Clean up
