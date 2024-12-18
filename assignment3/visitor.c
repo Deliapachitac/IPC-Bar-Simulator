@@ -1,5 +1,46 @@
 #include "segment.h"
 
+Order generateRandomOrder() {
+    Order order;
+    order.water = 0;
+    order.wine = 0;
+    order.cheese = 0;
+    order.salad = 0;
+
+    // Initialize random number generator
+    srand(time(NULL)^getpid());
+
+    // Randomly generate order
+    // Randomly choose water or wine (or both)
+    if (rand() % 2) {
+        order.water = 1;
+    }
+    if (rand() % 2) {
+        order.wine = 1;
+    }
+    // Ensure at least one drink is chosen
+    if (order.water == 0 && order.wine == 0) {
+        if (rand() % 2) {
+            order.water = 1;
+        } else {
+            order.wine = 1;
+        }
+    }
+
+    // Randomly choose cheese (optional)
+    if (rand() % 2) {
+        order.cheese = 1;
+    }
+
+    // Randomly choose salad (optional)
+    if (rand() % 2) {
+        order.salad = 1;
+    }
+
+    return order;
+}
+
+
 int main(int argc, char *argv[]) {
     
     int resttime ;
@@ -79,7 +120,13 @@ int main(int argc, char *argv[]) {
             if(sharedState->table[i].full_chairs == NUM_CHAIRS){
                 sharedState->table[i].full = true;
             }
-           
+            
+            Order order = generateRandomOrder();
+            printf("Order: Water=%d, Wine=%d, Cheese=%d, Salad=%d\n", order.water, order.wine, order.cheese, order.salad);
+            sharedState->statistics.counter_water += order.water;
+            sharedState->statistics.counter_wine += order.wine;
+            sharedState->statistics.counter_cheese += order.cheese;
+            sharedState->statistics.counter_salad += order.salad;
 
             // Seed the random number generator
             srand(time(NULL)^ getpid());
