@@ -10,7 +10,7 @@
 #include <stdbool.h>
 #include <semaphore.h>
 
-#define MAX_VISITORS 20
+#define MAX_VISITORS 50
 #define NUM_TABLES 3
 #define NUM_CHAIRS 4
 
@@ -83,9 +83,10 @@ typedef struct {
 
 
 void initBuffer(WaitingBuffer *cb);
-bool dequeue(WaitingBuffer *cb,int *value);
-bool enqueue(WaitingBuffer *cb, int value);
+void enqueue(SharedMemoryStruct *sharedMemory, pid_t value);
+void dequeue(SharedMemoryStruct *sharedMemory, pid_t *value);
 void cleanupBuffer(WaitingBuffer *cb );
+void displayBuffer(WaitingBuffer *cb);
 
 void initOrderBuffer(OrderBuffer *ob);
 bool enqueueOrder(OrderBuffer *ob, int value);

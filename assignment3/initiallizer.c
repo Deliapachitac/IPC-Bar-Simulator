@@ -63,7 +63,7 @@ int main(int argc, char *argv[]) {
     // Initialize all the semaphores
     sem_init(&sharedState->empty_buffer , 1, MAX_VISITORS-1);
     sem_init(&sharedState->full_buffer , 1, 0);
-    sem_init(&sharedState->mutex_buffer , 1, 1);
+    sem_init(&sharedState->mutex_buffer , 1,1 );
 
     //
     sem_init(&sharedState->mutex_access, 1, 1);
@@ -97,8 +97,9 @@ int main(int argc, char *argv[]) {
         exit(1);
     }
 
+
     // Create child processes
-    int num_customers = 20;
+    int num_customers = 60;
     for (int i = 0; i < num_customers; i++) {
         pid_t pid = fork();
         if (pid == 0) {
