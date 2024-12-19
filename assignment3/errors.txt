@@ -1,94 +1,181 @@
-sdi2200125@linux19:~/Delis/assignment3$ make run
-./initiallizer -v 5 -r 6 -s /path_to_nemea
-Customer 3243283: Looking for a table...
-Customer 3243283 sat at Table 0 at chair 0
-Customer 3243288: Looking for a table...
-Customer 3243288 sat at Table 0 at chair 1
-Customer 3243284: Looking for a table...
-Customer 3243284 sat at Table 0 at chair 2
-Customer 3243287: Looking for a table...
-Customer 3243287 sat at Table 0 at chair 3
-Customer 3243282: Looking for a table...
-Customer 3243282 sat at Table 1 at chair 0
-Customer 3243285: Looking for a table...
-Customer 3243285 sat at Table 1 at chair 1
-Customer 3243281: Looking for a table...
-Customer 3243281 sat at Table 1 at chair 2
-Customer 3243291: Looking for a table...
-Customer 3243291 sat at Table 1 at chair 3
-Customer 3243289: Looking for a table...
-Customer 3243289 sat at Table 2 at chair 0
-Customer 3243279: Looking for a table...
-Customer 3243279 sat at Table 2 at chair 1
-Customer 3243286: Looking for a table...
-Customer 3243286 sat at Table 2 at chair 2
-Customer 3243308: Looking for a table...
-Customer 3243308 sat at Table 2 at chair 3
-Customer 3243294: Looking for a table...
-Customer 3243294: No tables available. Waiting...
-Customer 3243298: Looking for a table...
-Customer 3243298: No tables available. Waiting...
-Customer 3243304: Looking for a table...
-Customer 3243304: No tables available. Waiting...
-Customer 3243297: Looking for a table...
-Customer 3243302: Looking for a table...
-Customer 3243302: No tables available. Waiting...
-Customer 3243297: No tables available. Waiting...
-Customer 3243300: Looking for a table...
-Customer 3243300: No tables available. Waiting...
-Customer 3243295: Looking for a table...
-Customer 3243295: No tables available. Waiting...
-Customer 3243280: Looking for a table...
-Customer 3243280: No tables available. Waiting...
-Customer 3243296: Looking for a table...
-Customer 3243296: No tables available. Waiting...
-Customer 3243292: Looking for a table...
-Customer 3243292: No tables available. Waiting...
-Customer 3243290: Looking for a table...
-Customer 3243290: No tables available. Waiting...
-Customer 3243303: Looking for a table...
-Customer 3243303: No tables available. Waiting...
-Customer 3243293: Looking for a table...
-Customer 3243293: No tables available. Waiting...
-Customer 3243299: Looking for a table...
-Customer 3243299: No tables available. Waiting...
-Customer 3243301: Looking for a table...
-Customer 3243301: No tables available. Waiting...
-Customer 3243305: Looking for a table...
-Customer 3243305: No tables available. Waiting...
-Customer 3243306: Looking for a table...
-Customer 3243306: No tables available. Waiting...
-Customer 3243307: Looking for a table...
-Customer 3243307: No tables available. Waiting...
-Customer 3243283 left Table 0 from chair 0
-Customer 3243288 left Table 0 from chair 1
-Customer 3243284 left Table 0 from chair 2
-Customer 3243282 left Table 1 from chair 0
-Customer 3243291 left Table 1 from chair 3
-Customer 3243279 left Table 2 from chair 1
-Customer 3243287 left Table 0 from chair 3
-Customer 3243294 sat at Table 0 at chair 0
-Customer 3243285 left Table 1 from chair 1
-Customer 3243289 left Table 2 from chair 0
-Customer 3243286 left Table 2 from chair 2
-Customer 3243308 left Table 2 from chair 3
-Customer 3243298 sat at Table 0 at chair 1
-Customer 3243281 left Table 1 from chair 2
-Customer 3243302 sat at Table 0 at chair 2
-Customer 3243294 left Table 0 from chair 0
-Customer 3243298 left Table 0 from chair 1
-Customer 3243302 left Table 0 from chair 2
-Customer 3243297 sat at Table 0 at chair 0
-Customer 3243297 left Table 0 from chair 0
-Customer 3243300 sat at Table 0 at chair 0
-Customer 3243300 left Table 0 from chair 0
-Customer 3243295 sat at Table 0 at chair 0
-Customer 3243295 left Table 0 from chair 0
-Customer 3243280 sat at Table 0 at chair 0
-Customer 3243280 left Table 0 from chair 0
-Customer 3243296 sat at Table 0 at chair 0
-Customer 3243296 left Table 0 from chair 0
-The futex facility returned an unexpected error code.
-......
-
-
+Customer 32391: Looking for a table...
+Customer 32397: Looking for a table...
+Enqueued 32397 in slot 0
+Dequeued 32397 from slot 0
+Receptionist: Preparing order for visitor 32397
+Enqueued 32391 in slot 1
+Customer 32390: Looking for a table...
+Customer 32389: Looking for a table...
+Enqueued 32389 in slot 2
+Customer 32408: Looking for a table...
+Enqueued 32408 in slot 4
+Customer 32394: Looking for a table...
+Customer 32400: Looking for a table...
+Customer 32392: Looking for a table...
+Enqueued 32392 in slot 6
+Customer 32396: Looking for a table...
+Customer 32393: Looking for a table...
+Enqueued 32400 in slot 8
+Customer 32401: Looking for a table...
+Enqueued 32401 in slot 9
+Customer 32395: Looking for a table...
+Enqueued 32395 in slot 10
+Enqueued 32390 in slot 3
+Enqueued 32394 in slot 5
+Enqueued 32396 in slot 7
+Enqueued 32393 in slot 11
+Customer 32406: Looking for a table...
+Enqueued 32406 in slot 0
+Customer 32407: Looking for a table...
+Enqueued 32407 in slot 1
+Customer 32415: Looking for a table...
+Enqueued 32415 in slot 2
+Customer 32403: Looking for a table...
+Enqueued 32403 in slot 3
+Customer 32399: Looking for a table...
+Enqueued 32399 in slot 4
+Customer 32410: Looking for a table...
+Enqueued 32410 in slot 5
+Customer 32417: Looking for a table...
+Customer 32405: Looking for a table...
+Enqueued 32405 in slot 6
+Enqueued 32417 in slot 7
+Customer 32414: Looking for a table...
+Enqueued 32414 in slot 8
+Customer 32412: Looking for a table...
+Enqueued 32412 in slot 9
+Customer 32402: Looking for a table...
+Enqueued 32402 in slot 10
+Customer 32409: Looking for a table...
+Enqueued 32409 in slot 11
+Customer 32416: Looking for a table...
+Enqueued 32416 in slot 0
+Customer 32404: Looking for a table...
+Enqueued 32404 in slot 1
+Customer 32413: Looking for a table...
+Enqueued 32413 in slot 2
+Customer 32411: Looking for a table...
+Enqueued 32411 in slot 3
+Customer 32398: Looking for a table...
+Enqueued 32398 in slot 4
+Customer 32418: Looking for a table...
+Enqueued 32418 in slot 5
+Dequeued 32404 from slot 1
+Receptionist: Preparing order for visitor 32404
+Customer 32397 sat at Table 0 at chair 0
+Customer 32397 left Table 0 from chair 0
+Dequeued 32413 from slot 2
+Receptionist: Preparing order for visitor 32413
+Customer 32391 sat at Table 0 at chair 0
+Dequeued 32411 from slot 3
+Receptionist: Preparing order for visitor 32411
+Customer 32408 sat at Table 0 at chair 0
+Customer 32391 left Table 0 from chair 0
+Customer 32408 left Table 0 from chair 0
+Dequeued 32398 from slot 4
+Receptionist: Preparing order for visitor 32398
+Customer 32389 sat at Table 0 at chair 0
+Customer 32389 left Table 0 from chair 0
+Dequeued 32418 from slot 5
+Receptionist: Preparing order for visitor 32418
+Customer 32392 sat at Table 0 at chair 0
+Customer 32392 left Table 0 from chair 0
+Dequeued 32405 from slot 6
+Receptionist: Preparing order for visitor 32405
+Customer 32400 sat at Table 0 at chair 0
+Customer 32400 left Table 0 from chair 0
+Dequeued 32417 from slot 7
+Receptionist: Preparing order for visitor 32417
+Customer 32401 sat at Table 0 at chair 0
+Customer 32401 left Table 0 from chair 0
+Dequeued 32414 from slot 8
+Receptionist: Preparing order for visitor 32414
+Customer 32390 sat at Table 0 at chair 0
+Customer 32390 left Table 0 from chair 0
+Dequeued 32412 from slot 9
+Receptionist: Preparing order for visitor 32412
+Customer 32396 sat at Table 0 at chair 0
+Customer 32396 left Table 0 from chair 0
+Dequeued 32402 from slot 10
+Receptionist: Preparing order for visitor 32402
+Customer 32393 sat at Table 0 at chair 0
+Customer 32393 left Table 0 from chair 0
+Dequeued 32409 from slot 11
+Receptionist: Preparing order for visitor 32409
+Customer 32394 sat at Table 0 at chair 0
+Customer 32394 left Table 0 from chair 0
+Dequeued 32416 from slot 0
+Receptionist: Preparing order for visitor 32416
+Customer 32395 sat at Table 0 at chair 0
+Dequeued 32404 from slot 1
+Receptionist: Preparing order for visitor 32404
+Customer 32406 sat at Table 0 at chair 0
+Customer 32395 left Table 0 from chair 0
+Customer 32406 left Table 0 from chair 0
+Dequeued 32413 from slot 2
+Receptionist: Preparing order for visitor 32413
+Customer 32407 sat at Table 0 at chair 0
+Customer 32407 left Table 0 from chair 0
+Dequeued 32411 from slot 3
+Receptionist: Preparing order for visitor 32411
+Customer 32415 sat at Table 0 at chair 0
+Customer 32415 left Table 0 from chair 0
+Dequeued 32398 from slot 4
+Receptionist: Preparing order for visitor 32398
+Customer 32403 sat at Table 0 at chair 0
+Customer 32403 left Table 0 from chair 0
+Dequeued 32418 from slot 5
+Receptionist: Preparing order for visitor 32418
+Customer 32399 sat at Table 0 at chair 0
+Dequeued 32405 from slot 6
+Receptionist: Preparing order for visitor 32405
+Customer 32410 sat at Table 0 at chair 0
+Customer 32399 left Table 0 from chair 0
+Customer 32410 left Table 0 from chair 0
+Dequeued 32417 from slot 7
+Receptionist: Preparing order for visitor 32417
+Customer 32405 sat at Table 0 at chair 0
+Customer 32405 left Table 0 from chair 0
+Dequeued 32414 from slot 8
+Receptionist: Preparing order for visitor 32414
+Customer 32417 sat at Table 0 at chair 0
+Dequeued 32412 from slot 9
+Receptionist: Preparing order for visitor 32412
+Customer 32414 sat at Table 0 at chair 0
+Customer 32417 left Table 0 from chair 0
+Dequeued 32402 from slot 10
+Receptionist: Preparing order for visitor 32402
+Customer 32412 sat at Table 0 at chair 0
+Customer 32414 left Table 0 from chair 0
+Customer 32412 left Table 0 from chair 0
+Dequeued 32409 from slot 11
+Receptionist: Preparing order for visitor 32409
+Customer 32402 sat at Table 0 at chair 0
+Customer 32402 left Table 0 from chair 0
+Dequeued 32416 from slot 0
+Receptionist: Preparing order for visitor 32416
+Customer 32409 sat at Table 0 at chair 0
+Customer 32409 left Table 0 from chair 0
+Dequeued 32404 from slot 1
+Receptionist: Preparing order for visitor 32404
+Customer 32416 sat at Table 0 at chair 0
+Customer 32416 left Table 0 from chair 0
+Dequeued 32413 from slot 2
+Receptionist: Preparing order for visitor 32413
+Customer 32404 sat at Table 0 at chair 0
+Dequeued 32411 from slot 3
+Receptionist: Preparing order for visitor 32411
+Customer 32413 sat at Table 0 at chair 0
+Customer 32404 left Table 0 from chair 0
+Customer 32413 left Table 0 from chair 0
+Dequeued 32398 from slot 4
+Receptionist: Preparing order for visitor 32398
+Customer 32411 sat at Table 0 at chair 0
+Customer 32411 left Table 0 from chair 0
+Dequeued 32418 from slot 5
+Receptionist: Preparing order for visitor 32418
+Customer 32398 sat at Table 0 at chair 0
+Customer 32398 left Table 0 from chair 0
+Customer 32418 sat at Table 0 at chair 0
+Customer 32418 left Table 0 from chair 0
+^Cmake: *** [Makefile:32: run] Interrupt

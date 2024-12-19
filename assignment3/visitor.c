@@ -76,27 +76,9 @@ int main(int argc, char *argv[]) {
         exit(EXIT_FAILURE);
     }
     
-    // Simulate customer behavior
-    // printf("Customer %d: Arrived\n", getpid());
+    // 
     enqueue(sharedState, getpid());
     
-
-
-    // bool table_found = false;
-    // for (int i = 0; i < NUM_TABLES; i++) {
-
-    //     int dequeued_customer;
-    //     dequeue(sharedState, &dequeued_customer);
-    //     printf("Customer %d: Looking for a table...\n", dequeued_customer);
-    //     if ( dequeued_customer == -1) {
-    //         // No more customers to dequeue
-    //         // printf("No more customers to dequeue.\n");
-    //         break;
-    //     }
-    //     printf("Customer %d: Looking for a table... %d\n", dequeued_customer,i);
-
-    // }
-
 
     int dequeued_customer;
     dequeue(sharedState, &dequeued_customer);
@@ -105,36 +87,40 @@ int main(int argc, char *argv[]) {
 
     bool table_found = false;
     //if the monitor wants to use the shared memory it should wait until the visitor is done
-    // sem_wait(&sharedState->mutex_access);
+    
     for (int i = 0; i < NUM_TABLES; i++) {
 
         if (!sharedState->table[i].full) {
 
+            // sem_wait(&sharedState->mutex_access);
             // Try to find an empty chair at the table
             int j;
             for ( j = 0; j < NUM_CHAIRS; j++)
             {
                 if (sharedState->table[i].chairs[j] == 0)
                 {
-
+                    // sem_wait(&sharedState->mutex_access);
                     Order order = generateRandomOrder();
-                    // printf("Order: Water=%d, Wine=%d, Cheese=%d, Salad=%d\n", order.water, order.wine, order.cheese, order.salad);
                     sharedState->statistics.counter_water += order.water;
                     sharedState->statistics.counter_wine += order.wine;
                     sharedState->statistics.counter_cheese += order.cheese;
                     sharedState->statistics.counter_salad += order.salad;
                     sharedState->statistics.total_visitors++;
 
-
+                    
                     enqueueOrder(sharedState, dequeued_customer);
-                    sem_post(&sharedState->visitor_available);
+                    sem_wait(&sharedState->receptionist_access);
+                    
+                    // printf("Customer %d: Order placed\n", dequeued_customer);
 
                     sharedState->table[i].chairs[j] = dequeued_customer;
                     printf("Customer %d sat at Table %d at chair %d\n", dequeued_customer, i,j);
+                    // sem_post(&sharedState->mutex_access);
                     break;
                 }
             }
 
+            // sem_wait(&sharedState->mutex_access);
             sharedState->table[i].full_chairs++;
             table_found = true;
 
@@ -144,7 +130,7 @@ int main(int argc, char *argv[]) {
             }
             
            
-            
+            // sem_post(&sharedState->mutex_access);
 
             // Seed the random number generator
             srand(time(NULL)^ getpid());
@@ -154,7 +140,7 @@ int main(int argc, char *argv[]) {
             // printf("Customer %d is dining for %d seconds\n", dequeued_customer, random_dining_time);    
             sleep(random_dining_time);
 
-
+            // sem_wait(&sharedState->mutex_access);
             // Customer leaves the table
             if (sharedState->table[i].full_chairs > 0)
             {
@@ -167,12 +153,12 @@ int main(int argc, char *argv[]) {
                 sem_post(&sharedState->total_table_sem);
             }
             printf("Customer %d left Table %d from chair %d\n", dequeued_customer, i ,j);
-            
+            // sem_post(&sharedState->mutex_access);
             break;
 
         }else if (sharedState->table[i].full && i==NUM_TABLES-1)
         {
-            printf("Customer %d: No tables available. Waiting...\n", dequeued_customer);
+            // printf("Customer %d: No tables available. Waiting...\n", dequeued_customer);
             sem_wait(&sharedState->total_table_sem);
             i = -1;
         }

@@ -67,7 +67,7 @@ int main(int argc, char *argv[]) {
 
     //
     sem_init(&sharedState->mutex_access, 1, 1);
-    sem_init(&sharedState->receptionist_access, 1, 1);
+    sem_init(&sharedState->receptionist_access, 1, 0);
     sem_init(&sharedState->visitor_available, 1, 0);
 
     // Initialize all the varibles in  statistics struct
@@ -121,9 +121,18 @@ int main(int argc, char *argv[]) {
         }
     }
 
-    // Wait for all child processes to finish
+
+
+    /// Wait for the receptionist process to finish
+    waitpid(receptionist_pid, NULL, 0);
+
+    // Wait for all visitor processes to finish
     for (int i = 0; i < num_customers; i++) {
-        wait(NULL);
+        pid_t visitor_pid = waitpid(-1, NULL, 0); // Wait for any child process (visitor)
+        if (visitor_pid < 0) {
+            perror("waitpid");
+            exit(1);
+        }
     }
 
     // Destroy the semaphores
@@ -135,10 +144,6 @@ int main(int argc, char *argv[]) {
     sem_destroy(&sharedState->receptionist_access);
     sem_destroy(&sharedState->total_table_sem);
     sem_destroy(&sharedState->visitor_available);
-    for (int i = 0; i < NUM_TABLES; i++)
-    {
-        // sem_destroy(&sharedState->table[i].table_sem);  
-    }
     
 
     // Clean up the waiting buffer

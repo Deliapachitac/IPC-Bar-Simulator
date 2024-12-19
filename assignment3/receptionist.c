@@ -41,22 +41,27 @@ int main(int argc, char *argv[]) {
 
     while(true){
 
-        printf("Receptionist: Waiting for visitors...\n");
+        // sem_wait(&sharedState->mutex_access);
+
+        // printf("Receptionist: Waiting for visitors...\n");
 
         // Wait for a visitor to be available
-        sem_wait(&sharedState->visitor_available);
+        // sem_wait(&sharedState->visitor_available);
 
         // Lock the receptionist semaphore to ensure one-at-a-time processing
-        sem_wait(&sharedState->receptionist_access);
+        // sem_wait(&sharedState->receptionist_access);
 
         pid_t visitor_id;
         dequeueOrder(sharedState, &visitor_id);
-        if (visitor_id == -1) {
-            printf("Receptionist: No visitors to process.\n");
-            sem_post(&sharedState->receptionist_access);
-            continue;
-        }
+        // if (visitor_id == -1) {
+        //     printf("Receptionist: No visitors to process.\n");
+        //     // sem_post(&sharedState->receptionist_access);
+        //     continue;
+        // }
 
+        printf("Receptionist: Preparing order for visitor %d\n", visitor_id);
+
+        // sem_post(&sharedState->mutex_access);
         // Simulate the receptionist preparing the order
         srand(time(NULL)^ getpid());
         // Simulate preparing time for a random duration between [0.5 * ordertime , ordertime]
@@ -64,7 +69,7 @@ int main(int argc, char *argv[]) {
         int random_preparing_time = min_preparing_time + rand() % (ordertime - min_preparing_time + 1);
         sleep(random_preparing_time);
 
-         // Unlock receptionist semaphore
+        // Unlock receptionist semaphore
         sem_post(&sharedState->receptionist_access);
 
     }
