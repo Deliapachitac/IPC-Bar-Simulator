@@ -52,22 +52,23 @@ int main(int argc, char *argv[]) {
         for (int j = 0; j < NUM_CHAIRS; j++) {
             sharedState->table[i].chairs[j] = 0; // No one is sitting
         }
-        // sem_init(&sharedState->table[i].table_sem, 1, 1);
     }
     sem_init(&sharedState->total_table_sem, 1, 0);
 
     //Initialize the waiting buffer
-    initBuffer(&sharedState->customerQueue);
-    initOrderBuffer(&sharedState->order_Buffer);
+    initBuffer(&sharedState->waiting_buffer);
+    initOrderBuffer(&sharedState->order_buffer);
 
     // Initialize all the semaphores
     sem_init(&sharedState->empty_buffer , 1, MAX_VISITORS-1);
     sem_init(&sharedState->full_buffer , 1, 0);
-    sem_init(&sharedState->mutex_buffer , 1,1 );
+    sem_init(&sharedState->mutex_buffer_wait , 1,1 );
+    sem_init(&sharedState->mutex_buffer_order , 1,1 );
 
     //
     sem_init(&sharedState->mutex_access, 1, 1);
     sem_init(&sharedState->receptionist_access, 1, 1);
+    sem_init(&sharedState->visitor_available, 1, 0);
 
     // Initialize all the varibles in  statistics struct
     sharedState->statistics.avarage_staying_time = 0;
@@ -99,7 +100,7 @@ int main(int argc, char *argv[]) {
 
 
     // Create child processes
-    int num_customers = 60;
+    int num_customers = 30;
     for (int i = 0; i < num_customers; i++) {
         pid_t pid = fork();
         if (pid == 0) {
@@ -128,10 +129,12 @@ int main(int argc, char *argv[]) {
     // Destroy the semaphores
     sem_destroy(&sharedState->empty_buffer);
     sem_destroy(&sharedState->full_buffer);
-    sem_destroy(&sharedState->mutex_buffer);
+    sem_destroy(&sharedState->mutex_buffer_wait);
+    sem_destroy(&sharedState->mutex_buffer_order);
     sem_destroy(&sharedState->mutex_access);
     sem_destroy(&sharedState->receptionist_access);
     sem_destroy(&sharedState->total_table_sem);
+    sem_destroy(&sharedState->visitor_available);
     for (int i = 0; i < NUM_TABLES; i++)
     {
         // sem_destroy(&sharedState->table[i].table_sem);  
@@ -139,8 +142,8 @@ int main(int argc, char *argv[]) {
     
 
     // Clean up the waiting buffer
-    cleanupBuffer(&sharedState->customerQueue);
-    cleanupOrderBuffer(&sharedState->order_Buffer);
+    cleanupBuffer(&sharedState->waiting_buffer);
+    cleanupOrderBuffer(&sharedState->order_buffer);
 
     // Clean up shared memory
     if (munmap(sharedState, sizeof(SharedMemoryStruct)) == -1) {

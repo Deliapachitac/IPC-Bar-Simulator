@@ -39,17 +39,35 @@ int main(int argc, char *argv[]) {
     }
     
 
+    while(true){
 
+        printf("Receptionist: Waiting for visitors...\n");
 
-    // Simulate the receptionist preparing the order
-    // Seed the random number generator
-    srand(time(NULL)^ getpid());
-    // Simulate preparing time for a random duration between [0.5 * ordertime , ordertime]
-    int min_preparing_time = (int)(0.5 * ordertime);
-    int random_preparing_time = min_preparing_time + rand() % (ordertime - min_preparing_time + 1);
-    sleep(random_preparing_time);
+        // Wait for a visitor to be available
+        sem_wait(&sharedState->visitor_available);
 
+        // Lock the receptionist semaphore to ensure one-at-a-time processing
+        sem_wait(&sharedState->receptionist_access);
 
+        pid_t visitor_id;
+        dequeueOrder(sharedState, &visitor_id);
+        if (visitor_id == -1) {
+            printf("Receptionist: No visitors to process.\n");
+            sem_post(&sharedState->receptionist_access);
+            continue;
+        }
+
+        // Simulate the receptionist preparing the order
+        srand(time(NULL)^ getpid());
+        // Simulate preparing time for a random duration between [0.5 * ordertime , ordertime]
+        int min_preparing_time = (int)(0.5 * ordertime);
+        int random_preparing_time = min_preparing_time + rand() % (ordertime - min_preparing_time + 1);
+        sleep(random_preparing_time);
+
+         // Unlock receptionist semaphore
+        sem_post(&sharedState->receptionist_access);
+
+    }
 
     // Clean up
     if (munmap(sharedState, sizeof(SharedMemoryStruct)) == -1) {

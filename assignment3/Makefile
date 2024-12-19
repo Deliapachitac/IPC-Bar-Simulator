@@ -29,7 +29,7 @@ $(INITIALLIZER): initiallizer.c
 	$(CC) $(CFLAGS) -o $(INITIALLIZER) initiallizer.c segment.c $(CLIBS) 
 
 run:
-	./initiallizer -v 5 -r 20 -s /path_to_nemea
+	./initiallizer -v 5 -r 6 -s /path_to_nemea
 
 # Clean up build files
 clean:

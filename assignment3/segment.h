@@ -10,7 +10,7 @@
 #include <stdbool.h>
 #include <semaphore.h>
 
-#define MAX_VISITORS 50
+#define MAX_VISITORS 20
 #define NUM_TABLES 3
 #define NUM_CHAIRS 4
 
@@ -46,7 +46,7 @@ typedef struct
     bool full;
     pid_t chairs[NUM_CHAIRS];//who sits where
     int full_chairs; //how many chairs are full in the table 
-    // sem_t table_sem; 
+ 
 }Table;
 
 typedef struct 
@@ -65,8 +65,8 @@ typedef struct {
 } Order;
 
 typedef struct {
-    WaitingBuffer customerQueue;  
-    sem_t mutex_buffer; // Semaphore for mutual exclusion of the buffer
+    WaitingBuffer waiting_buffer;  
+    sem_t mutex_buffer_wait; // Semaphore for mutual exclusion of the buffer
     sem_t full_buffer; // Semaphore for full buffer
     sem_t empty_buffer; // Semaphore for empty buffer
 
@@ -76,8 +76,12 @@ typedef struct {
     Table table[NUM_TABLES];
     sem_t total_table_sem;
      
-    OrderBuffer order_Buffer;
+    OrderBuffer order_buffer;
+    sem_t mutex_buffer_order;
+    
     sem_t receptionist_access;
+    sem_t visitor_available;  
+
 
 } SharedMemoryStruct;
 
@@ -86,9 +90,9 @@ void initBuffer(WaitingBuffer *cb);
 void enqueue(SharedMemoryStruct *sharedMemory, pid_t value);
 void dequeue(SharedMemoryStruct *sharedMemory, pid_t *value);
 void cleanupBuffer(WaitingBuffer *cb );
-void displayBuffer(WaitingBuffer *cb);
+// void displayBuffer(WaitingBuffer *cb);
 
 void initOrderBuffer(OrderBuffer *ob);
-bool enqueueOrder(OrderBuffer *ob, int value);
-bool dequeueOrder(OrderBuffer *ob, int *value);
+void enqueueOrder(SharedMemoryStruct *sharedMemory, pid_t value);
+void dequeueOrder(SharedMemoryStruct *sharedMemory, pid_t *value);
 void cleanupOrderBuffer(OrderBuffer *ob);
