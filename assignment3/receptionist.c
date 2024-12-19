@@ -39,7 +39,7 @@ int main(int argc, char *argv[]) {
     }
     
 
-    while(true){
+    // while(true){
 
         // sem_wait(&sharedState->mutex_access);
 
@@ -51,15 +51,15 @@ int main(int argc, char *argv[]) {
         // Lock the receptionist semaphore to ensure one-at-a-time processing
         // sem_wait(&sharedState->receptionist_access);
 
-        pid_t visitor_id;
-        dequeueOrder(sharedState, &visitor_id);
+        // pid_t visitor_id;
+        // dequeueOrder(sharedState, &visitor_id);
         // if (visitor_id == -1) {
         //     printf("Receptionist: No visitors to process.\n");
         //     // sem_post(&sharedState->receptionist_access);
         //     continue;
         // }
 
-        printf("Receptionist: Preparing order for visitor %d\n", visitor_id);
+        // printf("Receptionist: Preparing order for visitor %d\n", visitor_id);
 
         // sem_post(&sharedState->mutex_access);
         // Simulate the receptionist preparing the order
@@ -70,9 +70,9 @@ int main(int argc, char *argv[]) {
         sleep(random_preparing_time);
 
         // Unlock receptionist semaphore
-        sem_post(&sharedState->receptionist_access);
+        // sem_post(&sharedState->receptionist_access);
 
-    }
+    // }
 
     // Clean up
     if (munmap(sharedState, sizeof(SharedMemoryStruct)) == -1) {

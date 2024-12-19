@@ -41,6 +41,54 @@ Order generateRandomOrder() {
 }
 
 
+void log_event(int table_num, SharedMemoryStruct *sharedMemory) {
+
+    sem_wait(&sharedMemory->logging);
+
+    // Open the log file in append mode
+    int log_fd = open("bar_log.txt", O_WRONLY | O_CREAT | O_APPEND, 0666);
+    if (log_fd == -1) {
+        perror("Error opening log file");
+        exit(1);
+    }
+
+    // Write the log message to the file
+
+    char log_message[512];
+    char log_occupied[256];
+
+    if(sharedMemory->table[table_num].full){
+        snprintf(log_occupied, sizeof(log_occupied), "occupied");
+    }else{  
+        snprintf(log_occupied, sizeof(log_occupied), "empty");
+    }
+    snprintf(log_message, sizeof(log_message), "The table %d  is %s\n", table_num,log_occupied);
+    write(log_fd, log_message, strlen(log_message));
+
+    snprintf(log_message, sizeof(log_message), "The table %d has %d full chairs\n", table_num, sharedMemory->table[table_num].full_chairs);
+    write(log_fd, log_message, strlen(log_message));
+
+    for (int i = 0; i < NUM_CHAIRS; i++) {
+        if (sharedMemory->table[table_num].chairs[i] != 0) {
+            snprintf(log_message, sizeof(log_message), "    Chair %d is occupied by customer %d\n", i, sharedMemory->table[table_num].chairs[i]);
+            write(log_fd, log_message, strlen(log_message));
+        } else {
+            snprintf(log_message, sizeof(log_message), "    Chair %d is empty\n", i);
+            write(log_fd, log_message, strlen(log_message));
+        }
+    }
+
+    write(log_fd, "\n", strlen("\n"));
+    write(log_fd, "\n", strlen("\n"));
+
+
+    // Close the log file
+    close(log_fd);
+
+    sem_post(&sharedMemory->logging);
+}
+
+
 int main(int argc, char *argv[]) {
     
     int resttime ;
@@ -76,14 +124,16 @@ int main(int argc, char *argv[]) {
         exit(EXIT_FAILURE);
     }
     
+    char log_message[256];
+
     // 
     enqueue(sharedState, getpid());
-    
-
     int dequeued_customer;
     dequeue(sharedState, &dequeued_customer);
-    printf("Customer %d: Looking for a table...\n", dequeued_customer);
-        
+
+    
+    printf( "Customer %d: Looking for a table...\n", dequeued_customer);
+    // log_event(log_message);
 
     bool table_found = false;
     //if the monitor wants to use the shared memory it should wait until the visitor is done
@@ -108,13 +158,14 @@ int main(int argc, char *argv[]) {
                     sharedState->statistics.total_visitors++;
 
                     
-                    enqueueOrder(sharedState, dequeued_customer);
-                    sem_wait(&sharedState->receptionist_access);
+                    // enqueueOrder(sharedState, dequeued_customer);
+                    // sem_wait(&sharedState->receptionist_access);
                     
                     // printf("Customer %d: Order placed\n", dequeued_customer);
 
                     sharedState->table[i].chairs[j] = dequeued_customer;
-                    printf("Customer %d sat at Table %d at chair %d\n", dequeued_customer, i,j);
+                    
+                    log_event(i, sharedState);
                     // sem_post(&sharedState->mutex_access);
                     break;
                 }
@@ -152,7 +203,9 @@ int main(int argc, char *argv[]) {
                 sharedState->table[i].full = false;
                 sem_post(&sharedState->total_table_sem);
             }
-            printf("Customer %d left Table %d from chair %d\n", dequeued_customer, i ,j);
+            // Log customer leaving the table
+            snprintf(log_message, sizeof(log_message), "Customer %d left Table %d, Chair %d", dequeued_customer, i, j);
+            log_event(i, sharedState);
             // sem_post(&sharedState->mutex_access);
             break;
 

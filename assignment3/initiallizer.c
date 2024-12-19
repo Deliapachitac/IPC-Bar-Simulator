@@ -69,6 +69,7 @@ int main(int argc, char *argv[]) {
     sem_init(&sharedState->mutex_access, 1, 1);
     sem_init(&sharedState->receptionist_access, 1, 0);
     sem_init(&sharedState->visitor_available, 1, 0);
+    sem_init(&sharedState->logging, 1, 1);
 
     // Initialize all the varibles in  statistics struct
     sharedState->statistics.avarage_staying_time = 0;
@@ -100,7 +101,7 @@ int main(int argc, char *argv[]) {
 
 
     // Create child processes
-    int num_customers = 30;
+    int num_customers = 50;
     for (int i = 0; i < num_customers; i++) {
         pid_t pid = fork();
         if (pid == 0) {
@@ -144,6 +145,7 @@ int main(int argc, char *argv[]) {
     sem_destroy(&sharedState->receptionist_access);
     sem_destroy(&sharedState->total_table_sem);
     sem_destroy(&sharedState->visitor_available);
+    sem_destroy(&sharedState->logging);
     
 
     // Clean up the waiting buffer

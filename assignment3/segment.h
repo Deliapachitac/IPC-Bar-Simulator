@@ -9,6 +9,7 @@
 #include <time.h>
 #include <stdbool.h>
 #include <semaphore.h>
+#include <sys/time.h>
 
 #define MAX_VISITORS 20
 #define NUM_TABLES 3
@@ -82,6 +83,7 @@ typedef struct {
     sem_t receptionist_access;
     sem_t visitor_available;  
 
+    sem_t logging;
 
 } SharedMemoryStruct;
 

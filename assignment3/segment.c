@@ -128,6 +128,7 @@ void dequeueOrder(SharedMemoryStruct *sharedMemory , pid_t *value) {
 
     // Unlock the buffer while waiting for the slot semaphore
     sem_post(&sharedMemory->mutex_buffer_order);
+    
     sem_wait(&cb->chair_sem[slot]);
     
 
