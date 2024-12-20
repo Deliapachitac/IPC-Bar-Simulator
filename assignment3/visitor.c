@@ -143,96 +143,87 @@ int main(int argc, char *argv[]) {
 
 
 
-    bool table_found = false;
-    //if the monitor wants to use the shared memory it should wait until the visitor is done
-    
+   bool table_found = false;
+
     for (int i = 0; i < NUM_TABLES; i++) {
+         
+        // Ψάξε για τραπέζι με τουλάχιστον μία θέση μαρκαρισμένη με 0
+        bool has_free_chair = false;
+        for (int j = 0; j < NUM_CHAIRS; j++) {
+            if (sharedState->table[i].chairs[j] == 0) {
+                has_free_chair = true;
+                break;
+            }
+        }
 
-        if (!sharedState->table[i].full) {
-
-            // sem_wait(&sharedState->mutex_access);
-            // Try to find an empty chair at the table
+        if (has_free_chair) {
+            // Δες ποια καρέκλα είναι ελεύθερη και κάτσε εκεί
             int j;
-            for ( j = 0; j < NUM_CHAIRS; j++)
-            {
-                if (sharedState->table[i].chairs[j] == 0)
-                {
-                    // sem_wait(&sharedState->mutex_access);
-                    // Order order = generateRandomOrder();
-                    // sharedState->statistics.counter_water += order.water;
-                    // sharedState->statistics.counter_wine += order.wine;
-                    // sharedState->statistics.counter_cheese += order.cheese;
-                    // sharedState->statistics.counter_salad += order.salad;
-                    // sharedState->statistics.total_visitors++;
+            sem_wait(&sharedState->mutex_access); // Lock shared memory access before updating chairs
 
+            for (j = 0; j < NUM_CHAIRS; j++) {
+                
+                if (sharedState->table[i].chairs[j] == 0) {
                     
+                    // Κράτα θέση για τον πελάτη
                     enqueueOrder(sharedState, dequeued_customer);
                     sem_wait(&sharedState->receptionist_access);
-                    
-                    printf("Customer %d: Order placed\n", dequeued_customer);
 
-                    sharedState->table[i].chairs[j] = dequeued_customer;
                     
-                    log_event(i, sharedState);
-                    // sem_post(&sharedState->mutex_access);
+                    sharedState->table[i].chairs[j] = dequeued_customer;
+
+                                      
                     break;
                 }
+                
             }
+            sem_post(&sharedState->mutex_access); // Unlock after updatingprintf("Customer %d sat at table %d in chair %d\n", dequeued_customer,i,j);
+                     
+            log_event(i, sharedState);
 
-            // sem_wait(&sharedState->mutex_access);
             sharedState->table[i].full_chairs++;
             table_found = true;
 
-            // Mark the table as full if all chairs are occupied
-            if(sharedState->table[i].full_chairs == NUM_CHAIRS){
+            // Αν γεμίσουν όλες οι καρέκλες, μαρκάρισε το τραπέζι ως γεμάτο
+            if (sharedState->table[i].full_chairs == NUM_CHAIRS) {
                 sharedState->table[i].full = true;
             }
-            
-           
-            // sem_post(&sharedState->mutex_access);
 
-            // Seed the random number generator
-            srand(time(NULL)^ getpid());
-            // Simulate dining time for a random duration between [0.70 * resttime , resttime]
+            // Χρόνος διαμονής στο τραπέζι
+            srand(time(NULL) ^ getpid());
             int min_dining_time = (int)(0.7 * resttime);
             int random_dining_time = min_dining_time + rand() % (resttime - min_dining_time + 1);
-            // printf("Customer %d is dining for %d seconds\n", dequeued_customer, random_dining_time);    
             sleep(random_dining_time);
 
-            // sem_wait(&sharedState->mutex_access);
-            // Customer leaves the table
-            if (sharedState->table[i].full_chairs > 0)
-            {
-                sharedState->table[i].full_chairs--; 
+            sem_wait(&sharedState->mutex_access);
+            if (sharedState->table[i].full_chairs > 0) {
+                sharedState->table[i].full_chairs--;
             }
-            sharedState->table[i].chairs[j] = 0;
-            // If all chairs are empty, mark the table as not full
-            if (sharedState->table[i].full_chairs == 0 ) {
+            sharedState->table[i].chairs[j] = -1;
+
+            // Αν φύγουν όλοι οι πελάτες, άδειασε όλες τις θέσεις
+            if (sharedState->table[i].full_chairs == 0) {
+                for (int k = 0; k < NUM_CHAIRS; k++) {
+                    sharedState->table[i].chairs[k] = 0;
+                }
                 sharedState->table[i].full = false;
                 sem_post(&sharedState->total_table_sem);
             }
-            // Log customer leaving the table
-            printf( "Customer %d left Table %d, Chair %d\n", dequeued_customer, i, j);
-            log_event(i, sharedState);
-            // sem_post(&sharedState->mutex_access);
+
+            printf("Customer %d left Table %d, Chair %d\n", dequeued_customer, i, j);
+            sem_post(&sharedState->mutex_access);
             break;
 
-        }else if (sharedState->table[i].full && i==NUM_TABLES-1)
-        {
-            // printf("Customer %d: No tables available. Waiting...\n", dequeued_customer);
+        } else if (sharedState->table[i].full && i == NUM_TABLES - 1) {
             sem_wait(&sharedState->total_table_sem);
             i = -1;
         }
-        
+
         if (table_found) {
-            
             break;
         }
     }
-    // //monitor access to the shared memory
-    // // sem_post(&sharedState->mutex_access);
-
-   
+    
     // Clean up
     if (munmap(sharedState, sizeof(SharedMemoryStruct)) == -1) {
         perror("munmap");
