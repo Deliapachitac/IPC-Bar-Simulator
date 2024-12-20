@@ -1,100 +1,153 @@
-Enqueued 47883 in slot 0
-Dequeued 47883 from slot 0
-Enqueued 47893 in slot 1
-Dequeued 47893 from slot 1
-Enqueued 47887 in slot 2
-Dequeued 47887 from slot 2
-Enqueued 47886 in slot 3
-Dequeued 47886 from slot 3
-Enqueued 47885 in slot 4
-Dequeued 47885 from slot 4
-Enqueued 47888 in slot 10
-Dequeued 47891 from slot 5
-Enqueued 47891 in slot 5
-Dequeued 47894 from slot 6
-Enqueued 47890 in slot 11
-Dequeued 47892 from slot 7
-Enqueued 47892 in slot 7
-Dequeued 47889 from slot 8
-Enqueued 47908 in slot 12
-Dequeued 47884 from slot 9
-Enqueued 47889 in slot 8
-Dequeued 47888 from slot 10
-Enqueued 47884 in slot 9
-Dequeued 47890 from slot 11
-Enqueued 47915 in slot 14
-Dequeued 47908 from slot 12
-Enqueued 47902 in slot 15
-Dequeued 47907 from slot 13
-Enqueued 47925 in slot 2
-Dequeued 47915 from slot 14
-Enqueued 47914 in slot 3
-Dequeued 47902 from slot 15
-Enqueued 47900 in slot 4
-Dequeued 47904 from slot 16
-Enqueued 47927 in slot 5
-Dequeued 47913 from slot 17
-Enqueued 47921 in slot 6
-Dequeued 47918 from slot 18
-Enqueued 47919 in slot 7
-Dequeued 47924 from slot 19
-Enqueued 47899 in slot 8
-Dequeued 47922 from slot 0
-Enqueued 47932 in slot 9
-Dequeued 47901 from slot 1
-Enqueued 47909 in slot 10
-Dequeued 47925 from slot 2
-Enqueued 47917 in slot 12
-Dequeued 47914 from slot 3
-Enqueued 47904 in slot 16
-Enqueued 47913 in slot 17
-Dequeued 47927 from slot 5
-Enqueued 47903 in slot 13
-Dequeued 47921 from slot 6
-Enqueued 47920 in slot 14
-Dequeued 47919 from slot 7
-Enqueued 47897 in slot 15
-Dequeued 47899 from slot 8
-Enqueued 47912 in slot 16
-Dequeued 47932 from slot 9
-Enqueued 47911 in slot 17
-Dequeued 47909 from slot 10
-Enqueued 47896 in slot 18
-Dequeued 47906 from slot 11
-Enqueued 47930 in slot 19
-Enqueued 47918 in slot 18
-Dequeued 47917 from slot 12
-Dequeued 47903 from slot 13
-Enqueued 47924 in slot 19
-Dequeued 47920 from slot 14
-Enqueued 47922 in slot 0
-Enqueued 47901 in slot 1
-Dequeued 47897 from slot 15
-Dequeued 47912 from slot 16
-Enqueued 47906 in slot 11
-Enqueued 47907 in slot 13
-Dequeued 47900 from slot 4
-Dequeued 47911 from slot 17
-Dequeued 47896 from slot 18
-Enqueued 47910 in slot 0
-Dequeued 47930 from slot 19
-Enqueued 47923 in slot 8
-Dequeued 47910 from slot 0
-Enqueued 47916 in slot 1
-Dequeued 47916 from slot 1
-Enqueued 47928 in slot 2
-Dequeued 47928 from slot 2
-Enqueued 47931 in slot 3
-Dequeued 47931 from slot 3
-Enqueued 47905 in slot 4
-Dequeued 47905 from slot 4
-Enqueued 47894 in slot 6
-Dequeued 47895 from slot 5
-Enqueued 47895 in slot 5
-Enqueued 47929 in slot 6
-Dequeued 47929 from slot 6
-Dequeued 47898 from slot 7
-Enqueued 47898 in slot 7
-Enqueued 47926 in slot 9
-Dequeued 47923 from slot 8
-Dequeued 47926 from slot 9
+gcc  -o visitor visitor.c segment.c -lpthread -lrt 
+sdi2200125@linux17:~/Delis/assignment3$ make run
+./initiallizer -v 5 -r 6 -s /path_to_nemea
+Enqueued 217103 in slot 0
+Buffer contents: 217103 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 
+Dequeued 217103 from slot 0
+Enqueued 217114 in slot 1
+Buffer contents: 0 217114 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 
+Dequeued 217114 from slot 1
+Enqueued 217108 in slot 2
+Buffer contents: 0 0 217108 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 
+Dequeued 217108 from slot 2
+Enqueued 217113 in slot 3
+Buffer contents: 0 0 0 217113 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 
+Dequeued 217113 from slot 3
+Enqueued 217110 in slot 4
+Buffer contents: 0 0 0 0 217110 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 
+Dequeued 217110 from slot 4
+Enqueued 217106 in slot 5
+Buffer contents: 0 0 0 0 0 217106 0 0 0 0 0 0 0 0 0 0 0 0 0 0 
+Dequeued 217106 from slot 5
+Enqueued 217104 in slot 6
+Buffer contents: 0 0 0 0 0 0 217104 0 0 0 0 0 0 0 0 0 0 0 0 0 
+Dequeued 217104 from slot 6
+Enqueued 217105 in slot 7
+Buffer contents: 0 0 0 0 0 0 0 217105 0 0 0 0 0 0 0 0 0 0 0 0 
+Dequeued 217105 from slot 7
+Enqueued 217111 in slot 8
+Buffer contents: 0 0 0 0 0 0 0 0 217111 0 0 0 0 0 0 0 0 0 0 0 
+Dequeued 217111 from slot 8
+Enqueued 217107 in slot 9
+Buffer contents: 0 0 0 0 0 0 0 0 0 217107 0 0 0 0 0 0 0 0 0 0 
+Dequeued 217107 from slot 9
+Enqueued 217109 in slot 10
+Buffer contents: 0 0 0 0 0 0 0 0 0 0 217109 0 0 0 0 0 0 0 0 0 
+Dequeued 217109 from slot 10
+Enqueued 217112 in slot 11
+Buffer contents: 0 0 0 0 0 0 0 0 0 0 0 217112 0 0 0 0 0 0 0 0 
+Dequeued 217112 from slot 11
+Enqueued 217118 in slot 12
+Buffer contents: 0 0 0 0 0 0 0 0 0 0 0 0 217118 0 0 0 0 0 0 0 
+Dequeued 217118 from slot 12
+Enqueued 217150 in slot 13
+Buffer contents: 0 0 0 0 0 0 0 0 0 0 0 0 0 217150 0 0 0 0 0 0 
+Dequeued 217150 from slot 13
+Enqueued 217117 in slot 14
+Buffer contents: 0 0 0 0 0 0 0 0 0 0 0 0 0 0 217117 0 0 0 0 0 
+Dequeued 217117 from slot 14
+Enqueued 217116 in slot 15
+Buffer contents: 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 217116 0 0 0 0 
+Dequeued 217116 from slot 15
+Enqueued 217136 in slot 16
+Buffer contents: 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 217136 0 0 0 
+Dequeued 217136 from slot 16
+Enqueued 217115 in slot 17
+Buffer contents: 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 217115 0 0 
+Dequeued 217115 from slot 17
+Enqueued 217133 in slot 18
+Buffer contents: 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 217133 0 
+Dequeued 217133 from slot 18
+Enqueued 217143 in slot 19
+Buffer contents: 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 217143 
+Dequeued 217143 from slot 19
+Enqueued 217146 in slot 0
+Buffer contents: 217146 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 
+Dequeued 217146 from slot 0
+Enqueued 217138 in slot 1
+Buffer contents: 0 217138 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 
+Dequeued 217138 from slot 1
+Enqueued 217129 in slot 2
+Buffer contents: 0 0 217129 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 
+Dequeued 217129 from slot 2
+Enqueued 217145 in slot 3
+Buffer contents: 0 0 0 217145 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 
+Dequeued 217145 from slot 3
+Enqueued 217147 in slot 4
+Buffer contents: 0 0 0 0 217147 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 
+Dequeued 217147 from slot 4
+Enqueued 217123 in slot 5
+Buffer contents: 0 0 0 0 0 217123 0 0 0 0 0 0 0 0 0 0 0 0 0 0 
+Dequeued 217123 from slot 5
+Enqueued 217128 in slot 6
+Buffer contents: 0 0 0 0 0 0 217128 0 0 0 0 0 0 0 0 0 0 0 0 0 
+Dequeued 217128 from slot 6
+Enqueued 217140 in slot 7
+Buffer contents: 0 0 0 0 0 0 0 217140 0 0 0 0 0 0 0 0 0 0 0 0 
+Dequeued 217140 from slot 7
+Enqueued 217127 in slot 8
+Buffer contents: 0 0 0 0 0 0 0 0 217127 0 0 0 0 0 0 0 0 0 0 0 
+Dequeued 217127 from slot 8
+Enqueued 217141 in slot 9
+Buffer contents: 0 0 0 0 0 0 0 0 0 217141 0 0 0 0 0 0 0 0 0 0 
+Dequeued 217141 from slot 9
+Enqueued 217135 in slot 10
+Buffer contents: 0 0 0 0 0 0 0 0 0 0 217135 0 0 0 0 0 0 0 0 0 
+Dequeued 217135 from slot 10
+Enqueued 217148 in slot 11
+Buffer contents: 0 0 0 0 0 0 0 0 0 0 0 217148 0 0 0 0 0 0 0 0 
+Dequeued 217148 from slot 11
+Enqueued 217131 in slot 12
+Buffer contents: 0 0 0 0 0 0 0 0 0 0 0 0 217131 0 0 0 0 0 0 0 
+Dequeued 217131 from slot 12
+Enqueued 217142 in slot 13
+Buffer contents: 0 0 0 0 0 0 0 0 0 0 0 0 0 217142 0 0 0 0 0 0 
+Dequeued 217142 from slot 13
+Enqueued 217152 in slot 14
+Buffer contents: 0 0 0 0 0 0 0 0 0 0 0 0 0 0 217152 0 0 0 0 0 
+Dequeued 217152 from slot 14
+Enqueued 217134 in slot 15
+Buffer contents: 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 217134 0 0 0 0 
+Dequeued 217134 from slot 15
+Enqueued 217149 in slot 16
+Buffer contents: 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 217149 0 0 0 
+Dequeued 217149 from slot 16
+Enqueued 217119 in slot 17
+Buffer contents: 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 217119 0 0 
+Dequeued 217119 from slot 17
+Enqueued 217137 in slot 18
+Buffer contents: 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 217137 0 
+Dequeued 217137 from slot 18
+Enqueued 217124 in slot 19
+Buffer contents: 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 217124 
+Dequeued 217124 from slot 19
+Enqueued 217139 in slot 0
+Buffer contents: 217139 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 
+Dequeued 217139 from slot 0
+Enqueued 217130 in slot 1
+Buffer contents: 0 217130 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 
+Dequeued 217130 from slot 1
+Enqueued 217125 in slot 2
+Buffer contents: 0 0 217125 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 
+Dequeued 217125 from slot 2
+Enqueued 217126 in slot 3
+Buffer contents: 0 0 0 217126 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 
+Dequeued 217126 from slot 3
+Enqueued 217121 in slot 4
+Buffer contents: 0 0 0 0 217121 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 
+Dequeued 217121 from slot 4
+Enqueued 217120 in slot 5
+Buffer contents: 0 0 0 0 0 217120 0 0 0 0 0 0 0 0 0 0 0 0 0 0 
+Dequeued 217120 from slot 5
+Enqueued 217122 in slot 6
+Buffer contents: 0 0 0 0 0 0 217122 0 0 0 0 0 0 0 0 0 0 0 0 0 
+Dequeued 217122 from slot 6
+Enqueued 217151 in slot 7
+Buffer contents: 0 0 0 0 0 0 0 217151 0 0 0 0 0 0 0 0 0 0 0 0 
+Dequeued 217151 from slot 7
+Enqueued 217144 in slot 8
+Buffer contents: 0 0 0 0 0 0 0 0 217144 0 0 0 0 0 0 0 0 0 0 0 
+Dequeued 217144 from slot 8
+Enqueued 217132 in slot 9
+Buffer contents: 0 0 0 0 0 0 0 0 0 217132 0 0 0 0 0 0 0 0 0 0 
+Dequeued 217132 from slot 9

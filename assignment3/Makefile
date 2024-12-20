@@ -22,11 +22,11 @@ $(RECEPTIONIST): receptionist.c
 
 # Compile visitor.c
 $(VISITOR): visitor.c
-	$(CC) $(CFLAGS) -o $(VISITOR) visitor.c segment.c $(CLIBS) 
+	$(CC) $(CFLAGS) -g -o $(VISITOR) visitor.c segment.c $(CLIBS) 
 
 # Compile initiallizer.c
 $(INITIALLIZER): initiallizer.c
-	$(CC) $(CFLAGS) -o $(INITIALLIZER) initiallizer.c segment.c $(CLIBS) 
+	$(CC) $(CFLAGS) -g -o $(INITIALLIZER) initiallizer.c segment.c $(CLIBS) 
 
 run:
 	./initiallizer -v 5 -r 6 -s /path_to_nemea

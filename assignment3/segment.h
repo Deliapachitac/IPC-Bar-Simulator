@@ -11,7 +11,7 @@
 #include <semaphore.h>
 #include <sys/time.h>
 
-#define MAX_VISITORS 20
+#define MAX_VISITORS 10
 #define NUM_TABLES 3
 #define NUM_CHAIRS 4
 
@@ -77,7 +77,7 @@ typedef struct {
     Table table[NUM_TABLES];
     sem_t total_table_sem;
      
-    OrderBuffer order_buffer;
+    OrderBuffer receprionist_buffer;
     sem_t mutex_buffer_order;
     
     sem_t receptionist_access;
@@ -92,7 +92,7 @@ void initBuffer(WaitingBuffer *cb);
 void enqueue(SharedMemoryStruct *sharedMemory, pid_t value);
 void dequeue(SharedMemoryStruct *sharedMemory, pid_t *value);
 void cleanupBuffer(WaitingBuffer *cb );
-// void displayBuffer(WaitingBuffer *cb);
+void displayBuffer(WaitingBuffer *cb);
 
 void initOrderBuffer(OrderBuffer *ob);
 void enqueueOrder(SharedMemoryStruct *sharedMemory, pid_t value);

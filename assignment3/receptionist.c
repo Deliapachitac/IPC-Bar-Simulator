@@ -1,4 +1,43 @@
 #include "segment.h"
+Order generateRandomOrder() {
+    Order order;
+    order.water = 0;
+    order.wine = 0;
+    order.cheese = 0;
+    order.salad = 0;
+
+    // Initialize random number generator
+    srand(time(NULL)^getpid());
+
+    // Randomly generate order
+    // Randomly choose water or wine (or both)
+    if (rand() % 2) {
+        order.water = 1;
+    }
+    if (rand() % 2) {
+        order.wine = 1;
+    }
+    // Ensure at least one drink is chosen
+    if (order.water == 0 && order.wine == 0) {
+        if (rand() % 2) {
+            order.water = 1;
+        } else {
+            order.wine = 1;
+        }
+    }
+
+    // Randomly choose cheese (optional)
+    if (rand() % 2) {
+        order.cheese = 1;
+    }
+
+    // Randomly choose salad (optional)
+    if (rand() % 2) {
+        order.salad = 1;
+    }
+
+    return order;
+}
 
 
 
@@ -39,40 +78,49 @@ int main(int argc, char *argv[]) {
     }
     
 
-    // while(true){
 
-        // sem_wait(&sharedState->mutex_access);
+    while(true){
 
-        // printf("Receptionist: Waiting for visitors...\n");
 
-        // Wait for a visitor to be available
-        // sem_wait(&sharedState->visitor_available);
+        pid_t visitor_id;
+        dequeueOrder(sharedState, &visitor_id);
 
-        // Lock the receptionist semaphore to ensure one-at-a-time processing
-        // sem_wait(&sharedState->receptionist_access);
+        // If all visitor ids are zero, break the loop
+        // else, continue to the next iteration
+        bool all_zero = true;
+        int zero_id_counter = 0;
+        if (visitor_id == 0) {
+            zero_id_counter++;
+            if (zero_id_counter >= (NUM_CHAIRS*NUM_TABLES)) {
+                break;
+            }
+            continue;
+        } else {
+            zero_id_counter = 0; // Reset counter if a non-zero id is encountered
+        }
 
-        // pid_t visitor_id;
-        // dequeueOrder(sharedState, &visitor_id);
-        // if (visitor_id == -1) {
-        //     printf("Receptionist: No visitors to process.\n");
-        //     // sem_post(&sharedState->receptionist_access);
-        //     continue;
-        // }
+        Order order = generateRandomOrder();
+        sharedState->statistics.counter_water += order.water;
+        sharedState->statistics.counter_wine += order.wine;
+        sharedState->statistics.counter_cheese += order.cheese;
+        sharedState->statistics.counter_salad += order.salad;
+        sharedState->statistics.total_visitors++;
 
-        // printf("Receptionist: Preparing order for visitor %d\n", visitor_id);
 
-        // sem_post(&sharedState->mutex_access);
-        // Simulate the receptionist preparing the order
+        printf("Receptionist: Preparing order for visitor %d\n", visitor_id);
+
+        // Simulate preparing time for a random duration between [0.5 * ordertime , ordertime]     
         srand(time(NULL)^ getpid());
-        // Simulate preparing time for a random duration between [0.5 * ordertime , ordertime]
         int min_preparing_time = (int)(0.5 * ordertime);
         int random_preparing_time = min_preparing_time + rand() % (ordertime - min_preparing_time + 1);
         sleep(random_preparing_time);
 
-        // Unlock receptionist semaphore
-        // sem_post(&sharedState->receptionist_access);
+        printf("Receptionist: Done order for visitor %d\n", visitor_id);
 
-    // }
+        // Unlock receptionist semaphore
+        sem_post(&sharedState->receptionist_access);
+
+    }
 
     // Clean up
     if (munmap(sharedState, sizeof(SharedMemoryStruct)) == -1) {

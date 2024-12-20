@@ -91,6 +91,7 @@ void log_event(int table_num, SharedMemoryStruct *sharedMemory) {
 
 int main(int argc, char *argv[]) {
     
+    // Reading and saving the variables from the command line
     int resttime ;
     char shmname[50];
     if(argc!=5){
@@ -124,16 +125,23 @@ int main(int argc, char *argv[]) {
         exit(EXIT_FAILURE);
     }
     
-    char log_message[256];
-
-    // 
-    enqueue(sharedState, getpid());
+    // Variable that saves the id of the customer that is dequeued from the waiting buffer
     int dequeued_customer;
+
+    //if the monitor wants to use the shared memory it should wait until the visitor is done
+    sem_wait(&sharedState->mutex_access);
+    
+    enqueue(sharedState, getpid());
     dequeue(sharedState, &dequeued_customer);
 
+    // notify the monitor that the he can access the shared memory
+    sem_post(&sharedState->mutex_access);
     
+
+
     printf( "Customer %d: Looking for a table...\n", dequeued_customer);
-    // log_event(log_message);
+
+
 
     bool table_found = false;
     //if the monitor wants to use the shared memory it should wait until the visitor is done
@@ -150,18 +158,18 @@ int main(int argc, char *argv[]) {
                 if (sharedState->table[i].chairs[j] == 0)
                 {
                     // sem_wait(&sharedState->mutex_access);
-                    Order order = generateRandomOrder();
-                    sharedState->statistics.counter_water += order.water;
-                    sharedState->statistics.counter_wine += order.wine;
-                    sharedState->statistics.counter_cheese += order.cheese;
-                    sharedState->statistics.counter_salad += order.salad;
-                    sharedState->statistics.total_visitors++;
+                    // Order order = generateRandomOrder();
+                    // sharedState->statistics.counter_water += order.water;
+                    // sharedState->statistics.counter_wine += order.wine;
+                    // sharedState->statistics.counter_cheese += order.cheese;
+                    // sharedState->statistics.counter_salad += order.salad;
+                    // sharedState->statistics.total_visitors++;
 
                     
-                    // enqueueOrder(sharedState, dequeued_customer);
-                    // sem_wait(&sharedState->receptionist_access);
+                    enqueueOrder(sharedState, dequeued_customer);
+                    sem_wait(&sharedState->receptionist_access);
                     
-                    // printf("Customer %d: Order placed\n", dequeued_customer);
+                    printf("Customer %d: Order placed\n", dequeued_customer);
 
                     sharedState->table[i].chairs[j] = dequeued_customer;
                     
@@ -204,7 +212,7 @@ int main(int argc, char *argv[]) {
                 sem_post(&sharedState->total_table_sem);
             }
             // Log customer leaving the table
-            snprintf(log_message, sizeof(log_message), "Customer %d left Table %d, Chair %d", dequeued_customer, i, j);
+            printf( "Customer %d left Table %d, Chair %d\n", dequeued_customer, i, j);
             log_event(i, sharedState);
             // sem_post(&sharedState->mutex_access);
             break;

@@ -57,7 +57,7 @@ int main(int argc, char *argv[]) {
 
     //Initialize the waiting buffer
     initBuffer(&sharedState->waiting_buffer);
-    initOrderBuffer(&sharedState->order_buffer);
+    initOrderBuffer(&sharedState->receprionist_buffer);
 
     // Initialize all the semaphores
     sem_init(&sharedState->empty_buffer , 1, MAX_VISITORS-1);
@@ -99,9 +99,8 @@ int main(int argc, char *argv[]) {
         exit(1);
     }
 
-
     // Create child processes
-    int num_customers = 50;
+    int num_customers = 20;
     for (int i = 0; i < num_customers; i++) {
         pid_t pid = fork();
         if (pid == 0) {
@@ -150,7 +149,7 @@ int main(int argc, char *argv[]) {
 
     // Clean up the waiting buffer
     cleanupBuffer(&sharedState->waiting_buffer);
-    cleanupOrderBuffer(&sharedState->order_buffer);
+    cleanupOrderBuffer(&sharedState->receprionist_buffer);
 
     // Clean up shared memory
     if (munmap(sharedState, sizeof(SharedMemoryStruct)) == -1) {
