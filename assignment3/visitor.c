@@ -129,13 +129,13 @@ int main(int argc, char *argv[]) {
     int dequeued_customer;
 
     //if the monitor wants to use the shared memory it should wait until the visitor is done
-    sem_wait(&sharedState->mutex_access);
+    // sem_wait(&sharedState->mutex_access);
     
     enqueue(sharedState, getpid());
     dequeue(sharedState, &dequeued_customer);
 
     // notify the monitor that the he can access the shared memory
-    sem_post(&sharedState->mutex_access);
+    // sem_post(&sharedState->mutex_access);
     
 
 
@@ -177,8 +177,7 @@ int main(int argc, char *argv[]) {
                 }
                 
             }
-            sem_post(&sharedState->mutex_access); // Unlock after updatingprintf("Customer %d sat at table %d in chair %d\n", dequeued_customer,i,j);
-                     
+             
             log_event(i, sharedState);
 
             sharedState->table[i].full_chairs++;
@@ -188,7 +187,8 @@ int main(int argc, char *argv[]) {
             if (sharedState->table[i].full_chairs == NUM_CHAIRS) {
                 sharedState->table[i].full = true;
             }
-
+            sem_post(&sharedState->mutex_access); // Unlock after updatingprintf("Customer %d sat at table %d in chair %d\n", dequeued_customer,i,j);
+                    
             // Χρόνος διαμονής στο τραπέζι
             srand(time(NULL) ^ getpid());
             int min_dining_time = (int)(0.7 * resttime);
@@ -220,10 +220,12 @@ int main(int argc, char *argv[]) {
         }
 
         if (table_found) {
+            printf("FOUND\n");
             break;
         }
     }
     
+
     // Clean up
     if (munmap(sharedState, sizeof(SharedMemoryStruct)) == -1) {
         perror("munmap");

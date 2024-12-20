@@ -42,7 +42,7 @@ int main(int argc, char *argv[]){
     sem_wait(&sharedState->mutex_access);
 
     // Open the output file for writing the statistics(create if not exists)
-    int output_fd = open("outputFile", O_WRONLY | O_CREAT | O_TRUNC);
+    int output_fd = open("outputfile", O_WRONLY | O_CREAT | O_TRUNC, 0644);
     if (output_fd == -1) {
         perror("Error opening output file");
         return 0;
@@ -50,9 +50,9 @@ int main(int argc, char *argv[]){
     dprintf(output_fd,"This are the statistics of the program\n");
 
     //Write the statistics to the output file
-    dprintf(output_fd,"The bar had %.6f total customers\n",sharedState->statistics.total_visitors);
+    dprintf(output_fd,"The bar had %d total customers\n",sharedState->statistics.total_visitors);
     dprintf(output_fd,"The avarage staying time in the bar per customer was %.6f\n",sharedState->statistics.avarage_staying_time);
-    dprintf(output_fd,"The avarage waiting time to enter thhe bar per customer was \n",sharedState->statistics.avarage_waiting_time);
+    dprintf(output_fd,"The avarage waiting time to enter thhe bar per customer was %.6f \n",sharedState->statistics.avarage_waiting_time);
     dprintf(output_fd,"The receptionist has prepared %d plates with cheeses\n",sharedState->statistics.counter_cheese);
     dprintf(output_fd,"The receptionist has prepared %d salads \n",sharedState->statistics.counter_salad);
     dprintf(output_fd,"The receptionist has prepared %d cups of water \n",sharedState->statistics.counter_water);

@@ -77,34 +77,27 @@ int main(int argc, char *argv[]) {
         exit(EXIT_FAILURE);
     }
     
-
-
+    int processed_visitors = 0;
+    pid_t visitor_id;
     while(true){
 
 
-        pid_t visitor_id;
         dequeueOrder(sharedState, &visitor_id);
 
         // If all visitor ids are zero, break the loop
         // else, continue to the next iteration
-        bool all_zero = true;
-        int zero_id_counter = 0;
+        
         if (visitor_id == 0) {
-            zero_id_counter++;
-            if (zero_id_counter >= (NUM_CHAIRS*NUM_TABLES)) {
-                break;
-            }
+
             continue;
-        } else {
-            zero_id_counter = 0; // Reset counter if a non-zero id is encountered
-        }
+        } 
 
         Order order = generateRandomOrder();
         sharedState->statistics.counter_water += order.water;
         sharedState->statistics.counter_wine += order.wine;
         sharedState->statistics.counter_cheese += order.cheese;
         sharedState->statistics.counter_salad += order.salad;
-        sharedState->statistics.total_visitors++;
+
 
 
         printf("Receptionist: Preparing order for visitor %d\n", visitor_id);
@@ -117,10 +110,19 @@ int main(int argc, char *argv[]) {
 
         printf("Receptionist: Done order for visitor %d\n", visitor_id);
 
+
+        processed_visitors++;
+        if (processed_visitors >= sharedState->statistics.total_visitors) {
+            printf(" The processed visitors are %d\n", processed_visitors); 
+            break;
+        }
+
         // Unlock receptionist semaphore
         sem_post(&sharedState->receptionist_access);
 
     }
+
+    printf("Receptionist: No more visitors\n");
 
     // Clean up
     if (munmap(sharedState, sizeof(SharedMemoryStruct)) == -1) {

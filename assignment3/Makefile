@@ -10,15 +10,15 @@ VISITOR = visitor
 INITIALLIZER = initiallizer
 
 # Default target
-all:  $(VISITOR) $(INITIALLIZER) $(RECEPTIONIST) #$(MONITOR)
+all:  $(VISITOR) $(INITIALLIZER) $(RECEPTIONIST) $(MONITOR)
 
 # Compile receptionist.c
 $(RECEPTIONIST): receptionist.c
 	$(CC) $(CFLAGS) -o $(RECEPTIONIST) receptionist.c segment.c $(CLIBS) 
 
 # # Compile monitor.c
-# $(MONITOR): monitor.c
-# 	$(CC) $(CFLAGS) -o $(MONITOR) monitor.c segment.c $(CLIBS) 
+$(MONITOR): monitor.c
+	$(CC) $(CFLAGS) -o $(MONITOR) monitor.c segment.c $(CLIBS) 
 
 # Compile visitor.c
 $(VISITOR): visitor.c
