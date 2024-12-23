@@ -54,6 +54,7 @@ int main(int argc, char *argv[]) {
         }
     }
     sem_init(&sharedState->total_table_sem, 1, 0);
+    sem_init(&sharedState->visitor_queue_not_empty, 1, 0);
 
     //Initialize the waiting buffer
     initBuffer(&sharedState->waiting_buffer);
@@ -70,6 +71,8 @@ int main(int argc, char *argv[]) {
     sem_init(&sharedState->receptionist_access, 1, 0);
     sem_init(&sharedState->visitor_available, 1, 0);
     sem_init(&sharedState->logging, 1, 1);
+
+    sem_init(&sharedState->visitor_queue_not_empty, 1, 0);
 
     // Initialize all the varibles in  statistics struct
     sharedState->statistics.avarage_staying_time = 0;
@@ -145,6 +148,7 @@ int main(int argc, char *argv[]) {
     sem_destroy(&sharedState->total_table_sem);
     sem_destroy(&sharedState->visitor_available);
     sem_destroy(&sharedState->logging);
+    sem_destroy(&sharedState->visitor_queue_not_empty);
     
 
     // Clean up the waiting buffer

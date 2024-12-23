@@ -1,46 +1,5 @@
 #include "segment.h"
 
-Order generateRandomOrder() {
-    Order order;
-    order.water = 0;
-    order.wine = 0;
-    order.cheese = 0;
-    order.salad = 0;
-
-    // Initialize random number generator
-    srand(time(NULL)^getpid());
-
-    // Randomly generate order
-    // Randomly choose water or wine (or both)
-    if (rand() % 2) {
-        order.water = 1;
-    }
-    if (rand() % 2) {
-        order.wine = 1;
-    }
-    // Ensure at least one drink is chosen
-    if (order.water == 0 && order.wine == 0) {
-        if (rand() % 2) {
-            order.water = 1;
-        } else {
-            order.wine = 1;
-        }
-    }
-
-    // Randomly choose cheese (optional)
-    if (rand() % 2) {
-        order.cheese = 1;
-    }
-
-    // Randomly choose salad (optional)
-    if (rand() % 2) {
-        order.salad = 1;
-    }
-
-    return order;
-}
-
-
 void log_event(int table_num, SharedMemoryStruct *sharedMemory) {
 
     sem_wait(&sharedMemory->logging);
@@ -88,7 +47,6 @@ void log_event(int table_num, SharedMemoryStruct *sharedMemory) {
     sem_post(&sharedMemory->logging);
 }
 
-
 int main(int argc, char *argv[]) {
     
     // Reading and saving the variables from the command line
@@ -125,29 +83,24 @@ int main(int argc, char *argv[]) {
         exit(EXIT_FAILURE);
     }
     
-    // Variable that saves the id of the customer that is dequeued from the waiting buffer
-    int dequeued_customer;
+  
 
     //if the monitor wants to use the shared memory it should wait until the visitor is done
     // sem_wait(&sharedState->mutex_access);
     
+    int dequeued_customer;
+
+    // Enqueue the visitor into the queue and notify the receptionist
     enqueue(sharedState, getpid());
+    sem_post(&sharedState->visitor_queue_not_empty);  // Notify the receptionist that there is a visitor
+
     dequeue(sharedState, &dequeued_customer);
 
-    // notify the monitor that the he can access the shared memory
-    // sem_post(&sharedState->mutex_access);
-    
-
-
-    printf( "Customer %d: Looking for a table...\n", dequeued_customer);
-
-
-
-   bool table_found = false;
+    printf("Customer %d: Looking for a table...\n", dequeued_customer);
+    bool table_found = false;
 
     for (int i = 0; i < NUM_TABLES; i++) {
-         
-        // Ψάξε για τραπέζι με τουλάχιστον μία θέση μαρκαρισμένη με 0
+
         bool has_free_chair = false;
         for (int j = 0; j < NUM_CHAIRS; j++) {
             if (sharedState->table[i].chairs[j] == 0) {
@@ -157,39 +110,36 @@ int main(int argc, char *argv[]) {
         }
 
         if (has_free_chair) {
-            // Δες ποια καρέκλα είναι ελεύθερη και κάτσε εκεί
+            // Find an empty chair and sit down
             int j;
-            sem_wait(&sharedState->mutex_access); // Lock shared memory access before updating chairs
+            sem_wait(&sharedState->mutex_access);  // Lock shared memory before updating chairs
 
             for (j = 0; j < NUM_CHAIRS; j++) {
-                
                 if (sharedState->table[i].chairs[j] == 0) {
-                    
-                    // Κράτα θέση για τον πελάτη
+                    // Reserve the chair for the customer
                     enqueueOrder(sharedState, dequeued_customer);
-                    sem_wait(&sharedState->receptionist_access);
-
                     
+                    sem_wait(&sharedState->receptionist_access);  // Wait for the receptionist to prepare the order
+
                     sharedState->table[i].chairs[j] = dequeued_customer;
 
-                                      
+                    sharedState->table[i].full_chairs++;
+                    table_found = true;
+
+                    if (sharedState->table[i].full_chairs == NUM_CHAIRS) {
+                        sharedState->table[i].full = true;
+                    }
+            
+                    printf("Customer %d sat at Table %d, Chair %d\n", dequeued_customer, i, j);
                     break;
                 }
-                
             }
-             
+            sem_post(&sharedState->mutex_access);  // Unlock after updating chairs
+
             log_event(i, sharedState);
 
-            sharedState->table[i].full_chairs++;
-            table_found = true;
 
-            // Αν γεμίσουν όλες οι καρέκλες, μαρκάρισε το τραπέζι ως γεμάτο
-            if (sharedState->table[i].full_chairs == NUM_CHAIRS) {
-                sharedState->table[i].full = true;
-            }
-            sem_post(&sharedState->mutex_access); // Unlock after updatingprintf("Customer %d sat at table %d in chair %d\n", dequeued_customer,i,j);
-                    
-            // Χρόνος διαμονής στο τραπέζι
+            // Dining time
             srand(time(NULL) ^ getpid());
             int min_dining_time = (int)(0.7 * resttime);
             int random_dining_time = min_dining_time + rand() % (resttime - min_dining_time + 1);
@@ -201,21 +151,22 @@ int main(int argc, char *argv[]) {
             }
             sharedState->table[i].chairs[j] = -1;
 
-            // Αν φύγουν όλοι οι πελάτες, άδειασε όλες τις θέσεις
             if (sharedState->table[i].full_chairs == 0) {
                 for (int k = 0; k < NUM_CHAIRS; k++) {
                     sharedState->table[i].chairs[k] = 0;
                 }
                 sharedState->table[i].full = false;
-                sem_post(&sharedState->total_table_sem);
+                // sem_post(&sharedState->total_table_sem);
             }
 
             printf("Customer %d left Table %d, Chair %d\n", dequeued_customer, i, j);
-            sem_post(&sharedState->mutex_access);
+            sem_post(&sharedState->mutex_access);  // Unlock after dining
+
             break;
 
-        } else if (sharedState->table[i].full && i == NUM_TABLES - 1) {
-            sem_wait(&sharedState->total_table_sem);
+        }
+        if (sharedState->table[i].full && i == NUM_TABLES - 1) {
+            // sem_wait(&sharedState->total_table_sem);  // Wait for an empty table
             i = -1;
         }
 
@@ -225,7 +176,7 @@ int main(int argc, char *argv[]) {
         }
     }
     
-
+    printf("End loop\n");
     // Clean up
     if (munmap(sharedState, sizeof(SharedMemoryStruct)) == -1) {
         perror("munmap");

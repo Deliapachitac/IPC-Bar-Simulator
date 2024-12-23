@@ -1,672 +1,160 @@
 The table 0  is empty
-The table 0 has 0 full chairs
-    Chair 0 is occupied by customer 3559191
-    Chair 1 is empty
-    Chair 2 is empty
-    Chair 3 is empty
-
-
-The table 0  is empty
-The table 0 has 1 full chairs
-    Chair 0 is occupied by customer 3559191
-    Chair 1 is occupied by customer 3559185
-    Chair 2 is empty
-    Chair 3 is empty
-
-
-The table 0  is empty
-The table 0 has 2 full chairs
-    Chair 0 is occupied by customer 3559191
-    Chair 1 is occupied by customer 3559185
-    Chair 2 is occupied by customer 3559197
-    Chair 3 is empty
-
-
-The table 0  is empty
 The table 0 has 3 full chairs
-    Chair 0 is occupied by customer 3559191
-    Chair 1 is occupied by customer 3559185
-    Chair 2 is occupied by customer 3559197
-    Chair 3 is occupied by customer 3559192
+    Chair 0 is occupied by customer 1136057
+    Chair 1 is occupied by customer 1136063
+    Chair 2 is occupied by customer 1136058
+    Chair 3 is empty
 
 
 The table 0  is occupied
 The table 0 has 4 full chairs
-    Chair 0 is occupied by customer 3559191
-    Chair 1 is occupied by customer 3559185
-    Chair 2 is occupied by customer 3559197
-    Chair 3 is occupied by customer 3559192
+    Chair 0 is occupied by customer 1136057
+    Chair 1 is occupied by customer 1136063
+    Chair 2 is occupied by customer 1136058
+    Chair 3 is occupied by customer 1136065
 
 
 The table 0  is occupied
-The table 0 has 5 full chairs
-    Chair 0 is occupied by customer 3559191
-    Chair 1 is occupied by customer 3559185
-    Chair 2 is occupied by customer 3559197
-    Chair 3 is occupied by customer 3559192
-
-
-The table 0  is occupied
-The table 0 has 6 full chairs
-    Chair 0 is occupied by customer 3559191
-    Chair 1 is occupied by customer 3559185
-    Chair 2 is occupied by customer 3559197
-    Chair 3 is occupied by customer 3559192
-
-
-The table 0  is occupied
-The table 0 has 7 full chairs
-    Chair 0 is occupied by customer 3559191
-    Chair 1 is occupied by customer 3559185
-    Chair 2 is occupied by customer 3559197
-    Chair 3 is occupied by customer 3559192
-
-
-The table 0  is occupied
-The table 0 has 8 full chairs
-    Chair 0 is occupied by customer 3559191
-    Chair 1 is occupied by customer 3559185
-    Chair 2 is occupied by customer 3559197
-    Chair 3 is occupied by customer 3559192
-
-
-The table 0  is occupied
-The table 0 has 9 full chairs
-    Chair 0 is occupied by customer 3559191
-    Chair 1 is occupied by customer 3559185
-    Chair 2 is occupied by customer 3559197
-    Chair 3 is occupied by customer 3559192
-
-
-The table 0  is occupied
-The table 0 has 10 full chairs
-    Chair 0 is occupied by customer 3559191
-    Chair 1 is occupied by customer 3559185
-    Chair 2 is occupied by customer 3559197
-    Chair 3 is occupied by customer 3559192
-
-
-The table 1  is empty
-The table 1 has 0 full chairs
-    Chair 0 is occupied by customer 3559196
-    Chair 1 is empty
-    Chair 2 is empty
-    Chair 3 is empty
-
-
-The table 1  is empty
-The table 1 has 1 full chairs
-    Chair 0 is occupied by customer 3559196
-    Chair 1 is occupied by customer 3559203
-    Chair 2 is empty
-    Chair 3 is empty
-
-
-The table 0  is occupied
-The table 0 has 10 full chairs
-    Chair 0 is occupied by customer -1
-    Chair 1 is occupied by customer 3559185
-    Chair 2 is occupied by customer 3559197
-    Chair 3 is occupied by customer 3559192
-
-
-The table 1  is empty
-The table 1 has 2 full chairs
-    Chair 0 is occupied by customer 3559196
-    Chair 1 is occupied by customer 3559203
-    Chair 2 is occupied by customer 3559201
-    Chair 3 is empty
-
-
-The table 1  is empty
-The table 1 has 3 full chairs
-    Chair 0 is occupied by customer 3559196
-    Chair 1 is occupied by customer 3559203
-    Chair 2 is occupied by customer 3559201
-    Chair 3 is occupied by customer 3559200
-
-
-The table 2  is empty
-The table 2 has 0 full chairs
-    Chair 0 is occupied by customer 3559202
-    Chair 1 is empty
-    Chair 2 is empty
-    Chair 3 is empty
-
-
-The table 1  is occupied
-The table 1 has 4 full chairs
-    Chair 0 is occupied by customer 3559196
-    Chair 1 is occupied by customer 3559203
-    Chair 2 is occupied by customer 3559201
-    Chair 3 is occupied by customer 3559200
-
-
-The table 0  is occupied
-The table 0 has -1 full chairs
+The table 0 has 1 full chairs
     Chair 0 is occupied by customer -1
     Chair 1 is occupied by customer -1
     Chair 2 is occupied by customer -1
-    Chair 3 is occupied by customer -1
+    Chair 3 is occupied by customer 1136065
 
 
-The table 1  is occupied
-The table 1 has 2 full chairs
+The table 0  is occupied
+The table 0 has 1 full chairs
     Chair 0 is occupied by customer -1
     Chair 1 is occupied by customer -1
     Chair 2 is occupied by customer -1
-    Chair 3 is occupied by customer 3559200
+    Chair 3 is occupied by customer 1136065
 
 
-The table 0  is empty
-The table 0 has 0 full chairs
-    Chair 0 is occupied by customer 3563901
-    Chair 1 is empty
-    Chair 2 is empty
-    Chair 3 is empty
+The table 0  is occupied
+The table 0 has 1 full chairs
+    Chair 0 is occupied by customer -1
+    Chair 1 is occupied by customer -1
+    Chair 2 is occupied by customer -1
+    Chair 3 is occupied by customer 1136065
+
+
+The table 0  is occupied
+The table 0 has 1 full chairs
+    Chair 0 is occupied by customer -1
+    Chair 1 is occupied by customer -1
+    Chair 2 is occupied by customer -1
+    Chair 3 is occupied by customer 1136065
+
+
+The table 0  is occupied
+The table 0 has 1 full chairs
+    Chair 0 is occupied by customer -1
+    Chair 1 is occupied by customer -1
+    Chair 2 is occupied by customer -1
+    Chair 3 is occupied by customer 1136065
+
+
+The table 0  is occupied
+The table 0 has 1 full chairs
+    Chair 0 is occupied by customer -1
+    Chair 1 is occupied by customer -1
+    Chair 2 is occupied by customer -1
+    Chair 3 is occupied by customer 1136065
+
+
+The table 0  is occupied
+The table 0 has 1 full chairs
+    Chair 0 is occupied by customer -1
+    Chair 1 is occupied by customer -1
+    Chair 2 is occupied by customer -1
+    Chair 3 is occupied by customer 1136065
+
+
+The table 0  is occupied
+The table 0 has 1 full chairs
+    Chair 0 is occupied by customer -1
+    Chair 1 is occupied by customer -1
+    Chair 2 is occupied by customer -1
+    Chair 3 is occupied by customer 1136065
+
+
+The table 0  is occupied
+The table 0 has 1 full chairs
+    Chair 0 is occupied by customer -1
+    Chair 1 is occupied by customer -1
+    Chair 2 is occupied by customer -1
+    Chair 3 is occupied by customer 1136065
+
+
+The table 0  is occupied
+The table 0 has 1 full chairs
+    Chair 0 is occupied by customer -1
+    Chair 1 is occupied by customer -1
+    Chair 2 is occupied by customer -1
+    Chair 3 is occupied by customer 1136065
+
+
+The table 0  is occupied
+The table 0 has 1 full chairs
+    Chair 0 is occupied by customer -1
+    Chair 1 is occupied by customer -1
+    Chair 2 is occupied by customer -1
+    Chair 3 is occupied by customer 1136065
+
+
+The table 0  is occupied
+The table 0 has 1 full chairs
+    Chair 0 is occupied by customer -1
+    Chair 1 is occupied by customer -1
+    Chair 2 is occupied by customer -1
+    Chair 3 is occupied by customer 1136065
+
+
+The table 0  is occupied
+The table 0 has 1 full chairs
+    Chair 0 is occupied by customer -1
+    Chair 1 is occupied by customer -1
+    Chair 2 is occupied by customer -1
+    Chair 3 is occupied by customer 1136065
+
+
+The table 0  is occupied
+The table 0 has 1 full chairs
+    Chair 0 is occupied by customer -1
+    Chair 1 is occupied by customer -1
+    Chair 2 is occupied by customer -1
+    Chair 3 is occupied by customer 1136065
+
+
+The table 0  is occupied
+The table 0 has 1 full chairs
+    Chair 0 is occupied by customer -1
+    Chair 1 is occupied by customer -1
+    Chair 2 is occupied by customer -1
+    Chair 3 is occupied by customer 1136065
+
+
+The table 0  is occupied
+The table 0 has 1 full chairs
+    Chair 0 is occupied by customer -1
+    Chair 1 is occupied by customer -1
+    Chair 2 is occupied by customer -1
+    Chair 3 is occupied by customer 1136065
 
 
 The table 0  is empty
 The table 0 has 1 full chairs
-    Chair 0 is occupied by customer 3563901
-    Chair 1 is occupied by customer 3563899
+    Chair 0 is occupied by customer 1138823
+    Chair 1 is empty
     Chair 2 is empty
     Chair 3 is empty
 
 
 The table 0  is empty
 The table 0 has 2 full chairs
-    Chair 0 is occupied by customer 3563901
-    Chair 1 is occupied by customer 3563899
-    Chair 2 is occupied by customer 3563902
-    Chair 3 is empty
-
-
-The table 0  is empty
-The table 0 has 0 full chairs
-    Chair 0 is occupied by customer 3565415
-    Chair 1 is empty
+    Chair 0 is occupied by customer 1138823
+    Chair 1 is occupied by customer 1138822
     Chair 2 is empty
     Chair 3 is empty
-
-
-The table 0  is empty
-The table 0 has 0 full chairs
-    Chair 0 is occupied by customer 3566517
-    Chair 1 is empty
-    Chair 2 is empty
-    Chair 3 is empty
-
-
-The table 0  is empty
-The table 0 has 1 full chairs
-    Chair 0 is occupied by customer 3566517
-    Chair 1 is occupied by customer 3566518
-    Chair 2 is empty
-    Chair 3 is empty
-
-
-The table 0  is empty
-The table 0 has 2 full chairs
-    Chair 0 is occupied by customer 3566517
-    Chair 1 is occupied by customer 3566518
-    Chair 2 is occupied by customer 3566521
-    Chair 3 is empty
-
-
-The table 0  is empty
-The table 0 has 3 full chairs
-    Chair 0 is occupied by customer 3566517
-    Chair 1 is occupied by customer 3566518
-    Chair 2 is occupied by customer 3566521
-    Chair 3 is occupied by customer 3566530
-
-
-The table 0  is occupied
-The table 0 has 4 full chairs
-    Chair 0 is occupied by customer 3566517
-    Chair 1 is occupied by customer 3566518
-    Chair 2 is occupied by customer 3566521
-    Chair 3 is occupied by customer 3566530
-
-
-The table 0  is occupied
-The table 0 has 5 full chairs
-    Chair 0 is occupied by customer 3566517
-    Chair 1 is occupied by customer 3566518
-    Chair 2 is occupied by customer 3566521
-    Chair 3 is occupied by customer 3566530
-
-
-The table 0  is occupied
-The table 0 has 6 full chairs
-    Chair 0 is occupied by customer 3566517
-    Chair 1 is occupied by customer 3566518
-    Chair 2 is occupied by customer 3566521
-    Chair 3 is occupied by customer 3566530
-
-
-The table 0  is occupied
-The table 0 has 7 full chairs
-    Chair 0 is occupied by customer 3566517
-    Chair 1 is occupied by customer 3566518
-    Chair 2 is occupied by customer 3566521
-    Chair 3 is occupied by customer 3566530
-
-
-The table 0  is occupied
-The table 0 has 8 full chairs
-    Chair 0 is occupied by customer 3566517
-    Chair 1 is occupied by customer 3566518
-    Chair 2 is occupied by customer 3566521
-    Chair 3 is occupied by customer 3566530
-
-
-The table 0  is occupied
-The table 0 has 9 full chairs
-    Chair 0 is occupied by customer 3566517
-    Chair 1 is occupied by customer 3566518
-    Chair 2 is occupied by customer 3566521
-    Chair 3 is occupied by customer 3566530
-
-
-The table 0  is occupied
-The table 0 has 10 full chairs
-    Chair 0 is occupied by customer 3566517
-    Chair 1 is occupied by customer 3566518
-    Chair 2 is occupied by customer 3566521
-    Chair 3 is occupied by customer 3566530
-
-
-The table 0  is occupied
-The table 0 has 11 full chairs
-    Chair 0 is occupied by customer 3566517
-    Chair 1 is occupied by customer 3566518
-    Chair 2 is occupied by customer 3566521
-    Chair 3 is occupied by customer 3566530
-
-
-The table 0  is occupied
-The table 0 has 12 full chairs
-    Chair 0 is occupied by customer 3566517
-    Chair 1 is occupied by customer 3566518
-    Chair 2 is occupied by customer 3566521
-    Chair 3 is occupied by customer 3566530
-
-
-The table 0  is occupied
-The table 0 has 13 full chairs
-    Chair 0 is occupied by customer 3566517
-    Chair 1 is occupied by customer 3566518
-    Chair 2 is occupied by customer 3566521
-    Chair 3 is occupied by customer 3566530
-
-
-The table 0  is occupied
-The table 0 has 14 full chairs
-    Chair 0 is occupied by customer 3566517
-    Chair 1 is occupied by customer 3566518
-    Chair 2 is occupied by customer 3566521
-    Chair 3 is occupied by customer 3566530
-
-
-The table 0  is occupied
-The table 0 has 15 full chairs
-    Chair 0 is occupied by customer 3566517
-    Chair 1 is occupied by customer 3566518
-    Chair 2 is occupied by customer 3566521
-    Chair 3 is occupied by customer 3566530
-
-
-The table 0  is occupied
-The table 0 has 16 full chairs
-    Chair 0 is occupied by customer 3566517
-    Chair 1 is occupied by customer 3566518
-    Chair 2 is occupied by customer 3566521
-    Chair 3 is occupied by customer 3566530
-
-
-The table 0  is occupied
-The table 0 has 17 full chairs
-    Chair 0 is occupied by customer 3566517
-    Chair 1 is occupied by customer 3566518
-    Chair 2 is occupied by customer 3566521
-    Chair 3 is occupied by customer 3566530
-
-
-The table 0  is occupied
-The table 0 has 18 full chairs
-    Chair 0 is occupied by customer 3566517
-    Chair 1 is occupied by customer 3566518
-    Chair 2 is occupied by customer 3566521
-    Chair 3 is occupied by customer 3566530
-
-
-The table 0  is occupied
-The table 0 has 19 full chairs
-    Chair 0 is occupied by customer 3566517
-    Chair 1 is occupied by customer 3566518
-    Chair 2 is occupied by customer 3566521
-    Chair 3 is occupied by customer 3566530
-
-
-The table 0  is empty
-The table 0 has 0 full chairs
-    Chair 0 is occupied by customer 3569647
-    Chair 1 is empty
-    Chair 2 is empty
-    Chair 3 is empty
-
-
-The table 0  is empty
-The table 0 has 1 full chairs
-    Chair 0 is occupied by customer 3569647
-    Chair 1 is occupied by customer 3569648
-    Chair 2 is empty
-    Chair 3 is empty
-
-
-The table 0  is empty
-The table 0 has 2 full chairs
-    Chair 0 is occupied by customer 3569647
-    Chair 1 is occupied by customer 3569648
-    Chair 2 is occupied by customer 3569650
-    Chair 3 is empty
-
-
-The table 0  is empty
-The table 0 has 3 full chairs
-    Chair 0 is occupied by customer 3569647
-    Chair 1 is occupied by customer 3569648
-    Chair 2 is occupied by customer 3569650
-    Chair 3 is occupied by customer 3569651
-
-
-The table 0  is occupied
-The table 0 has 4 full chairs
-    Chair 0 is occupied by customer 3569647
-    Chair 1 is occupied by customer 3569648
-    Chair 2 is occupied by customer 3569650
-    Chair 3 is occupied by customer 3569651
-
-
-The table 0  is occupied
-The table 0 has 5 full chairs
-    Chair 0 is occupied by customer 3569647
-    Chair 1 is occupied by customer 3569648
-    Chair 2 is occupied by customer 3569650
-    Chair 3 is occupied by customer 3569651
-
-
-The table 0  is occupied
-The table 0 has 6 full chairs
-    Chair 0 is occupied by customer 3569647
-    Chair 1 is occupied by customer 3569648
-    Chair 2 is occupied by customer 3569650
-    Chair 3 is occupied by customer 3569651
-
-
-The table 0  is occupied
-The table 0 has 7 full chairs
-    Chair 0 is occupied by customer 3569647
-    Chair 1 is occupied by customer 3569648
-    Chair 2 is occupied by customer 3569650
-    Chair 3 is occupied by customer 3569651
-
-
-The table 0  is occupied
-The table 0 has 8 full chairs
-    Chair 0 is occupied by customer 3569647
-    Chair 1 is occupied by customer 3569648
-    Chair 2 is occupied by customer 3569650
-    Chair 3 is occupied by customer 3569651
-
-
-The table 0  is occupied
-The table 0 has 9 full chairs
-    Chair 0 is occupied by customer 3569647
-    Chair 1 is occupied by customer 3569648
-    Chair 2 is occupied by customer 3569650
-    Chair 3 is occupied by customer 3569651
-
-
-The table 0  is occupied
-The table 0 has 10 full chairs
-    Chair 0 is occupied by customer 3569647
-    Chair 1 is occupied by customer 3569648
-    Chair 2 is occupied by customer 3569650
-    Chair 3 is occupied by customer 3569651
-
-
-The table 0  is occupied
-The table 0 has 11 full chairs
-    Chair 0 is occupied by customer 3569647
-    Chair 1 is occupied by customer 3569648
-    Chair 2 is occupied by customer 3569650
-    Chair 3 is occupied by customer 3569651
-
-
-The table 0  is occupied
-The table 0 has 12 full chairs
-    Chair 0 is occupied by customer 3569647
-    Chair 1 is occupied by customer 3569648
-    Chair 2 is occupied by customer 3569650
-    Chair 3 is occupied by customer 3569651
-
-
-The table 0  is occupied
-The table 0 has 13 full chairs
-    Chair 0 is occupied by customer 3569647
-    Chair 1 is occupied by customer 3569648
-    Chair 2 is occupied by customer 3569650
-    Chair 3 is occupied by customer 3569651
-
-
-The table 0  is occupied
-The table 0 has 14 full chairs
-    Chair 0 is occupied by customer 3569647
-    Chair 1 is occupied by customer 3569648
-    Chair 2 is occupied by customer 3569650
-    Chair 3 is occupied by customer 3569651
-
-
-The table 0  is occupied
-The table 0 has 15 full chairs
-    Chair 0 is occupied by customer 3569647
-    Chair 1 is occupied by customer 3569648
-    Chair 2 is occupied by customer 3569650
-    Chair 3 is occupied by customer 3569651
-
-
-The table 0  is occupied
-The table 0 has 16 full chairs
-    Chair 0 is occupied by customer 3569647
-    Chair 1 is occupied by customer 3569648
-    Chair 2 is occupied by customer 3569650
-    Chair 3 is occupied by customer 3569651
-
-
-The table 0  is occupied
-The table 0 has 17 full chairs
-    Chair 0 is occupied by customer 3569647
-    Chair 1 is occupied by customer 3569648
-    Chair 2 is occupied by customer 3569650
-    Chair 3 is occupied by customer 3569651
-
-
-The table 0  is occupied
-The table 0 has 18 full chairs
-    Chair 0 is occupied by customer 3569647
-    Chair 1 is occupied by customer 3569648
-    Chair 2 is occupied by customer 3569650
-    Chair 3 is occupied by customer 3569651
-
-
-The table 0  is occupied
-The table 0 has 19 full chairs
-    Chair 0 is occupied by customer 3569647
-    Chair 1 is occupied by customer 3569648
-    Chair 2 is occupied by customer 3569650
-    Chair 3 is occupied by customer 3569651
-
-
-The table 0  is empty
-The table 0 has 0 full chairs
-    Chair 0 is occupied by customer 3571780
-    Chair 1 is empty
-    Chair 2 is empty
-    Chair 3 is empty
-
-
-The table 0  is empty
-The table 0 has 1 full chairs
-    Chair 0 is occupied by customer 3571780
-    Chair 1 is occupied by customer 3571779
-    Chair 2 is empty
-    Chair 3 is empty
-
-
-The table 0  is empty
-The table 0 has 2 full chairs
-    Chair 0 is occupied by customer 3571780
-    Chair 1 is occupied by customer 3571779
-    Chair 2 is occupied by customer 3571778
-    Chair 3 is empty
-
-
-The table 0  is empty
-The table 0 has 3 full chairs
-    Chair 0 is occupied by customer 3571780
-    Chair 1 is occupied by customer 3571779
-    Chair 2 is occupied by customer 3571778
-    Chair 3 is occupied by customer 3571781
-
-
-The table 0  is occupied
-The table 0 has 4 full chairs
-    Chair 0 is occupied by customer 3571780
-    Chair 1 is occupied by customer 3571779
-    Chair 2 is occupied by customer 3571778
-    Chair 3 is occupied by customer 3571781
-
-
-The table 0  is occupied
-The table 0 has 5 full chairs
-    Chair 0 is occupied by customer 3571780
-    Chair 1 is occupied by customer 3571779
-    Chair 2 is occupied by customer 3571778
-    Chair 3 is occupied by customer 3571781
-
-
-The table 0  is occupied
-The table 0 has 6 full chairs
-    Chair 0 is occupied by customer 3571780
-    Chair 1 is occupied by customer 3571779
-    Chair 2 is occupied by customer 3571778
-    Chair 3 is occupied by customer 3571781
-
-
-The table 0  is occupied
-The table 0 has 7 full chairs
-    Chair 0 is occupied by customer 3571780
-    Chair 1 is occupied by customer 3571779
-    Chair 2 is occupied by customer 3571778
-    Chair 3 is occupied by customer 3571781
-
-
-The table 0  is occupied
-The table 0 has 8 full chairs
-    Chair 0 is occupied by customer 3571780
-    Chair 1 is occupied by customer 3571779
-    Chair 2 is occupied by customer 3571778
-    Chair 3 is occupied by customer 3571781
-
-
-The table 0  is occupied
-The table 0 has 9 full chairs
-    Chair 0 is occupied by customer 3571780
-    Chair 1 is occupied by customer 3571779
-    Chair 2 is occupied by customer 3571778
-    Chair 3 is occupied by customer 3571781
-
-
-The table 0  is occupied
-The table 0 has 10 full chairs
-    Chair 0 is occupied by customer 3571780
-    Chair 1 is occupied by customer 3571779
-    Chair 2 is occupied by customer 3571778
-    Chair 3 is occupied by customer 3571781
-
-
-The table 0  is occupied
-The table 0 has 11 full chairs
-    Chair 0 is occupied by customer 3571780
-    Chair 1 is occupied by customer 3571779
-    Chair 2 is occupied by customer 3571778
-    Chair 3 is occupied by customer 3571781
-
-
-The table 0  is occupied
-The table 0 has 12 full chairs
-    Chair 0 is occupied by customer 3571780
-    Chair 1 is occupied by customer 3571779
-    Chair 2 is occupied by customer 3571778
-    Chair 3 is occupied by customer 3571781
-
-
-The table 0  is occupied
-The table 0 has 13 full chairs
-    Chair 0 is occupied by customer 3571780
-    Chair 1 is occupied by customer 3571779
-    Chair 2 is occupied by customer 3571778
-    Chair 3 is occupied by customer 3571781
-
-
-The table 0  is occupied
-The table 0 has 14 full chairs
-    Chair 0 is occupied by customer 3571780
-    Chair 1 is occupied by customer 3571779
-    Chair 2 is occupied by customer 3571778
-    Chair 3 is occupied by customer 3571781
-
-
-The table 0  is occupied
-The table 0 has 15 full chairs
-    Chair 0 is occupied by customer 3571780
-    Chair 1 is occupied by customer 3571779
-    Chair 2 is occupied by customer 3571778
-    Chair 3 is occupied by customer 3571781
-
-
-The table 0  is occupied
-The table 0 has 16 full chairs
-    Chair 0 is occupied by customer 3571780
-    Chair 1 is occupied by customer 3571779
-    Chair 2 is occupied by customer 3571778
-    Chair 3 is occupied by customer 3571781
-
-
-The table 0  is occupied
-The table 0 has 17 full chairs
-    Chair 0 is occupied by customer 3571780
-    Chair 1 is occupied by customer 3571779
-    Chair 2 is occupied by customer 3571778
-    Chair 3 is occupied by customer 3571781
-
-
-The table 0  is occupied
-The table 0 has 18 full chairs
-    Chair 0 is occupied by customer 3571780
-    Chair 1 is occupied by customer 3571779
-    Chair 2 is occupied by customer 3571778
-    Chair 3 is occupied by customer 3571781
-
-
-The table 0  is occupied
-The table 0 has 19 full chairs
-    Chair 0 is occupied by customer 3571780
-    Chair 1 is occupied by customer 3571779
-    Chair 2 is occupied by customer 3571778
-    Chair 3 is occupied by customer 3571781
 
 

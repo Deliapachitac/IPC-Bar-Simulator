@@ -1,4 +1,5 @@
 #include "segment.h"
+
 Order generateRandomOrder() {
     Order order;
     order.water = 0;
@@ -81,6 +82,10 @@ int main(int argc, char *argv[]) {
     pid_t visitor_id;
     while(true){
 
+        printf("Receptionist: Waiting for visitor\n");
+        // Wait until there is a visitor in the queue
+        sem_wait(&sharedState->visitor_queue_not_empty);
+        printf("Receptionist\n");
 
         dequeueOrder(sharedState, &visitor_id);
 
@@ -88,7 +93,6 @@ int main(int argc, char *argv[]) {
         // else, continue to the next iteration
         
         if (visitor_id == 0) {
-
             continue;
         } 
 
@@ -111,11 +115,11 @@ int main(int argc, char *argv[]) {
         printf("Receptionist: Done order for visitor %d\n", visitor_id);
 
 
-        processed_visitors++;
-        if (processed_visitors >= sharedState->statistics.total_visitors) {
-            printf(" The processed visitors are %d\n", processed_visitors); 
-            break;
-        }
+        // processed_visitors++;
+        // if (processed_visitors >= sharedState->statistics.total_visitors) {
+        //     printf(" The processed visitors are %d\n", processed_visitors); 
+        //     break;
+        // }
 
         // Unlock receptionist semaphore
         sem_post(&sharedState->receptionist_access);

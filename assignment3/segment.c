@@ -27,7 +27,7 @@ void enqueue(SharedMemoryStruct *sharedMemory, pid_t value) {
     // Write value to the current tail
     int slot = cb->tail;
     cb->waiting_buffer[slot] = value;
-    sharedMemory->statistics.total_visitors++;
+    // sharedMemory->statistics.total_visitors++;
 
     // Advance tail pointer
     cb->tail = next_tail; 
@@ -101,6 +101,8 @@ void enqueueOrder(SharedMemoryStruct *sharedMemory, pid_t value) {
     // Write value to the current tail
     int slot = cb->tail;
     cb->order_buffer[slot] = value;
+    sharedMemory->statistics.total_visitors++;
+
 
     // Advance tail pointer
     cb->tail = next_tail; 

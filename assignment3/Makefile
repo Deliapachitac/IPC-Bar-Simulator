@@ -1,6 +1,5 @@
 # Compiler and flags
 CC = gcc
-CFLAGS= 
 CLIBS= -lpthread -lrt
 
 # Targets
@@ -14,22 +13,28 @@ all:  $(VISITOR) $(INITIALLIZER) $(RECEPTIONIST) $(MONITOR)
 
 # Compile receptionist.c
 $(RECEPTIONIST): receptionist.c
-	$(CC) $(CFLAGS) -o $(RECEPTIONIST) receptionist.c segment.c $(CLIBS) 
+	$(CC) -o $(RECEPTIONIST) receptionist.c segment.c $(CLIBS) 
 
 # # Compile monitor.c
 $(MONITOR): monitor.c
-	$(CC) $(CFLAGS) -o $(MONITOR) monitor.c segment.c $(CLIBS) 
+	$(CC) -o $(MONITOR) monitor.c segment.c $(CLIBS) 
 
 # Compile visitor.c
 $(VISITOR): visitor.c
-	$(CC) $(CFLAGS) -g -o $(VISITOR) visitor.c segment.c $(CLIBS) 
+	$(CC) -g -o $(VISITOR) visitor.c segment.c $(CLIBS) 
 
 # Compile initiallizer.c
 $(INITIALLIZER): initiallizer.c
-	$(CC) $(CFLAGS) -g -o $(INITIALLIZER) initiallizer.c segment.c $(CLIBS) 
+	$(CC) -g -o $(INITIALLIZER) initiallizer.c segment.c $(CLIBS) 
 
 run:
 	./initiallizer -v 5 -r 6 -s /path_to_nemea
+
+run_monitor:
+	./monitor -s /path_to_nemea
+
+run_visitor:
+	./visitor -d 5 -s /path_to_nemea
 
 # Clean up build files
 clean:

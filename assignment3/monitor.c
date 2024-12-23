@@ -47,7 +47,7 @@ int main(int argc, char *argv[]){
         perror("Error opening output file");
         return 0;
     }
-    dprintf(output_fd,"This are the statistics of the program\n");
+    dprintf(output_fd,"This are the statistics of the program\n\n");
 
     //Write the statistics to the output file
     dprintf(output_fd,"The bar had %d total customers\n",sharedState->statistics.total_visitors);

@@ -85,6 +85,8 @@ typedef struct {
 
     sem_t logging;
 
+    sem_t visitor_queue_not_empty;
+
 } SharedMemoryStruct;
 
 
