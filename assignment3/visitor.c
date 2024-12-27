@@ -101,7 +101,6 @@ int main(int argc, char *argv[]) {
 
     
     printf("Customer %d: Looking for a table...\n", dequeued_customer);
-    
     sem_wait(&sharedState->table_mutex); // Lock the table for modifications      
     while(!seated){
         for (i = 0; i < NUM_TABLES && !seated; i++) {
@@ -141,8 +140,6 @@ int main(int argc, char *argv[]) {
         }
     }
     sem_post(&sharedState->table_mutex); // Unlock the table
-            
-    
     
     
     
@@ -191,8 +188,7 @@ int main(int argc, char *argv[]) {
             
         }
     }
-    // sem_post(&sharedState->table_mutex); // Unlock the table
-
+    
     // Clean up
     if (munmap(sharedState, sizeof(SharedMemoryStruct)) == -1) {
         perror("munmap");

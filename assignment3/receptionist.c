@@ -110,12 +110,19 @@ int main(int argc, char *argv[]) {
         if (sharedState->served_visitors == sharedState->statistics.total_visitors) {
             sem_post(&sharedState->receptionist_access); // Ensure no deadlock
             sem_post(&sharedState->table_reset);         // Notify tables if waiting
+            sem_post(&sharedState->mutex_access);   // Notify visitors if waiting
             break;
         }
+
     }
 
     printf("Receptionist: All visitors have been served. Exiting...\n");
-            
+    
+    //execute the monitor 
+    char *args[] = {"./monitor","-s",shmname, NULL};
+    execvp(args[0], args);
+
+
     // Clean up
     if (munmap(sharedState, sizeof(SharedMemoryStruct)) == -1) {
         perror("munmap");
