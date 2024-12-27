@@ -82,14 +82,10 @@ int main(int argc, char *argv[]) {
     pid_t visitor_id;
     while(true){
         
-        // sem_wait(&sharedState->receptionist_access);
-        dequeueOrder(sharedState, &visitor_id);
+        sem_wait(&sharedState->receptionist_access);
+        
+        int slot = dequeueOrder(sharedState, &visitor_id);
 
-        // processed_visitors++;
-        // printf("Receptionist %d\n", processed_visitors);
-
-        // // If all visitor ids are zero, break the loop
-        // // else, continue to the next iteration
         
         Order order = generateRandomOrder();
         sharedState->statistics.counter_water += order.water;
@@ -104,23 +100,22 @@ int main(int argc, char *argv[]) {
         int min_preparing_time = (int)(0.5 * ordertime);
         int random_preparing_time = min_preparing_time + rand() % (ordertime - min_preparing_time + 1);
         sleep(random_preparing_time);
+        
 
         printf("Receptionist: Done order for visitor %d\n", visitor_id);
 
+        sem_post(&sharedState->receprionist_buffer.order_ready[slot]); // Signal the visitor
 
-        // processed_visitors++;
-        // // if (processed_visitors >= sharedState->statistics.total_visitors) {
-        // //     printf(" The processed visitors are %d\n", processed_visitors); 
-        // //     break;
-        // // }
 
-        // // Unlock receptionist semaphore
-        // sem_post(&sharedState->visitor_processed);
-
+        if (sharedState->served_visitors == sharedState->statistics.total_visitors) {
+            sem_post(&sharedState->receptionist_access); // Ensure no deadlock
+            sem_post(&sharedState->table_reset);         // Notify tables if waiting
+            break;
+        }
     }
 
-    printf("Receptionist: No more visitors\n");
-
+    printf("Receptionist: All visitors have been served. Exiting...\n");
+            
     // Clean up
     if (munmap(sharedState, sizeof(SharedMemoryStruct)) == -1) {
         perror("munmap");

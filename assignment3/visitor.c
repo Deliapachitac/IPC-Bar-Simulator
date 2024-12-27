@@ -94,12 +94,14 @@ int main(int argc, char *argv[]) {
     enqueue(sharedState, getpid());
     dequeue(sharedState, &dequeued_customer);
 
-    printf("Customer %d: Looking for a table...\n", dequeued_customer);
-    
+   
 
     bool seated = false;
     int i ;
 
+    
+    printf("Customer %d: Looking for a table...\n", dequeued_customer);
+    
     sem_wait(&sharedState->table_mutex); // Lock the table for modifications      
     while(!seated){
         for (i = 0; i < NUM_TABLES && !seated; i++) {
@@ -108,12 +110,13 @@ int main(int argc, char *argv[]) {
                 
                 if (sharedState->table[i].chairs[j] == 0) {
                     // Seat customer
-                    // sem_post(&sharedState->receptionist_access); // Notify the receptionist that the visitor has been seated
-                    enqueueOrder(sharedState, dequeued_customer);
-                    // sem_wait(&sharedState->visitor_processed); // Wait for chair semaphore
+                    sem_post(&sharedState->receptionist_access); // Notify the receptionist that the visitor has been seated
+                    int slot = enqueueOrder(sharedState, dequeued_customer);
 
-                    sem_wait(&sharedState->table[i].chair_sem[j]); // Wait for chair semaphore
-                
+                    sem_wait(&sharedState->receprionist_buffer.order_ready[slot]); // Wait for the orde
+                    
+                    // sem_wait(&sharedState->table[i].chair_sem[j]);
+                    
                     sharedState->table[i].chairs[j] = dequeued_customer;
                     sharedState->table[i].full_chairs++;
                     printf("Customer %d seated at Table %d, Chair %d.\n", dequeued_customer, i, j);
@@ -162,17 +165,26 @@ int main(int argc, char *argv[]) {
                 sharedState->table[i].full_chairs--;
                 printf("Customer %d left Table %d, Chair %d\n", dequeued_customer, i, j);
 
-                // Reset table if all chairs are empty
-                if (sharedState->table[i].full_chairs == 0) {
-                    for (int k = 0; k < NUM_CHAIRS; k++) {
-                        sharedState->table[i].chairs[k] = 0;
+
+                bool all_chairs_empty = true;
+                for (int k = 0; k < NUM_CHAIRS; k++) {
+                    if (sharedState->table[i].chairs[k] != -1) {
+                        all_chairs_empty = false;
+                        break;
                     }
-                    sharedState->table[i].full = false;
-                    printf("Table %d has been reset.\n", i);
-                    sem_post(&sharedState->table_reset); // Signal that a table has been reset
-               
                 }
-                sem_post(&sharedState->table[i].chair_sem[j]);
+
+                // Reset table if all chairs are empty
+                if (all_chairs_empty) {
+                    for (int k = 0; k < NUM_CHAIRS; k++) {
+                        sharedState->table[i].chairs[k] = 0; // Reset chairs to 0
+                    }
+                    sharedState->table[i].full = false;    // Mark table as not full
+                    printf("Table %d has been reset.\n", i);
+                    sem_post(&sharedState->table_reset);  // Signal that a table has been reset
+                }
+                
+                // sem_post(&sharedState->table[i].chair_sem[j]);
                 log_event(i, sharedState);
                 break;
             }
@@ -180,10 +192,6 @@ int main(int argc, char *argv[]) {
         }
     }
     // sem_post(&sharedState->table_mutex); // Unlock the table
-
-    // enqueueOrder(sharedState, dequeued_customer);
-
-
 
     // Clean up
     if (munmap(sharedState, sizeof(SharedMemoryStruct)) == -1) {

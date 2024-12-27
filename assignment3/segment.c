@@ -27,7 +27,7 @@ void enqueue(SharedMemoryStruct *sharedMemory, pid_t value) {
     // Write value to the current tail
     int slot = cb->tail;
     cb->waiting_buffer[slot] = value;
-    // sharedMemory->statistics.total_visitors++;
+    sharedMemory->served_visitors++;
 
     // Advance tail pointer
     cb->tail = next_tail; 
@@ -82,10 +82,11 @@ void initOrderBuffer(OrderBuffer *ob) {
     ob->tail = 0;
     for (int i = 0; i < NUM_CHAIRS * NUM_TABLES; i++) {
         ob->order_buffer[i] = 0;
+        sem_init(&ob->order_ready[i], 1, 0); // Initialize each semaphore to 0
     }
 }
 
-void enqueueOrder(SharedMemoryStruct *sharedMemory, pid_t value) {
+int enqueueOrder(SharedMemoryStruct *sharedMemory, pid_t value) {
     OrderBuffer *ob = &sharedMemory->receprionist_buffer;
 
     // Wait for an empty slot to become available
@@ -111,10 +112,12 @@ void enqueueOrder(SharedMemoryStruct *sharedMemory, pid_t value) {
     sem_post(&sharedMemory->buffer_full);
 
     printf("Enqueued visitor ID %d in slot %d.\n", value, slot);
+
+    return slot;
 }
 
 
-void dequeueOrder(SharedMemoryStruct *sharedMemory , pid_t *value) {
+int dequeueOrder(SharedMemoryStruct *sharedMemory , pid_t *value) {
     OrderBuffer *ob = &sharedMemory->receprionist_buffer;
 
     // Wait for a filled slot to become available
@@ -138,8 +141,14 @@ void dequeueOrder(SharedMemoryStruct *sharedMemory , pid_t *value) {
     sem_post(&sharedMemory->buffer_empty);
 
     printf("Dequeued visitor ID %d from slot %d.\n", *value, slot);
+
+    return slot;
 }
 
 void cleanupOrderBuffer(OrderBuffer *ob) {
+    for (int i = 0; i < (NUM_CHAIRS*NUM_TABLES); i++)
+    {
+        sem_destroy(&ob->order_ready[i]);
+    }
     
 }

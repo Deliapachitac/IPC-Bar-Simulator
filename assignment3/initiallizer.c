@@ -51,7 +51,7 @@ int main(int argc, char *argv[]) {
         sharedState->table[i].full_chairs = 0; // Empty chairs
         for (int j = 0; j < NUM_CHAIRS; j++) {
             sharedState->table[i].chairs[j] = 0; // No one is sitting
-            sem_init(&sharedState->table[i].chair_sem[j], 0, 1); 
+            sem_init(&sharedState->table[i].chair_sem[j], 1, 1); 
         }
     }
     sem_init(&sharedState->table_mutex, 1, 1);
@@ -74,6 +74,7 @@ int main(int argc, char *argv[]) {
     sem_init(&sharedState->buffer_empty, 1, NUM_CHAIRS * NUM_TABLES); // All slots are initially empty
     sem_init(&sharedState->buffer_full, 1, 0); // No slots are filled initially
 
+
     // Initialize all the varibles in  statistics struct
     sharedState->statistics.avarage_staying_time = 0;
     sharedState->statistics.avarage_waiting_time = 0;
@@ -84,6 +85,7 @@ int main(int argc, char *argv[]) {
     sharedState->statistics.total_visitors = 0;
     sharedState->statistics.total_staying_time = 0;
     sharedState->statistics.total_waiting_time = 0;
+    sharedState->served_visitors = 0;
     
     // //Create the receptionist process
     pid_t receptionist_pid = fork();
@@ -123,6 +125,7 @@ int main(int argc, char *argv[]) {
             exit(1);
         }
     }
+
 
 
 

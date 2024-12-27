@@ -56,6 +56,7 @@ typedef struct
     pid_t order_buffer[NUM_CHAIRS*NUM_TABLES];
     int head;
     int tail;
+    sem_t order_ready[NUM_CHAIRS*NUM_TABLES];
 
 }OrderBuffer;
 
@@ -88,6 +89,8 @@ typedef struct {
     sem_t buffer_empty;
     sem_t buffer_full;
 
+    int served_visitors;
+
 } SharedMemoryStruct;
 
 
@@ -98,6 +101,6 @@ void cleanupBuffer(WaitingBuffer *cb );
 void displayBuffer(WaitingBuffer *cb);
 
 void initOrderBuffer(OrderBuffer *ob);
-void enqueueOrder(SharedMemoryStruct *sharedMemory, pid_t value);
-void dequeueOrder(SharedMemoryStruct *sharedMemory, pid_t *value);
+int enqueueOrder(SharedMemoryStruct *sharedMemory, pid_t value);
+int dequeueOrder(SharedMemoryStruct *sharedMemory, pid_t *value);
 void cleanupOrderBuffer(OrderBuffer *ob);
