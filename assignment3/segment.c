@@ -82,61 +82,64 @@ void initOrderBuffer(OrderBuffer *ob) {
     ob->tail = 0;
     for (int i = 0; i < NUM_CHAIRS * NUM_TABLES; i++) {
         ob->order_buffer[i] = 0;
-        sem_init(&ob->chair_sem[i], 1, 1);
     }
 }
 
 void enqueueOrder(SharedMemoryStruct *sharedMemory, pid_t value) {
-    OrderBuffer *cb = &sharedMemory->receprionist_buffer;
-    
-    // Calculate the next tail
-    int next_tail = (cb->tail + 1) % (NUM_CHAIRS*NUM_TABLES);
+    OrderBuffer *ob = &sharedMemory->receprionist_buffer;
 
-    // Reserve the position in the buffer
-    sem_wait(&cb->chair_sem[cb->tail]);
-    
-    // Lock the buffer for mutual exclusion so that only one process can access the buffer at a time
+    // Wait for an empty slot to become available
+    sem_wait(&sharedMemory->buffer_empty);
+
+    // Lock the buffer for mutual exclusion
     sem_wait(&sharedMemory->mutex_buffer_order);
 
-    // Write value to the current tail
-    int slot = cb->tail;
-    cb->order_buffer[slot] = value;
+    // Write the visitor's PID to the buffer at the tail
+    int slot = ob->tail;
+    ob->order_buffer[slot] = value;
+
+    // Advance the tail pointer
+    ob->tail = (ob->tail + 1) % (NUM_CHAIRS * NUM_TABLES);
+
+    // Update total visitors statistic
     sharedMemory->statistics.total_visitors++;
-
-
-    // Advance tail pointer
-    cb->tail = next_tail; 
-
-    // Unlock the buffer for other processes
-    sem_post(&sharedMemory->mutex_buffer_order);
-
-    printf("Enqueued %d in slot %d\n", value, slot);
-   
-}
-
-void dequeueOrder(SharedMemoryStruct *sharedMemory , pid_t *value) {
-    OrderBuffer *cb = &sharedMemory->receprionist_buffer;
-    
-    // Lock the buffer
-    sem_wait(&sharedMemory->mutex_buffer_order);
-
-    // Determine the slot at head
-    int slot = cb->head;
-
-    // Retrieve the value from the current head
-    *value = cb->order_buffer[slot];
-    cb->order_buffer[slot] = 0;
-    cb->head = (cb->head + 1) % (NUM_CHAIRS*NUM_TABLES); 
 
     // Unlock the buffer
     sem_post(&sharedMemory->mutex_buffer_order);
 
-    // Post to the slot semaphore
-    sem_post(&cb->chair_sem[slot]);
+    // Signal that a filled slot is now available
+    sem_post(&sharedMemory->buffer_full);
+
+    printf("Enqueued visitor ID %d in slot %d.\n", value, slot);
+}
+
+
+void dequeueOrder(SharedMemoryStruct *sharedMemory , pid_t *value) {
+    OrderBuffer *ob = &sharedMemory->receprionist_buffer;
+
+    // Wait for a filled slot to become available
+    sem_wait(&sharedMemory->buffer_full);
+
+    // Lock the buffer for mutual exclusion
+    sem_wait(&sharedMemory->mutex_buffer_order);
+
+    // Retrieve the visitor's PID from the buffer at the head
+    int slot = ob->head;
+    *value = ob->order_buffer[slot];
+    ob->order_buffer[slot] = 0;
+
+    // Advance the head pointer
+    ob->head = (ob->head + 1) % (NUM_CHAIRS * NUM_TABLES);
+
+    // Unlock the buffer
+    sem_post(&sharedMemory->mutex_buffer_order);
+
+    // Signal that an empty slot is now available
+    sem_post(&sharedMemory->buffer_empty);
+
+    printf("Dequeued visitor ID %d from slot %d.\n", *value, slot);
 }
 
 void cleanupOrderBuffer(OrderBuffer *ob) {
-    for (int i = 0; i < NUM_CHAIRS * NUM_TABLES; i++) {
-        sem_destroy(&ob->chair_sem[i]);
-    }
+    
 }

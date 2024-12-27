@@ -51,28 +51,28 @@ int main(int argc, char *argv[]) {
         sharedState->table[i].full_chairs = 0; // Empty chairs
         for (int j = 0; j < NUM_CHAIRS; j++) {
             sharedState->table[i].chairs[j] = 0; // No one is sitting
+            sem_init(&sharedState->table[i].chair_sem[j], 0, 1); 
         }
     }
-    sem_init(&sharedState->total_table_sem, 1, 0);
-    sem_init(&sharedState->visitor_queue_not_empty, 1, 0);
+    sem_init(&sharedState->table_mutex, 1, 1);
+    sem_init(&sharedState->table_reset, 1, 0);
 
     //Initialize the waiting buffer
     initBuffer(&sharedState->waiting_buffer);
     initOrderBuffer(&sharedState->receprionist_buffer);
 
     // Initialize all the semaphores
-    sem_init(&sharedState->empty_buffer , 1, MAX_VISITORS-1);
-    sem_init(&sharedState->full_buffer , 1, 0);
     sem_init(&sharedState->mutex_buffer_wait , 1,1 );
     sem_init(&sharedState->mutex_buffer_order , 1,1 );
 
     //
     sem_init(&sharedState->mutex_access, 1, 1);
     sem_init(&sharedState->receptionist_access, 1, 0);
-    sem_init(&sharedState->visitor_available, 1, 0);
+    sem_init(&sharedState->visitor_processed, 1, 0);
     sem_init(&sharedState->logging, 1, 1);
 
-    sem_init(&sharedState->visitor_queue_not_empty, 1, 0);
+    sem_init(&sharedState->buffer_empty, 1, NUM_CHAIRS * NUM_TABLES); // All slots are initially empty
+    sem_init(&sharedState->buffer_full, 1, 0); // No slots are filled initially
 
     // Initialize all the varibles in  statistics struct
     sharedState->statistics.avarage_staying_time = 0;
@@ -139,16 +139,25 @@ int main(int argc, char *argv[]) {
     }
 
     // Destroy the semaphores
-    sem_destroy(&sharedState->empty_buffer);
-    sem_destroy(&sharedState->full_buffer);
     sem_destroy(&sharedState->mutex_buffer_wait);
     sem_destroy(&sharedState->mutex_buffer_order);
     sem_destroy(&sharedState->mutex_access);
     sem_destroy(&sharedState->receptionist_access);
-    sem_destroy(&sharedState->total_table_sem);
-    sem_destroy(&sharedState->visitor_available);
+    sem_destroy(&sharedState->visitor_processed);
     sem_destroy(&sharedState->logging);
-    sem_destroy(&sharedState->visitor_queue_not_empty);
+    sem_destroy(&sharedState->buffer_empty);
+    sem_destroy(&sharedState->buffer_full);
+    sem_destroy(&sharedState->table_mutex);
+    sem_destroy(&sharedState->table_reset);
+
+    for (int i = 0; i < NUM_TABLES; i++)
+    {
+        for (int j = 0; j < NUM_CHAIRS; j++)
+        {
+            sem_destroy(&sharedState->table[i].chair_sem[j]);
+        }
+        sem_destroy(&sharedState->table_mutex);
+    }
     
 
     // Clean up the waiting buffer

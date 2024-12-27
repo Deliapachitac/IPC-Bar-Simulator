@@ -81,28 +81,21 @@ int main(int argc, char *argv[]) {
     int processed_visitors = 0;
     pid_t visitor_id;
     while(true){
-
-        printf("Receptionist: Waiting for visitor\n");
-        // Wait until there is a visitor in the queue
-        sem_wait(&sharedState->visitor_queue_not_empty);
-        printf("Receptionist\n");
-
+        
+        // sem_wait(&sharedState->receptionist_access);
         dequeueOrder(sharedState, &visitor_id);
 
-        // If all visitor ids are zero, break the loop
-        // else, continue to the next iteration
-        
-        if (visitor_id == 0) {
-            continue;
-        } 
+        // processed_visitors++;
+        // printf("Receptionist %d\n", processed_visitors);
 
+        // // If all visitor ids are zero, break the loop
+        // // else, continue to the next iteration
+        
         Order order = generateRandomOrder();
         sharedState->statistics.counter_water += order.water;
         sharedState->statistics.counter_wine += order.wine;
         sharedState->statistics.counter_cheese += order.cheese;
         sharedState->statistics.counter_salad += order.salad;
-
-
 
         printf("Receptionist: Preparing order for visitor %d\n", visitor_id);
 
@@ -116,13 +109,13 @@ int main(int argc, char *argv[]) {
 
 
         // processed_visitors++;
-        // if (processed_visitors >= sharedState->statistics.total_visitors) {
-        //     printf(" The processed visitors are %d\n", processed_visitors); 
-        //     break;
-        // }
+        // // if (processed_visitors >= sharedState->statistics.total_visitors) {
+        // //     printf(" The processed visitors are %d\n", processed_visitors); 
+        // //     break;
+        // // }
 
-        // Unlock receptionist semaphore
-        sem_post(&sharedState->receptionist_access);
+        // // Unlock receptionist semaphore
+        // sem_post(&sharedState->visitor_processed);
 
     }
 

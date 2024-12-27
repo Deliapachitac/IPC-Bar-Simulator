@@ -47,7 +47,8 @@ typedef struct
     bool full;
     pid_t chairs[NUM_CHAIRS];//who sits where
     int full_chairs; //how many chairs are full in the table 
- 
+    sem_t chair_sem[NUM_CHAIRS];
+
 }Table;
 
 typedef struct 
@@ -55,7 +56,7 @@ typedef struct
     pid_t order_buffer[NUM_CHAIRS*NUM_TABLES];
     int head;
     int tail;
-    sem_t chair_sem[NUM_CHAIRS*NUM_TABLES];
+
 }OrderBuffer;
 
 typedef struct {
@@ -68,24 +69,24 @@ typedef struct {
 typedef struct {
     WaitingBuffer waiting_buffer;  
     sem_t mutex_buffer_wait; // Semaphore for mutual exclusion of the buffer
-    sem_t full_buffer; // Semaphore for full buffer
-    sem_t empty_buffer; // Semaphore for empty buffer
 
     Stats statistics;
     sem_t mutex_access; // We need a semaphore so that the monitor can access the shared memory struct without the visitors interfering
     
     Table table[NUM_TABLES];
-    sem_t total_table_sem;
+    sem_t table_mutex;
+    sem_t table_reset;
      
     OrderBuffer receprionist_buffer;
     sem_t mutex_buffer_order;
     
     sem_t receptionist_access;
-    sem_t visitor_available;  
+    sem_t visitor_processed;  
 
     sem_t logging;
 
-    sem_t visitor_queue_not_empty;
+    sem_t buffer_empty;
+    sem_t buffer_full;
 
 } SharedMemoryStruct;
 
