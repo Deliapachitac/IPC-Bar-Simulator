@@ -1,7 +1,7 @@
 #include "segment.h"
 
-
-void initBuffer(WaitingBuffer *cb ) {
+// funstion that initializes the waiting buffer
+void initWaitingBuffer(WaitingBuffer *cb ) {
     cb->head = 0;
     cb->tail = 0;
     
@@ -11,8 +11,8 @@ void initBuffer(WaitingBuffer *cb ) {
     }
 }
 
-
-void enqueue(SharedMemoryStruct *sharedMemory, pid_t value) {
+//function to insert a visitor into the waiting buffer which represents the queue of the bar
+void enqueueWaiting(SharedMemoryStruct *sharedMemory, pid_t value) {
     WaitingBuffer *cb = &sharedMemory->waiting_buffer;
 
     // Calculate the next tail
@@ -37,10 +37,11 @@ void enqueue(SharedMemoryStruct *sharedMemory, pid_t value) {
    
 }
 
-void dequeue(SharedMemoryStruct *sharedMemory, pid_t *value) {
+//function to remove a visitor from the waiting buffer and return the visitor's pid
+void dequeueWaiting(SharedMemoryStruct *sharedMemory, pid_t *value) {
     WaitingBuffer *cb = &sharedMemory->waiting_buffer;
 
-    // Lock the buffer
+    // Lock the buffer for mutual exclusion so that only one process can access the buffer at a time
     sem_wait(&sharedMemory->mutex_buffer_wait);
 
     // Determine the slot at head
@@ -59,24 +60,15 @@ void dequeue(SharedMemoryStruct *sharedMemory, pid_t *value) {
 
 }
 
-// Display the contents of the buffer
-void displayBuffer(WaitingBuffer *cb) {
-    printf("Buffer contents: ");
-    for (int i = 0; i < MAX_VISITORS ; i++) {
-        // int index = (cb->head + i) % MAX_VISITORS;
-        printf("%d ", cb->waiting_buffer[i]);
-    }
-    printf("\n");
-}
-
-
-void cleanupBuffer(WaitingBuffer *cb ) {
+//function to clean up the waiting buffer
+void cleanupWaitingBuffer(WaitingBuffer *cb ) {
    
     for (int i = 0; i < MAX_VISITORS; i++) {
         sem_destroy(&cb->position_sem[i]);
     }
 }
 
+//function to initialize the order buffer
 void initOrderBuffer(OrderBuffer *ob) {
     ob->head = 0;
     ob->tail = 0;
@@ -86,6 +78,7 @@ void initOrderBuffer(OrderBuffer *ob) {
     }
 }
 
+//function to insert a visitor into the order buffer which represents the queue of the receptionist
 int enqueueOrder(SharedMemoryStruct *sharedMemory, pid_t value) {
     OrderBuffer *ob = &sharedMemory->receprionist_buffer;
 
@@ -111,12 +104,10 @@ int enqueueOrder(SharedMemoryStruct *sharedMemory, pid_t value) {
     // Signal that a filled slot is now available
     sem_post(&sharedMemory->buffer_full);
 
-    printf("Enqueued visitor ID %d in slot %d.\n", value, slot);
-
     return slot;
 }
 
-
+//function to remove a visitor from the order buffer and return the visitor's pid
 int dequeueOrder(SharedMemoryStruct *sharedMemory , pid_t *value) {
     OrderBuffer *ob = &sharedMemory->receprionist_buffer;
 
@@ -140,11 +131,10 @@ int dequeueOrder(SharedMemoryStruct *sharedMemory , pid_t *value) {
     // Signal that an empty slot is now available
     sem_post(&sharedMemory->buffer_empty);
 
-    printf("Dequeued visitor ID %d from slot %d.\n", *value, slot);
-
     return slot;
 }
 
+//function to clean up the order buffer
 void cleanupOrderBuffer(OrderBuffer *ob) {
     for (int i = 0; i < (NUM_CHAIRS*NUM_TABLES); i++)
     {

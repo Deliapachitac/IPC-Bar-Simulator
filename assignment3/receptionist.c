@@ -1,5 +1,6 @@
 #include "segment.h"
 
+// Function that generates a random order
 Order generateRandomOrder() {
     Order order;
     order.water = 0;
@@ -41,7 +42,6 @@ Order generateRandomOrder() {
 }
 
 
-
 int main(int argc, char *argv[]) {
     
     //Reading and saving the variables from the command line  
@@ -78,15 +78,16 @@ int main(int argc, char *argv[]) {
         exit(EXIT_FAILURE);
     }
     
-    int processed_visitors = 0;
     pid_t visitor_id;
     while(true){
         
+        // Wait until a visitor has found an empty chair and is ready to order
         sem_wait(&sharedState->receptionist_access);
         
+        // Take the visitors information from the queue
         int slot = dequeueOrder(sharedState, &visitor_id);
 
-        
+        // Generate a random order for the visitor
         Order order = generateRandomOrder();
         sharedState->statistics.counter_water += order.water;
         sharedState->statistics.counter_wine += order.wine;
@@ -101,16 +102,15 @@ int main(int argc, char *argv[]) {
         int random_preparing_time = min_preparing_time + rand() % (ordertime - min_preparing_time + 1);
         sleep(random_preparing_time);
         
-
         printf("Receptionist: Done order for visitor %d\n", visitor_id);
 
-        sem_post(&sharedState->receprionist_buffer.order_ready[slot]); // Signal the visitor
+        //Signal that the order is ready
+        sem_post(&sharedState->receprionist_buffer.order_ready[slot]);
 
-
+        // If the receptionist has served all visitors, exit the loop
         if (sharedState->served_visitors == sharedState->statistics.total_visitors) {
-            sem_post(&sharedState->receptionist_access); // Ensure no deadlock
-            sem_post(&sharedState->table_reset);         // Notify tables if waiting
-            sem_post(&sharedState->mutex_access);   // Notify visitors if waiting
+            sem_post(&sharedState->receptionist_access); 
+            sem_post(&sharedState->table_reset);         
             break;
         }
 
@@ -118,10 +118,9 @@ int main(int argc, char *argv[]) {
 
     printf("Receptionist: All visitors have been served. Exiting...\n");
     
-    //execute the monitor 
+    //execute the monitor after the receptionist is done 
     char *args[] = {"./monitor","-s",shmname, NULL};
     execvp(args[0], args);
-
 
     // Clean up
     if (munmap(sharedState, sizeof(SharedMemoryStruct)) == -1) {

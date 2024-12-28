@@ -1,7 +1,10 @@
 #include "segment.h"
 
+#define VISITORS 100
+
 int main(int argc, char *argv[]) {
 
+    // save the variables from the command line
     int resttime ,ordertime;
     char shmname[50];
     if(argc!=7){
@@ -44,36 +47,32 @@ int main(int argc, char *argv[]) {
         exit(0);
     }
 
-
-    // Initialize the tables structs
+    // Initialize the shared memory struct
+    //First initialize the tables struct
     for (int i = 0; i < NUM_TABLES; i++) {
         sharedState->table[i].full = false; // Empty table
         sharedState->table[i].full_chairs = 0; // Empty chairs
         for (int j = 0; j < NUM_CHAIRS; j++) {
             sharedState->table[i].chairs[j] = 0; // No one is sitting
-            sem_init(&sharedState->table[i].chair_sem[j], 1, 1); 
         }
     }
-    sem_init(&sharedState->table_mutex, 1, 1);
-    sem_init(&sharedState->table_reset, 1, 0);
+    sem_init(&sharedState->table_mutex, 1, 1); // This semaphore is used to lock the table
+    sem_init(&sharedState->table_reset, 1, 0); // This semaphore is used to signal that a table has been reset
 
     //Initialize the waiting buffer
-    initBuffer(&sharedState->waiting_buffer);
-    initOrderBuffer(&sharedState->receprionist_buffer);
-
-    // Initialize all the semaphores
+    initWaitingBuffer(&sharedState->waiting_buffer);
     sem_init(&sharedState->mutex_buffer_wait , 1,1 );
+
+    //initialize the order buffer
+    initOrderBuffer(&sharedState->receprionist_buffer);
     sem_init(&sharedState->mutex_buffer_order , 1,1 );
-
-    //
-    sem_init(&sharedState->mutex_access, 1, 1);
-    sem_init(&sharedState->receptionist_access, 1, 0);
-    sem_init(&sharedState->visitor_processed, 1, 0);
-    sem_init(&sharedState->logging, 1, 1);
-
     sem_init(&sharedState->buffer_empty, 1, NUM_CHAIRS * NUM_TABLES); // All slots are initially empty
     sem_init(&sharedState->buffer_full, 1, 0); // No slots are filled initially
 
+    // Initialize the semaphores for mutual exclusion and synchronization
+    sem_init(&sharedState->mutex_access, 1, 1);
+    sem_init(&sharedState->logging, 1, 1);
+    sem_init(&sharedState->receptionist_access, 1, 0);
 
     // Initialize all the varibles in  statistics struct
     sharedState->statistics.avarage_staying_time = 0;
@@ -87,13 +86,19 @@ int main(int argc, char *argv[]) {
     sharedState->statistics.total_waiting_time = 0;
     sharedState->served_visitors = 0;
     
-    // //Create the receptionist process
+    //Create and run the receptionist process
     pid_t receptionist_pid = fork();
     if (receptionist_pid == 0) {
+
+        // Execute receptionist.c
         char receptionist_ordertime[10];
         sprintf(receptionist_ordertime, "%d", ordertime);
 
-        char *args[] = {"./receptionist", "-d",receptionist_ordertime,"-s",shmname, NULL};
+        char *args[] = {"./receptionist", 
+                        "-d",receptionist_ordertime,
+                        "-s",shmname, 
+                        NULL};
+
         execvp(args[0], args);
 
         // If execvp fails
@@ -104,9 +109,8 @@ int main(int argc, char *argv[]) {
         exit(1);
     }
 
-    // Create child processes
-    int num_customers = 20;
-    for (int i = 0; i < num_customers; i++) {
+    // Create visitor processes
+    for (int i = 0; i < VISITORS ; i++) {
         pid_t pid = fork();
         if (pid == 0) {
 
@@ -114,7 +118,10 @@ int main(int argc, char *argv[]) {
             char visitor_resttime[10];
             sprintf(visitor_resttime, "%d", resttime);
 
-            char *args[] = {"./visitor", "-d",visitor_resttime,"-s",shmname, NULL};
+            char *args[] = {"./visitor", 
+                            "-d",visitor_resttime,
+                            "-s",shmname, NULL};
+
             execvp(args[0], args);
 
             // If execvp fails
@@ -126,14 +133,11 @@ int main(int argc, char *argv[]) {
         }
     }
 
-
-
-
-    /// Wait for the receptionist process to finish
+    // Wait for the receptionist process to finish
     waitpid(receptionist_pid, NULL, 0);
 
     // Wait for all visitor processes to finish
-    for (int i = 0; i < num_customers; i++) {
+    for (int i = 0; i < VISITORS; i++) {
         pid_t visitor_pid = waitpid(-1, NULL, 0); // Wait for any child process (visitor)
         if (visitor_pid < 0) {
             perror("waitpid");
@@ -141,30 +145,20 @@ int main(int argc, char *argv[]) {
         }
     }
 
-    // Destroy the semaphores
+    // Destroy all the semaphores created
     sem_destroy(&sharedState->mutex_buffer_wait);
     sem_destroy(&sharedState->mutex_buffer_order);
     sem_destroy(&sharedState->mutex_access);
     sem_destroy(&sharedState->receptionist_access);
-    sem_destroy(&sharedState->visitor_processed);
     sem_destroy(&sharedState->logging);
     sem_destroy(&sharedState->buffer_empty);
     sem_destroy(&sharedState->buffer_full);
     sem_destroy(&sharedState->table_mutex);
     sem_destroy(&sharedState->table_reset);
-
-    for (int i = 0; i < NUM_TABLES; i++)
-    {
-        for (int j = 0; j < NUM_CHAIRS; j++)
-        {
-            sem_destroy(&sharedState->table[i].chair_sem[j]);
-        }
-        sem_destroy(&sharedState->table_mutex);
-    }
+    sem_destroy(&sharedState->table_mutex);
     
-
-    // Clean up the waiting buffer
-    cleanupBuffer(&sharedState->waiting_buffer);
+    // Clean up the waiting and order buffer
+    cleanupWaitingBuffer(&sharedState->waiting_buffer);
     cleanupOrderBuffer(&sharedState->receprionist_buffer);
 
     // Clean up shared memory
@@ -172,6 +166,8 @@ int main(int argc, char *argv[]) {
         perror("munmap");
         exit(0);
     }
+
+    // Close shared memory
     if (shm_unlink(shmname) == -1) {
         perror("shm_unlink");
         exit(0);
