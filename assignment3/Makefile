@@ -15,7 +15,7 @@ all:  $(VISITOR) $(INITIALLIZER) $(RECEPTIONIST) $(MONITOR)
 $(RECEPTIONIST): receptionist.c
 	$(CC) -o $(RECEPTIONIST) receptionist.c segment.c $(CLIBS) 
 
-# # Compile monitor.c
+# Compile monitor.c
 $(MONITOR): monitor.c
 	$(CC) -o $(MONITOR) monitor.c segment.c $(CLIBS) 
 

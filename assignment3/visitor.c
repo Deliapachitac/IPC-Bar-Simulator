@@ -84,11 +84,12 @@ int main(int argc, char *argv[]) {
         exit(EXIT_FAILURE);
     }
    
-    // enqueueWaiting the visitor into the waiting buffer which represents the queue of the bar
+    // insert the visitor into the waiting buffer which represents the queue of the bar
     int dequeued_customer;
     enqueueWaiting(sharedState, getpid());
     dequeueWaiting(sharedState, &dequeued_customer);
     
+    // Start the waiting time and staying time
     struct tms start_waiting_time, end_waiting_time, start_staying_time, end_staying_time;
     clock_t start_wait, end_wait, start_stay, end_stay;
     double ticks_per_sec_wait = (double)sysconf(_SC_CLK_TCK);
@@ -116,8 +117,7 @@ int main(int argc, char *argv[]) {
                     
                     // end the waiting time
                     end_wait = (double) times(&end_waiting_time);
-                    sharedState->statistics.total_waiting_time += (double)(end_wait - start_wait) / ticks_per_sec_wait;
-                    sharedState->statistics.avarage_waiting_time = sharedState->statistics.total_waiting_time / sharedState->statistics.total_visitors;
+                
 
                     // If the table is full, mark it as full
                     if (sharedState->table[i].full_chairs == NUM_CHAIRS) {
@@ -169,9 +169,8 @@ int main(int argc, char *argv[]) {
 
                 // end the staying time
                 end_stay = (double) times(&end_staying_time);
-                sharedState->statistics.total_staying_time += (double)(end_stay - start_stay) / ticks_per_sec_wait;
-                sharedState->statistics.avarage_staying_time = sharedState->statistics.total_staying_time / sharedState->statistics.total_visitors;
-
+            
+                
                 // Reset the table if all chairs are empty (-1)
                 if (all_chairs_empty) {
                     for (int k = 0; k < NUM_CHAIRS; k++) {
@@ -188,7 +187,14 @@ int main(int argc, char *argv[]) {
             
         }
     }
-    
+
+    sem_wait(&sharedState->mutex_access);
+    sharedState->statistics.total_staying_time += (double)(end_stay - start_stay) / ticks_per_sec_wait;
+    sharedState->statistics.avarage_staying_time = sharedState->statistics.total_staying_time / sharedState->statistics.total_visitors;
+    sharedState->statistics.total_waiting_time += (double)(end_wait - start_wait) / ticks_per_sec_wait;
+    sharedState->statistics.avarage_waiting_time = sharedState->statistics.total_waiting_time / sharedState->statistics.total_visitors;
+    sem_post(&sharedState->mutex_access);
+
     // Clean up
     if (munmap(sharedState, sizeof(SharedMemoryStruct)) == -1) {
         perror("munmap");

@@ -87,12 +87,15 @@ int main(int argc, char *argv[]) {
         // Take the visitors information from the queue
         int slot = dequeueOrder(sharedState, &visitor_id);
 
+        
         // Generate a random order for the visitor
+        sem_wait(&sharedState->mutex_access); 
         Order order = generateRandomOrder();
         sharedState->statistics.counter_water += order.water;
         sharedState->statistics.counter_wine += order.wine;
         sharedState->statistics.counter_cheese += order.cheese;
         sharedState->statistics.counter_salad += order.salad;
+        sem_post(&sharedState->mutex_access); 
 
         printf("Receptionist: Preparing order for visitor %d\n", visitor_id);
 

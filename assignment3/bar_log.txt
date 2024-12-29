@@ -8678,3 +8678,2555 @@ The table 1 has 1 full chairs
     Chair 3 is empty
 
 
+The table 0  is empty
+The table 0 has 1 full chairs
+    Chair 0 is occupied by customer 1843376
+    Chair 1 is empty
+    Chair 2 is empty
+    Chair 3 is empty
+
+
+The table 0  is empty
+The table 0 has 1 full chairs
+    Chair 0 is occupied by customer -1
+    Chair 1 is occupied by customer 1843378
+    Chair 2 is empty
+    Chair 3 is empty
+
+
+The table 0  is empty
+The table 0 has 1 full chairs
+    Chair 0 is occupied by customer -1
+    Chair 1 is occupied by customer 1843378
+    Chair 2 is empty
+    Chair 3 is empty
+
+
+The table 0  is empty
+The table 0 has 2 full chairs
+    Chair 0 is occupied by customer -1
+    Chair 1 is occupied by customer 1843378
+    Chair 2 is occupied by customer 1843377
+    Chair 3 is empty
+
+
+The table 0  is empty
+The table 0 has 1 full chairs
+    Chair 0 is occupied by customer -1
+    Chair 1 is occupied by customer -1
+    Chair 2 is occupied by customer 1843377
+    Chair 3 is empty
+
+
+The table 0  is empty
+The table 0 has 0 full chairs
+    Chair 0 is occupied by customer -1
+    Chair 1 is occupied by customer -1
+    Chair 2 is occupied by customer -1
+    Chair 3 is empty
+
+
+The table 0  is empty
+The table 0 has 1 full chairs
+    Chair 0 is occupied by customer -1
+    Chair 1 is occupied by customer -1
+    Chair 2 is occupied by customer -1
+    Chair 3 is occupied by customer 1843380
+
+
+The table 1  is empty
+The table 1 has 1 full chairs
+    Chair 0 is occupied by customer 1843379
+    Chair 1 is empty
+    Chair 2 is empty
+    Chair 3 is empty
+
+
+The table 0  is empty
+The table 0 has 0 full chairs
+    Chair 0 is empty
+    Chair 1 is empty
+    Chair 2 is empty
+    Chair 3 is empty
+
+
+The table 1  is empty
+The table 1 has 1 full chairs
+    Chair 0 is occupied by customer -1
+    Chair 1 is occupied by customer 1843382
+    Chair 2 is empty
+    Chair 3 is empty
+
+
+The table 1  is empty
+The table 1 has 1 full chairs
+    Chair 0 is occupied by customer -1
+    Chair 1 is occupied by customer 1843382
+    Chair 2 is empty
+    Chair 3 is empty
+
+
+The table 1  is empty
+The table 1 has 0 full chairs
+    Chair 0 is occupied by customer -1
+    Chair 1 is occupied by customer -1
+    Chair 2 is empty
+    Chair 3 is empty
+
+
+The table 0  is empty
+The table 0 has 1 full chairs
+    Chair 0 is occupied by customer 1843385
+    Chair 1 is empty
+    Chair 2 is empty
+    Chair 3 is empty
+
+
+The table 0  is empty
+The table 0 has 0 full chairs
+    Chair 0 is occupied by customer -1
+    Chair 1 is empty
+    Chair 2 is empty
+    Chair 3 is empty
+
+
+The table 0  is empty
+The table 0 has 1 full chairs
+    Chair 0 is occupied by customer -1
+    Chair 1 is occupied by customer 1843393
+    Chair 2 is empty
+    Chair 3 is empty
+
+
+The table 0  is empty
+The table 0 has 0 full chairs
+    Chair 0 is occupied by customer -1
+    Chair 1 is occupied by customer -1
+    Chair 2 is empty
+    Chair 3 is empty
+
+
+The table 0  is empty
+The table 0 has 1 full chairs
+    Chair 0 is occupied by customer -1
+    Chair 1 is occupied by customer -1
+    Chair 2 is occupied by customer 1843404
+    Chair 3 is empty
+
+
+The table 0  is empty
+The table 0 has 2 full chairs
+    Chair 0 is occupied by customer -1
+    Chair 1 is occupied by customer -1
+    Chair 2 is occupied by customer 1843404
+    Chair 3 is occupied by customer 1843407
+
+
+The table 0  is empty
+The table 0 has 1 full chairs
+    Chair 0 is occupied by customer -1
+    Chair 1 is occupied by customer -1
+    Chair 2 is occupied by customer -1
+    Chair 3 is occupied by customer 1843407
+
+
+The table 0  is empty
+The table 0 has 0 full chairs
+    Chair 0 is empty
+    Chair 1 is empty
+    Chair 2 is empty
+    Chair 3 is empty
+
+
+The table 1  is empty
+The table 1 has 1 full chairs
+    Chair 0 is occupied by customer -1
+    Chair 1 is occupied by customer -1
+    Chair 2 is occupied by customer 1843384
+    Chair 3 is empty
+
+
+The table 1  is empty
+The table 1 has 0 full chairs
+    Chair 0 is occupied by customer -1
+    Chair 1 is occupied by customer -1
+    Chair 2 is occupied by customer -1
+    Chair 3 is empty
+
+
+The table 0  is empty
+The table 0 has 1 full chairs
+    Chair 0 is occupied by customer 1843405
+    Chair 1 is empty
+    Chair 2 is empty
+    Chair 3 is empty
+
+
+The table 0  is empty
+The table 0 has 0 full chairs
+    Chair 0 is occupied by customer -1
+    Chair 1 is empty
+    Chair 2 is empty
+    Chair 3 is empty
+
+
+The table 0  is empty
+The table 0 has 1 full chairs
+    Chair 0 is occupied by customer -1
+    Chair 1 is occupied by customer 1843408
+    Chair 2 is empty
+    Chair 3 is empty
+
+
+The table 0  is empty
+The table 0 has 0 full chairs
+    Chair 0 is occupied by customer -1
+    Chair 1 is occupied by customer -1
+    Chair 2 is empty
+    Chair 3 is empty
+
+
+The table 0  is empty
+The table 0 has 1 full chairs
+    Chair 0 is occupied by customer -1
+    Chair 1 is occupied by customer -1
+    Chair 2 is occupied by customer 1843426
+    Chair 3 is empty
+
+
+The table 0  is empty
+The table 0 has 2 full chairs
+    Chair 0 is occupied by customer -1
+    Chair 1 is occupied by customer -1
+    Chair 2 is occupied by customer 1843426
+    Chair 3 is occupied by customer 1843410
+
+
+The table 0  is empty
+The table 0 has 1 full chairs
+    Chair 0 is occupied by customer -1
+    Chair 1 is occupied by customer -1
+    Chair 2 is occupied by customer -1
+    Chair 3 is occupied by customer 1843410
+
+
+The table 1  is empty
+The table 1 has 1 full chairs
+    Chair 0 is occupied by customer -1
+    Chair 1 is occupied by customer -1
+    Chair 2 is occupied by customer -1
+    Chair 3 is occupied by customer 1843429
+
+
+The table 0  is empty
+The table 0 has 0 full chairs
+    Chair 0 is empty
+    Chair 1 is empty
+    Chair 2 is empty
+    Chair 3 is empty
+
+
+The table 1  is empty
+The table 1 has 0 full chairs
+    Chair 0 is empty
+    Chair 1 is empty
+    Chair 2 is empty
+    Chair 3 is empty
+
+
+The table 2  is empty
+The table 2 has 1 full chairs
+    Chair 0 is occupied by customer 1843406
+    Chair 1 is empty
+    Chair 2 is empty
+    Chair 3 is empty
+
+
+The table 2  is empty
+The table 2 has 0 full chairs
+    Chair 0 is occupied by customer -1
+    Chair 1 is empty
+    Chair 2 is empty
+    Chair 3 is empty
+
+
+The table 0  is empty
+The table 0 has 1 full chairs
+    Chair 0 is occupied by customer 1843422
+    Chair 1 is empty
+    Chair 2 is empty
+    Chair 3 is empty
+
+
+The table 0  is empty
+The table 0 has 0 full chairs
+    Chair 0 is occupied by customer -1
+    Chair 1 is empty
+    Chair 2 is empty
+    Chair 3 is empty
+
+
+The table 0  is empty
+The table 0 has 1 full chairs
+    Chair 0 is occupied by customer -1
+    Chair 1 is occupied by customer 1843425
+    Chair 2 is empty
+    Chair 3 is empty
+
+
+The table 0  is empty
+The table 0 has 0 full chairs
+    Chair 0 is occupied by customer -1
+    Chair 1 is occupied by customer -1
+    Chair 2 is empty
+    Chair 3 is empty
+
+
+The table 0  is empty
+The table 0 has 1 full chairs
+    Chair 0 is occupied by customer -1
+    Chair 1 is occupied by customer -1
+    Chair 2 is occupied by customer 1843397
+    Chair 3 is empty
+
+
+The table 0  is empty
+The table 0 has 0 full chairs
+    Chair 0 is occupied by customer -1
+    Chair 1 is occupied by customer -1
+    Chair 2 is occupied by customer -1
+    Chair 3 is empty
+
+
+The table 0  is empty
+The table 0 has 1 full chairs
+    Chair 0 is occupied by customer -1
+    Chair 1 is occupied by customer -1
+    Chair 2 is occupied by customer -1
+    Chair 3 is occupied by customer 1843431
+
+
+The table 0  is empty
+The table 0 has 0 full chairs
+    Chair 0 is empty
+    Chair 1 is empty
+    Chair 2 is empty
+    Chair 3 is empty
+
+
+The table 1  is empty
+The table 1 has 1 full chairs
+    Chair 0 is occupied by customer 1843428
+    Chair 1 is empty
+    Chair 2 is empty
+    Chair 3 is empty
+
+
+The table 1  is empty
+The table 1 has 0 full chairs
+    Chair 0 is occupied by customer -1
+    Chair 1 is empty
+    Chair 2 is empty
+    Chair 3 is empty
+
+
+The table 0  is empty
+The table 0 has 1 full chairs
+    Chair 0 is occupied by customer 1843392
+    Chair 1 is empty
+    Chair 2 is empty
+    Chair 3 is empty
+
+
+The table 0  is empty
+The table 0 has 1 full chairs
+    Chair 0 is occupied by customer -1
+    Chair 1 is occupied by customer 1843386
+    Chair 2 is empty
+    Chair 3 is empty
+
+
+The table 0  is empty
+The table 0 has 1 full chairs
+    Chair 0 is occupied by customer -1
+    Chair 1 is occupied by customer 1843386
+    Chair 2 is empty
+    Chair 3 is empty
+
+
+The table 0  is empty
+The table 0 has 1 full chairs
+    Chair 0 is occupied by customer 1851201
+    Chair 1 is empty
+    Chair 2 is empty
+    Chair 3 is empty
+
+
+The table 0  is empty
+The table 0 has 0 full chairs
+    Chair 0 is occupied by customer -1
+    Chair 1 is empty
+    Chair 2 is empty
+    Chair 3 is empty
+
+
+The table 0  is empty
+The table 0 has 1 full chairs
+    Chair 0 is occupied by customer -1
+    Chair 1 is occupied by customer 1851199
+    Chair 2 is empty
+    Chair 3 is empty
+
+
+The table 0  is empty
+The table 0 has 0 full chairs
+    Chair 0 is occupied by customer -1
+    Chair 1 is occupied by customer -1
+    Chair 2 is empty
+    Chair 3 is empty
+
+
+The table 0  is empty
+The table 0 has 1 full chairs
+    Chair 0 is occupied by customer -1
+    Chair 1 is occupied by customer -1
+    Chair 2 is occupied by customer 1851200
+    Chair 3 is empty
+
+
+The table 0  is empty
+The table 0 has 0 full chairs
+    Chair 0 is occupied by customer -1
+    Chair 1 is occupied by customer -1
+    Chair 2 is occupied by customer -1
+    Chair 3 is empty
+
+
+The table 0  is empty
+The table 0 has 1 full chairs
+    Chair 0 is occupied by customer -1
+    Chair 1 is occupied by customer -1
+    Chair 2 is occupied by customer -1
+    Chair 3 is occupied by customer 1851202
+
+
+The table 0  is empty
+The table 0 has 0 full chairs
+    Chair 0 is empty
+    Chair 1 is empty
+    Chair 2 is empty
+    Chair 3 is empty
+
+
+The table 1  is empty
+The table 1 has 1 full chairs
+    Chair 0 is occupied by customer 1851212
+    Chair 1 is empty
+    Chair 2 is empty
+    Chair 3 is empty
+
+
+The table 1  is empty
+The table 1 has 0 full chairs
+    Chair 0 is occupied by customer -1
+    Chair 1 is empty
+    Chair 2 is empty
+    Chair 3 is empty
+
+
+The table 0  is empty
+The table 0 has 1 full chairs
+    Chair 0 is occupied by customer 1851198
+    Chair 1 is empty
+    Chair 2 is empty
+    Chair 3 is empty
+
+
+The table 0  is empty
+The table 0 has 0 full chairs
+    Chair 0 is occupied by customer -1
+    Chair 1 is empty
+    Chair 2 is empty
+    Chair 3 is empty
+
+
+The table 0  is empty
+The table 0 has 1 full chairs
+    Chair 0 is occupied by customer -1
+    Chair 1 is occupied by customer 1851213
+    Chair 2 is empty
+    Chair 3 is empty
+
+
+The table 0  is empty
+The table 0 has 1 full chairs
+    Chair 0 is occupied by customer -1
+    Chair 1 is occupied by customer -1
+    Chair 2 is occupied by customer 1851215
+    Chair 3 is empty
+
+
+The table 0  is empty
+The table 0 has 1 full chairs
+    Chair 0 is occupied by customer -1
+    Chair 1 is occupied by customer -1
+    Chair 2 is occupied by customer 1851215
+    Chair 3 is empty
+
+
+The table 0  is empty
+The table 0 has 2 full chairs
+    Chair 0 is occupied by customer -1
+    Chair 1 is occupied by customer -1
+    Chair 2 is occupied by customer 1851215
+    Chair 3 is occupied by customer 1851203
+
+
+The table 0  is empty
+The table 0 has 1 full chairs
+    Chair 0 is occupied by customer -1
+    Chair 1 is occupied by customer -1
+    Chair 2 is occupied by customer -1
+    Chair 3 is occupied by customer 1851203
+
+
+The table 1  is empty
+The table 1 has 1 full chairs
+    Chair 0 is occupied by customer -1
+    Chair 1 is occupied by customer 1851210
+    Chair 2 is empty
+    Chair 3 is empty
+
+
+The table 0  is empty
+The table 0 has 0 full chairs
+    Chair 0 is empty
+    Chair 1 is empty
+    Chair 2 is empty
+    Chair 3 is empty
+
+
+The table 1  is empty
+The table 1 has 0 full chairs
+    Chair 0 is occupied by customer -1
+    Chair 1 is occupied by customer -1
+    Chair 2 is empty
+    Chair 3 is empty
+
+
+The table 1  is empty
+The table 1 has 1 full chairs
+    Chair 0 is occupied by customer -1
+    Chair 1 is occupied by customer -1
+    Chair 2 is occupied by customer 1851206
+    Chair 3 is empty
+
+
+The table 1  is empty
+The table 1 has 0 full chairs
+    Chair 0 is occupied by customer -1
+    Chair 1 is occupied by customer -1
+    Chair 2 is occupied by customer -1
+    Chair 3 is empty
+
+
+The table 0  is empty
+The table 0 has 1 full chairs
+    Chair 0 is occupied by customer 1851208
+    Chair 1 is empty
+    Chair 2 is empty
+    Chair 3 is empty
+
+
+The table 0  is empty
+The table 0 has 0 full chairs
+    Chair 0 is occupied by customer -1
+    Chair 1 is empty
+    Chair 2 is empty
+    Chair 3 is empty
+
+
+The table 0  is empty
+The table 0 has 1 full chairs
+    Chair 0 is occupied by customer -1
+    Chair 1 is occupied by customer 1851214
+    Chair 2 is empty
+    Chair 3 is empty
+
+
+The table 0  is empty
+The table 0 has 0 full chairs
+    Chair 0 is occupied by customer -1
+    Chair 1 is occupied by customer -1
+    Chair 2 is empty
+    Chair 3 is empty
+
+
+The table 0  is empty
+The table 0 has 1 full chairs
+    Chair 0 is occupied by customer -1
+    Chair 1 is occupied by customer -1
+    Chair 2 is occupied by customer 1851209
+    Chair 3 is empty
+
+
+The table 0  is empty
+The table 0 has 2 full chairs
+    Chair 0 is occupied by customer -1
+    Chair 1 is occupied by customer -1
+    Chair 2 is occupied by customer 1851209
+    Chair 3 is occupied by customer 1851205
+
+
+The table 0  is empty
+The table 0 has 1 full chairs
+    Chair 0 is occupied by customer -1
+    Chair 1 is occupied by customer -1
+    Chair 2 is occupied by customer -1
+    Chair 3 is occupied by customer 1851205
+
+
+The table 1  is empty
+The table 1 has 1 full chairs
+    Chair 0 is occupied by customer -1
+    Chair 1 is occupied by customer -1
+    Chair 2 is occupied by customer -1
+    Chair 3 is occupied by customer 1851211
+
+
+The table 0  is empty
+The table 0 has 0 full chairs
+    Chair 0 is empty
+    Chair 1 is empty
+    Chair 2 is empty
+    Chair 3 is empty
+
+
+The table 1  is empty
+The table 1 has 0 full chairs
+    Chair 0 is empty
+    Chair 1 is empty
+    Chair 2 is empty
+    Chair 3 is empty
+
+
+The table 2  is empty
+The table 2 has 1 full chairs
+    Chair 0 is occupied by customer 1851207
+    Chair 1 is empty
+    Chair 2 is empty
+    Chair 3 is empty
+
+
+The table 2  is empty
+The table 2 has 0 full chairs
+    Chair 0 is occupied by customer -1
+    Chair 1 is empty
+    Chair 2 is empty
+    Chair 3 is empty
+
+
+The table 0  is empty
+The table 0 has 1 full chairs
+    Chair 0 is occupied by customer 1851204
+    Chair 1 is empty
+    Chair 2 is empty
+    Chair 3 is empty
+
+
+The table 0  is empty
+The table 0 has 0 full chairs
+    Chair 0 is occupied by customer -1
+    Chair 1 is empty
+    Chair 2 is empty
+    Chair 3 is empty
+
+
+The table 0  is empty
+The table 0 has 1 full chairs
+    Chair 0 is occupied by customer -1
+    Chair 1 is occupied by customer 1851230
+    Chair 2 is empty
+    Chair 3 is empty
+
+
+The table 0  is empty
+The table 0 has 0 full chairs
+    Chair 0 is occupied by customer -1
+    Chair 1 is occupied by customer -1
+    Chair 2 is empty
+    Chair 3 is empty
+
+
+The table 0  is empty
+The table 0 has 1 full chairs
+    Chair 0 is occupied by customer -1
+    Chair 1 is occupied by customer -1
+    Chair 2 is occupied by customer 1851228
+    Chair 3 is empty
+
+
+The table 0  is empty
+The table 0 has 0 full chairs
+    Chair 0 is occupied by customer -1
+    Chair 1 is occupied by customer -1
+    Chair 2 is occupied by customer -1
+    Chair 3 is empty
+
+
+The table 0  is empty
+The table 0 has 1 full chairs
+    Chair 0 is occupied by customer -1
+    Chair 1 is occupied by customer -1
+    Chair 2 is occupied by customer -1
+    Chair 3 is occupied by customer 1851226
+
+
+The table 0  is empty
+The table 0 has 0 full chairs
+    Chair 0 is empty
+    Chair 1 is empty
+    Chair 2 is empty
+    Chair 3 is empty
+
+
+The table 1  is empty
+The table 1 has 1 full chairs
+    Chair 0 is occupied by customer 1851229
+    Chair 1 is empty
+    Chair 2 is empty
+    Chair 3 is empty
+
+
+The table 1  is empty
+The table 1 has 0 full chairs
+    Chair 0 is occupied by customer -1
+    Chair 1 is empty
+    Chair 2 is empty
+    Chair 3 is empty
+
+
+The table 0  is empty
+The table 0 has 1 full chairs
+    Chair 0 is occupied by customer 1851222
+    Chair 1 is empty
+    Chair 2 is empty
+    Chair 3 is empty
+
+
+The table 0  is empty
+The table 0 has 1 full chairs
+    Chair 0 is occupied by customer -1
+    Chair 1 is occupied by customer 1851223
+    Chair 2 is empty
+    Chair 3 is empty
+
+
+The table 0  is empty
+The table 0 has 1 full chairs
+    Chair 0 is occupied by customer -1
+    Chair 1 is occupied by customer 1851223
+    Chair 2 is empty
+    Chair 3 is empty
+
+
+The table 0  is empty
+The table 0 has 2 full chairs
+    Chair 0 is occupied by customer -1
+    Chair 1 is occupied by customer 1851223
+    Chair 2 is occupied by customer 1851227
+    Chair 3 is empty
+
+
+The table 0  is empty
+The table 0 has 1 full chairs
+    Chair 0 is occupied by customer -1
+    Chair 1 is occupied by customer -1
+    Chair 2 is occupied by customer 1851227
+    Chair 3 is empty
+
+
+The table 0  is empty
+The table 0 has 1 full chairs
+    Chair 0 is occupied by customer -1
+    Chair 1 is occupied by customer -1
+    Chair 2 is occupied by customer -1
+    Chair 3 is occupied by customer 1851219
+
+
+The table 0  is empty
+The table 0 has 1 full chairs
+    Chair 0 is occupied by customer -1
+    Chair 1 is occupied by customer -1
+    Chair 2 is occupied by customer -1
+    Chair 3 is occupied by customer 1851219
+
+
+The table 0  is empty
+The table 0 has 0 full chairs
+    Chair 0 is empty
+    Chair 1 is empty
+    Chair 2 is empty
+    Chair 3 is empty
+
+
+The table 1  is empty
+The table 1 has 1 full chairs
+    Chair 0 is occupied by customer -1
+    Chair 1 is occupied by customer 1851234
+    Chair 2 is empty
+    Chair 3 is empty
+
+
+The table 0  is empty
+The table 0 has 1 full chairs
+    Chair 0 is occupied by customer 1851217
+    Chair 1 is empty
+    Chair 2 is empty
+    Chair 3 is empty
+
+
+The table 1  is empty
+The table 1 has 0 full chairs
+    Chair 0 is occupied by customer -1
+    Chair 1 is occupied by customer -1
+    Chair 2 is empty
+    Chair 3 is empty
+
+
+The table 0  is empty
+The table 0 has 0 full chairs
+    Chair 0 is occupied by customer -1
+    Chair 1 is empty
+    Chair 2 is empty
+    Chair 3 is empty
+
+
+The table 0  is empty
+The table 0 has 1 full chairs
+    Chair 0 is occupied by customer -1
+    Chair 1 is occupied by customer 1851233
+    Chair 2 is empty
+    Chair 3 is empty
+
+
+The table 0  is empty
+The table 0 has 1 full chairs
+    Chair 0 is occupied by customer -1
+    Chair 1 is occupied by customer -1
+    Chair 2 is occupied by customer 1851216
+    Chair 3 is empty
+
+
+The table 0  is empty
+The table 0 has 1 full chairs
+    Chair 0 is occupied by customer -1
+    Chair 1 is occupied by customer -1
+    Chair 2 is occupied by customer 1851216
+    Chair 3 is empty
+
+
+The table 0  is empty
+The table 0 has 2 full chairs
+    Chair 0 is occupied by customer -1
+    Chair 1 is occupied by customer -1
+    Chair 2 is occupied by customer 1851216
+    Chair 3 is occupied by customer 1851231
+
+
+The table 0  is empty
+The table 0 has 1 full chairs
+    Chair 0 is occupied by customer -1
+    Chair 1 is occupied by customer -1
+    Chair 2 is occupied by customer -1
+    Chair 3 is occupied by customer 1851231
+
+
+The table 0  is empty
+The table 0 has 0 full chairs
+    Chair 0 is empty
+    Chair 1 is empty
+    Chair 2 is empty
+    Chair 3 is empty
+
+
+The table 1  is empty
+The table 1 has 1 full chairs
+    Chair 0 is occupied by customer -1
+    Chair 1 is occupied by customer -1
+    Chair 2 is occupied by customer 1851220
+    Chair 3 is empty
+
+
+The table 1  is empty
+The table 1 has 0 full chairs
+    Chair 0 is occupied by customer -1
+    Chair 1 is occupied by customer -1
+    Chair 2 is occupied by customer -1
+    Chair 3 is empty
+
+
+The table 0  is empty
+The table 0 has 1 full chairs
+    Chair 0 is occupied by customer 1851225
+    Chair 1 is empty
+    Chair 2 is empty
+    Chair 3 is empty
+
+
+The table 0  is empty
+The table 0 has 1 full chairs
+    Chair 0 is occupied by customer -1
+    Chair 1 is occupied by customer 1851235
+    Chair 2 is empty
+    Chair 3 is empty
+
+
+The table 0  is empty
+The table 0 has 1 full chairs
+    Chair 0 is occupied by customer -1
+    Chair 1 is occupied by customer 1851235
+    Chair 2 is empty
+    Chair 3 is empty
+
+
+The table 0  is empty
+The table 0 has 1 full chairs
+    Chair 0 is occupied by customer -1
+    Chair 1 is occupied by customer -1
+    Chair 2 is occupied by customer 1851218
+    Chair 3 is empty
+
+
+The table 0  is empty
+The table 0 has 1 full chairs
+    Chair 0 is occupied by customer -1
+    Chair 1 is occupied by customer -1
+    Chair 2 is occupied by customer 1851218
+    Chair 3 is empty
+
+
+The table 0  is empty
+The table 0 has 0 full chairs
+    Chair 0 is occupied by customer -1
+    Chair 1 is occupied by customer -1
+    Chair 2 is occupied by customer -1
+    Chair 3 is empty
+
+
+The table 0  is empty
+The table 0 has 1 full chairs
+    Chair 0 is occupied by customer -1
+    Chair 1 is occupied by customer -1
+    Chair 2 is occupied by customer -1
+    Chair 3 is occupied by customer 1851236
+
+
+The table 1  is empty
+The table 1 has 1 full chairs
+    Chair 0 is occupied by customer -1
+    Chair 1 is occupied by customer -1
+    Chair 2 is occupied by customer -1
+    Chair 3 is occupied by customer 1851232
+
+
+The table 0  is empty
+The table 0 has 0 full chairs
+    Chair 0 is empty
+    Chair 1 is empty
+    Chair 2 is empty
+    Chair 3 is empty
+
+
+The table 1  is empty
+The table 1 has 0 full chairs
+    Chair 0 is empty
+    Chair 1 is empty
+    Chair 2 is empty
+    Chair 3 is empty
+
+
+The table 2  is empty
+The table 2 has 1 full chairs
+    Chair 0 is occupied by customer -1
+    Chair 1 is occupied by customer 1851243
+    Chair 2 is empty
+    Chair 3 is empty
+
+
+The table 2  is empty
+The table 2 has 0 full chairs
+    Chair 0 is occupied by customer -1
+    Chair 1 is occupied by customer -1
+    Chair 2 is empty
+    Chair 3 is empty
+
+
+The table 0  is empty
+The table 0 has 1 full chairs
+    Chair 0 is occupied by customer 1851253
+    Chair 1 is empty
+    Chair 2 is empty
+    Chair 3 is empty
+
+
+The table 0  is empty
+The table 0 has 1 full chairs
+    Chair 0 is occupied by customer -1
+    Chair 1 is occupied by customer 1851239
+    Chair 2 is empty
+    Chair 3 is empty
+
+
+The table 0  is empty
+The table 0 has 1 full chairs
+    Chair 0 is occupied by customer -1
+    Chair 1 is occupied by customer 1851239
+    Chair 2 is empty
+    Chair 3 is empty
+
+
+The table 0  is empty
+The table 0 has 2 full chairs
+    Chair 0 is occupied by customer -1
+    Chair 1 is occupied by customer 1851239
+    Chair 2 is occupied by customer 1851221
+    Chair 3 is empty
+
+
+The table 0  is empty
+The table 0 has 1 full chairs
+    Chair 0 is occupied by customer -1
+    Chair 1 is occupied by customer -1
+    Chair 2 is occupied by customer 1851221
+    Chair 3 is empty
+
+
+The table 0  is empty
+The table 0 has 2 full chairs
+    Chair 0 is occupied by customer -1
+    Chair 1 is occupied by customer -1
+    Chair 2 is occupied by customer 1851221
+    Chair 3 is occupied by customer 1851254
+
+
+The table 0  is empty
+The table 0 has 1 full chairs
+    Chair 0 is occupied by customer -1
+    Chair 1 is occupied by customer -1
+    Chair 2 is occupied by customer -1
+    Chair 3 is occupied by customer 1851254
+
+
+The table 0  is empty
+The table 0 has 0 full chairs
+    Chair 0 is empty
+    Chair 1 is empty
+    Chair 2 is empty
+    Chair 3 is empty
+
+
+The table 1  is empty
+The table 1 has 1 full chairs
+    Chair 0 is occupied by customer 1851240
+    Chair 1 is empty
+    Chair 2 is empty
+    Chair 3 is empty
+
+
+The table 1  is empty
+The table 1 has 0 full chairs
+    Chair 0 is occupied by customer -1
+    Chair 1 is empty
+    Chair 2 is empty
+    Chair 3 is empty
+
+
+The table 0  is empty
+The table 0 has 1 full chairs
+    Chair 0 is occupied by customer 1851224
+    Chair 1 is empty
+    Chair 2 is empty
+    Chair 3 is empty
+
+
+The table 0  is empty
+The table 0 has 0 full chairs
+    Chair 0 is occupied by customer -1
+    Chair 1 is empty
+    Chair 2 is empty
+    Chair 3 is empty
+
+
+The table 0  is empty
+The table 0 has 1 full chairs
+    Chair 0 is occupied by customer -1
+    Chair 1 is occupied by customer 1851248
+    Chair 2 is empty
+    Chair 3 is empty
+
+
+The table 0  is empty
+The table 0 has 0 full chairs
+    Chair 0 is occupied by customer -1
+    Chair 1 is occupied by customer -1
+    Chair 2 is empty
+    Chair 3 is empty
+
+
+The table 0  is empty
+The table 0 has 1 full chairs
+    Chair 0 is occupied by customer -1
+    Chair 1 is occupied by customer -1
+    Chair 2 is occupied by customer 1851242
+    Chair 3 is empty
+
+
+The table 0  is empty
+The table 0 has 0 full chairs
+    Chair 0 is occupied by customer -1
+    Chair 1 is occupied by customer -1
+    Chair 2 is occupied by customer -1
+    Chair 3 is empty
+
+
+The table 0  is empty
+The table 0 has 1 full chairs
+    Chair 0 is occupied by customer -1
+    Chair 1 is occupied by customer -1
+    Chair 2 is occupied by customer -1
+    Chair 3 is occupied by customer 1851241
+
+
+The table 0  is empty
+The table 0 has 0 full chairs
+    Chair 0 is empty
+    Chair 1 is empty
+    Chair 2 is empty
+    Chair 3 is empty
+
+
+The table 1  is empty
+The table 1 has 1 full chairs
+    Chair 0 is occupied by customer -1
+    Chair 1 is occupied by customer 1851256
+    Chair 2 is empty
+    Chair 3 is empty
+
+
+The table 1  is empty
+The table 1 has 0 full chairs
+    Chair 0 is occupied by customer -1
+    Chair 1 is occupied by customer -1
+    Chair 2 is empty
+    Chair 3 is empty
+
+
+The table 0  is empty
+The table 0 has 1 full chairs
+    Chair 0 is occupied by customer 1851238
+    Chair 1 is empty
+    Chair 2 is empty
+    Chair 3 is empty
+
+
+The table 0  is empty
+The table 0 has 1 full chairs
+    Chair 0 is occupied by customer -1
+    Chair 1 is occupied by customer 1851247
+    Chair 2 is empty
+    Chair 3 is empty
+
+
+The table 0  is empty
+The table 0 has 1 full chairs
+    Chair 0 is occupied by customer -1
+    Chair 1 is occupied by customer 1851247
+    Chair 2 is empty
+    Chair 3 is empty
+
+
+The table 0  is empty
+The table 0 has 1 full chairs
+    Chair 0 is occupied by customer -1
+    Chair 1 is occupied by customer -1
+    Chair 2 is occupied by customer 1851237
+    Chair 3 is empty
+
+
+The table 0  is empty
+The table 0 has 1 full chairs
+    Chair 0 is occupied by customer -1
+    Chair 1 is occupied by customer -1
+    Chair 2 is occupied by customer 1851237
+    Chair 3 is empty
+
+
+The table 0  is empty
+The table 0 has 0 full chairs
+    Chair 0 is occupied by customer -1
+    Chair 1 is occupied by customer -1
+    Chair 2 is occupied by customer -1
+    Chair 3 is empty
+
+
+The table 0  is empty
+The table 0 has 1 full chairs
+    Chair 0 is occupied by customer -1
+    Chair 1 is occupied by customer -1
+    Chair 2 is occupied by customer -1
+    Chair 3 is occupied by customer 1851260
+
+
+The table 0  is empty
+The table 0 has 0 full chairs
+    Chair 0 is empty
+    Chair 1 is empty
+    Chair 2 is empty
+    Chair 3 is empty
+
+
+The table 1  is empty
+The table 1 has 1 full chairs
+    Chair 0 is occupied by customer -1
+    Chair 1 is occupied by customer -1
+    Chair 2 is occupied by customer 1851259
+    Chair 3 is empty
+
+
+The table 0  is empty
+The table 0 has 1 full chairs
+    Chair 0 is occupied by customer 1851269
+    Chair 1 is empty
+    Chair 2 is empty
+    Chair 3 is empty
+
+
+The table 1  is empty
+The table 1 has 0 full chairs
+    Chair 0 is occupied by customer -1
+    Chair 1 is occupied by customer -1
+    Chair 2 is occupied by customer -1
+    Chair 3 is empty
+
+
+The table 0  is empty
+The table 0 has 0 full chairs
+    Chair 0 is occupied by customer -1
+    Chair 1 is empty
+    Chair 2 is empty
+    Chair 3 is empty
+
+
+The table 0  is empty
+The table 0 has 1 full chairs
+    Chair 0 is occupied by customer -1
+    Chair 1 is occupied by customer 1851264
+    Chair 2 is empty
+    Chair 3 is empty
+
+
+The table 0  is empty
+The table 0 has 0 full chairs
+    Chair 0 is occupied by customer -1
+    Chair 1 is occupied by customer -1
+    Chair 2 is empty
+    Chair 3 is empty
+
+
+The table 0  is empty
+The table 0 has 1 full chairs
+    Chair 0 is occupied by customer -1
+    Chair 1 is occupied by customer -1
+    Chair 2 is occupied by customer 1851262
+    Chair 3 is empty
+
+
+The table 0  is empty
+The table 0 has 0 full chairs
+    Chair 0 is occupied by customer -1
+    Chair 1 is occupied by customer -1
+    Chair 2 is occupied by customer -1
+    Chair 3 is empty
+
+
+The table 0  is empty
+The table 0 has 1 full chairs
+    Chair 0 is occupied by customer -1
+    Chair 1 is occupied by customer -1
+    Chair 2 is occupied by customer -1
+    Chair 3 is occupied by customer 1851255
+
+
+The table 0  is empty
+The table 0 has 0 full chairs
+    Chair 0 is empty
+    Chair 1 is empty
+    Chair 2 is empty
+    Chair 3 is empty
+
+
+The table 1  is empty
+The table 1 has 1 full chairs
+    Chair 0 is occupied by customer -1
+    Chair 1 is occupied by customer -1
+    Chair 2 is occupied by customer -1
+    Chair 3 is occupied by customer 1851273
+
+
+The table 1  is empty
+The table 1 has 0 full chairs
+    Chair 0 is empty
+    Chair 1 is empty
+    Chair 2 is empty
+    Chair 3 is empty
+
+
+The table 0  is empty
+The table 0 has 1 full chairs
+    Chair 0 is occupied by customer 1851276
+    Chair 1 is empty
+    Chair 2 is empty
+    Chair 3 is empty
+
+
+The table 0  is empty
+The table 0 has 0 full chairs
+    Chair 0 is occupied by customer -1
+    Chair 1 is empty
+    Chair 2 is empty
+    Chair 3 is empty
+
+
+The table 0  is empty
+The table 0 has 1 full chairs
+    Chair 0 is occupied by customer -1
+    Chair 1 is occupied by customer 1851261
+    Chair 2 is empty
+    Chair 3 is empty
+
+
+The table 0  is empty
+The table 0 has 2 full chairs
+    Chair 0 is occupied by customer -1
+    Chair 1 is occupied by customer 1851261
+    Chair 2 is occupied by customer 1851250
+    Chair 3 is empty
+
+
+The table 0  is empty
+The table 0 has 1 full chairs
+    Chair 0 is occupied by customer -1
+    Chair 1 is occupied by customer -1
+    Chair 2 is occupied by customer 1851250
+    Chair 3 is empty
+
+
+The table 0  is empty
+The table 0 has 0 full chairs
+    Chair 0 is occupied by customer -1
+    Chair 1 is occupied by customer -1
+    Chair 2 is occupied by customer -1
+    Chair 3 is empty
+
+
+The table 0  is empty
+The table 0 has 1 full chairs
+    Chair 0 is occupied by customer -1
+    Chair 1 is occupied by customer -1
+    Chair 2 is occupied by customer -1
+    Chair 3 is occupied by customer 1851245
+
+
+The table 0  is empty
+The table 0 has 0 full chairs
+    Chair 0 is empty
+    Chair 1 is empty
+    Chair 2 is empty
+    Chair 3 is empty
+
+
+The table 1  is empty
+The table 1 has 1 full chairs
+    Chair 0 is occupied by customer 1851295
+    Chair 1 is empty
+    Chair 2 is empty
+    Chair 3 is empty
+
+
+The table 1  is empty
+The table 1 has 0 full chairs
+    Chair 0 is occupied by customer -1
+    Chair 1 is empty
+    Chair 2 is empty
+    Chair 3 is empty
+
+
+The table 0  is empty
+The table 0 has 1 full chairs
+    Chair 0 is occupied by customer 1851293
+    Chair 1 is empty
+    Chair 2 is empty
+    Chair 3 is empty
+
+
+The table 0  is empty
+The table 0 has 0 full chairs
+    Chair 0 is occupied by customer -1
+    Chair 1 is empty
+    Chair 2 is empty
+    Chair 3 is empty
+
+
+The table 0  is empty
+The table 0 has 1 full chairs
+    Chair 0 is occupied by customer -1
+    Chair 1 is occupied by customer 1851288
+    Chair 2 is empty
+    Chair 3 is empty
+
+
+The table 0  is empty
+The table 0 has 0 full chairs
+    Chair 0 is occupied by customer -1
+    Chair 1 is occupied by customer -1
+    Chair 2 is empty
+    Chair 3 is empty
+
+
+The table 0  is empty
+The table 0 has 1 full chairs
+    Chair 0 is occupied by customer -1
+    Chair 1 is occupied by customer -1
+    Chair 2 is occupied by customer 1851257
+    Chair 3 is empty
+
+
+The table 0  is empty
+The table 0 has 0 full chairs
+    Chair 0 is occupied by customer -1
+    Chair 1 is occupied by customer -1
+    Chair 2 is occupied by customer -1
+    Chair 3 is empty
+
+
+The table 0  is empty
+The table 0 has 1 full chairs
+    Chair 0 is occupied by customer -1
+    Chair 1 is occupied by customer -1
+    Chair 2 is occupied by customer -1
+    Chair 3 is occupied by customer 1851285
+
+
+The table 0  is empty
+The table 0 has 0 full chairs
+    Chair 0 is empty
+    Chair 1 is empty
+    Chair 2 is empty
+    Chair 3 is empty
+
+
+The table 1  is empty
+The table 1 has 1 full chairs
+    Chair 0 is occupied by customer -1
+    Chair 1 is occupied by customer 1851282
+    Chair 2 is empty
+    Chair 3 is empty
+
+
+The table 0  is empty
+The table 0 has 1 full chairs
+    Chair 0 is occupied by customer 1851289
+    Chair 1 is empty
+    Chair 2 is empty
+    Chair 3 is empty
+
+
+The table 1  is empty
+The table 1 has 0 full chairs
+    Chair 0 is occupied by customer -1
+    Chair 1 is occupied by customer -1
+    Chair 2 is empty
+    Chair 3 is empty
+
+
+The table 0  is empty
+The table 0 has 0 full chairs
+    Chair 0 is occupied by customer -1
+    Chair 1 is empty
+    Chair 2 is empty
+    Chair 3 is empty
+
+
+The table 0  is empty
+The table 0 has 1 full chairs
+    Chair 0 is occupied by customer -1
+    Chair 1 is occupied by customer 1851274
+    Chair 2 is empty
+    Chair 3 is empty
+
+
+The table 0  is empty
+The table 0 has 0 full chairs
+    Chair 0 is occupied by customer -1
+    Chair 1 is occupied by customer -1
+    Chair 2 is empty
+    Chair 3 is empty
+
+
+The table 0  is empty
+The table 0 has 1 full chairs
+    Chair 0 is occupied by customer -1
+    Chair 1 is occupied by customer -1
+    Chair 2 is occupied by customer 1851294
+    Chair 3 is empty
+
+
+The table 0  is empty
+The table 0 has 1 full chairs
+    Chair 0 is occupied by customer -1
+    Chair 1 is occupied by customer -1
+    Chair 2 is occupied by customer -1
+    Chair 3 is occupied by customer 1851272
+
+
+The table 0  is empty
+The table 0 has 1 full chairs
+    Chair 0 is occupied by customer -1
+    Chair 1 is occupied by customer -1
+    Chair 2 is occupied by customer -1
+    Chair 3 is occupied by customer 1851272
+
+
+The table 0  is empty
+The table 0 has 0 full chairs
+    Chair 0 is empty
+    Chair 1 is empty
+    Chair 2 is empty
+    Chair 3 is empty
+
+
+The table 1  is empty
+The table 1 has 1 full chairs
+    Chair 0 is occupied by customer -1
+    Chair 1 is occupied by customer -1
+    Chair 2 is occupied by customer 1851279
+    Chair 3 is empty
+
+
+The table 0  is empty
+The table 0 has 1 full chairs
+    Chair 0 is occupied by customer 1851252
+    Chair 1 is empty
+    Chair 2 is empty
+    Chair 3 is empty
+
+
+The table 1  is empty
+The table 1 has 0 full chairs
+    Chair 0 is occupied by customer -1
+    Chair 1 is occupied by customer -1
+    Chair 2 is occupied by customer -1
+    Chair 3 is empty
+
+
+The table 0  is empty
+The table 0 has 0 full chairs
+    Chair 0 is occupied by customer -1
+    Chair 1 is empty
+    Chair 2 is empty
+    Chair 3 is empty
+
+
+The table 0  is empty
+The table 0 has 1 full chairs
+    Chair 0 is occupied by customer -1
+    Chair 1 is occupied by customer 1851270
+    Chair 2 is empty
+    Chair 3 is empty
+
+
+The table 0  is empty
+The table 0 has 0 full chairs
+    Chair 0 is occupied by customer -1
+    Chair 1 is occupied by customer -1
+    Chair 2 is empty
+    Chair 3 is empty
+
+
+The table 0  is empty
+The table 0 has 1 full chairs
+    Chair 0 is occupied by customer -1
+    Chair 1 is occupied by customer -1
+    Chair 2 is occupied by customer 1851280
+    Chair 3 is empty
+
+
+The table 0  is empty
+The table 0 has 0 full chairs
+    Chair 0 is occupied by customer -1
+    Chair 1 is occupied by customer -1
+    Chair 2 is occupied by customer -1
+    Chair 3 is empty
+
+
+The table 0  is empty
+The table 0 has 1 full chairs
+    Chair 0 is occupied by customer -1
+    Chair 1 is occupied by customer -1
+    Chair 2 is occupied by customer -1
+    Chair 3 is occupied by customer 1851277
+
+
+The table 1  is empty
+The table 1 has 1 full chairs
+    Chair 0 is occupied by customer -1
+    Chair 1 is occupied by customer -1
+    Chair 2 is occupied by customer -1
+    Chair 3 is occupied by customer 1851275
+
+
+The table 0  is empty
+The table 0 has 0 full chairs
+    Chair 0 is empty
+    Chair 1 is empty
+    Chair 2 is empty
+    Chair 3 is empty
+
+
+The table 1  is empty
+The table 1 has 0 full chairs
+    Chair 0 is empty
+    Chair 1 is empty
+    Chair 2 is empty
+    Chair 3 is empty
+
+
+The table 2  is empty
+The table 2 has 1 full chairs
+    Chair 0 is occupied by customer -1
+    Chair 1 is occupied by customer -1
+    Chair 2 is occupied by customer 1851251
+    Chair 3 is empty
+
+
+The table 0  is empty
+The table 0 has 1 full chairs
+    Chair 0 is occupied by customer 1851286
+    Chair 1 is empty
+    Chair 2 is empty
+    Chair 3 is empty
+
+
+The table 2  is empty
+The table 2 has 0 full chairs
+    Chair 0 is occupied by customer -1
+    Chair 1 is occupied by customer -1
+    Chair 2 is occupied by customer -1
+    Chair 3 is empty
+
+
+The table 0  is empty
+The table 0 has 0 full chairs
+    Chair 0 is occupied by customer -1
+    Chair 1 is empty
+    Chair 2 is empty
+    Chair 3 is empty
+
+
+The table 0  is empty
+The table 0 has 1 full chairs
+    Chair 0 is occupied by customer -1
+    Chair 1 is occupied by customer 1851278
+    Chair 2 is empty
+    Chair 3 is empty
+
+
+The table 0  is empty
+The table 0 has 2 full chairs
+    Chair 0 is occupied by customer -1
+    Chair 1 is occupied by customer 1851278
+    Chair 2 is occupied by customer 1851271
+    Chair 3 is empty
+
+
+The table 0  is empty
+The table 0 has 1 full chairs
+    Chair 0 is occupied by customer -1
+    Chair 1 is occupied by customer -1
+    Chair 2 is occupied by customer 1851271
+    Chair 3 is empty
+
+
+The table 0  is empty
+The table 0 has 0 full chairs
+    Chair 0 is occupied by customer -1
+    Chair 1 is occupied by customer -1
+    Chair 2 is occupied by customer -1
+    Chair 3 is empty
+
+
+The table 0  is empty
+The table 0 has 1 full chairs
+    Chair 0 is occupied by customer -1
+    Chair 1 is occupied by customer -1
+    Chair 2 is occupied by customer -1
+    Chair 3 is occupied by customer 1851266
+
+
+The table 0  is empty
+The table 0 has 0 full chairs
+    Chair 0 is empty
+    Chair 1 is empty
+    Chair 2 is empty
+    Chair 3 is empty
+
+
+The table 1  is empty
+The table 1 has 1 full chairs
+    Chair 0 is occupied by customer 1851246
+    Chair 1 is empty
+    Chair 2 is empty
+    Chair 3 is empty
+
+
+The table 1  is empty
+The table 1 has 0 full chairs
+    Chair 0 is occupied by customer -1
+    Chair 1 is empty
+    Chair 2 is empty
+    Chair 3 is empty
+
+
+The table 0  is empty
+The table 0 has 1 full chairs
+    Chair 0 is occupied by customer 1851281
+    Chair 1 is empty
+    Chair 2 is empty
+    Chair 3 is empty
+
+
+The table 0  is empty
+The table 0 has 0 full chairs
+    Chair 0 is occupied by customer -1
+    Chair 1 is empty
+    Chair 2 is empty
+    Chair 3 is empty
+
+
+The table 0  is empty
+The table 0 has 1 full chairs
+    Chair 0 is occupied by customer -1
+    Chair 1 is occupied by customer 1851244
+    Chair 2 is empty
+    Chair 3 is empty
+
+
+The table 0  is empty
+The table 0 has 1 full chairs
+    Chair 0 is occupied by customer -1
+    Chair 1 is occupied by customer -1
+    Chair 2 is occupied by customer 1851290
+    Chair 3 is empty
+
+
+The table 0  is empty
+The table 0 has 1 full chairs
+    Chair 0 is occupied by customer -1
+    Chair 1 is occupied by customer -1
+    Chair 2 is occupied by customer 1851290
+    Chair 3 is empty
+
+
+The table 0  is empty
+The table 0 has 2 full chairs
+    Chair 0 is occupied by customer -1
+    Chair 1 is occupied by customer -1
+    Chair 2 is occupied by customer 1851290
+    Chair 3 is occupied by customer 1851297
+
+
+The table 0  is empty
+The table 0 has 1 full chairs
+    Chair 0 is occupied by customer -1
+    Chair 1 is occupied by customer -1
+    Chair 2 is occupied by customer -1
+    Chair 3 is occupied by customer 1851297
+
+
+The table 1  is empty
+The table 1 has 1 full chairs
+    Chair 0 is occupied by customer -1
+    Chair 1 is occupied by customer 1851263
+    Chair 2 is empty
+    Chair 3 is empty
+
+
+The table 0  is empty
+The table 0 has 0 full chairs
+    Chair 0 is empty
+    Chair 1 is empty
+    Chair 2 is empty
+    Chair 3 is empty
+
+
+The table 1  is empty
+The table 1 has 0 full chairs
+    Chair 0 is occupied by customer -1
+    Chair 1 is occupied by customer -1
+    Chair 2 is empty
+    Chair 3 is empty
+
+
+The table 1  is empty
+The table 1 has 1 full chairs
+    Chair 0 is occupied by customer -1
+    Chair 1 is occupied by customer -1
+    Chair 2 is occupied by customer 1851249
+    Chair 3 is empty
+
+
+The table 0  is empty
+The table 0 has 1 full chairs
+    Chair 0 is occupied by customer 1851287
+    Chair 1 is empty
+    Chair 2 is empty
+    Chair 3 is empty
+
+
+The table 1  is empty
+The table 1 has 0 full chairs
+    Chair 0 is occupied by customer -1
+    Chair 1 is occupied by customer -1
+    Chair 2 is occupied by customer -1
+    Chair 3 is empty
+
+
+The table 0  is empty
+The table 0 has 2 full chairs
+    Chair 0 is occupied by customer 1851287
+    Chair 1 is occupied by customer 1851258
+    Chair 2 is empty
+    Chair 3 is empty
+
+
+The table 0  is empty
+The table 0 has 1 full chairs
+    Chair 0 is occupied by customer -1
+    Chair 1 is occupied by customer 1851258
+    Chair 2 is empty
+    Chair 3 is empty
+
+
+The table 0  is empty
+The table 0 has 0 full chairs
+    Chair 0 is occupied by customer -1
+    Chair 1 is occupied by customer -1
+    Chair 2 is empty
+    Chair 3 is empty
+
+
+The table 0  is empty
+The table 0 has 1 full chairs
+    Chair 0 is occupied by customer -1
+    Chair 1 is occupied by customer -1
+    Chair 2 is occupied by customer 1851267
+    Chair 3 is empty
+
+
+The table 0  is empty
+The table 0 has 0 full chairs
+    Chair 0 is occupied by customer -1
+    Chair 1 is occupied by customer -1
+    Chair 2 is occupied by customer -1
+    Chair 3 is empty
+
+
+The table 0  is empty
+The table 0 has 1 full chairs
+    Chair 0 is occupied by customer -1
+    Chair 1 is occupied by customer -1
+    Chair 2 is occupied by customer -1
+    Chair 3 is occupied by customer 1851284
+
+
+The table 0  is empty
+The table 0 has 0 full chairs
+    Chair 0 is empty
+    Chair 1 is empty
+    Chair 2 is empty
+    Chair 3 is empty
+
+
+The table 1  is empty
+The table 1 has 1 full chairs
+    Chair 0 is occupied by customer -1
+    Chair 1 is occupied by customer -1
+    Chair 2 is occupied by customer -1
+    Chair 3 is occupied by customer 1851268
+
+
+The table 1  is empty
+The table 1 has 0 full chairs
+    Chair 0 is empty
+    Chair 1 is empty
+    Chair 2 is empty
+    Chair 3 is empty
+
+
+The table 0  is empty
+The table 0 has 1 full chairs
+    Chair 0 is occupied by customer 1851296
+    Chair 1 is empty
+    Chair 2 is empty
+    Chair 3 is empty
+
+
+The table 0  is empty
+The table 0 has 0 full chairs
+    Chair 0 is occupied by customer -1
+    Chair 1 is empty
+    Chair 2 is empty
+    Chair 3 is empty
+
+
+The table 0  is empty
+The table 0 has 1 full chairs
+    Chair 0 is occupied by customer -1
+    Chair 1 is occupied by customer 1851291
+    Chair 2 is empty
+    Chair 3 is empty
+
+
+The table 0  is empty
+The table 0 has 2 full chairs
+    Chair 0 is occupied by customer -1
+    Chair 1 is occupied by customer 1851291
+    Chair 2 is occupied by customer 1851283
+    Chair 3 is empty
+
+
+The table 0  is empty
+The table 0 has 1 full chairs
+    Chair 0 is occupied by customer -1
+    Chair 1 is occupied by customer -1
+    Chair 2 is occupied by customer 1851283
+    Chair 3 is empty
+
+
+The table 0  is empty
+The table 0 has 2 full chairs
+    Chair 0 is occupied by customer -1
+    Chair 1 is occupied by customer -1
+    Chair 2 is occupied by customer 1851283
+    Chair 3 is occupied by customer 1851292
+
+
+The table 0  is empty
+The table 0 has 1 full chairs
+    Chair 0 is occupied by customer -1
+    Chair 1 is occupied by customer -1
+    Chair 2 is occupied by customer -1
+    Chair 3 is occupied by customer 1851292
+
+
+The table 0  is empty
+The table 0 has 0 full chairs
+    Chair 0 is empty
+    Chair 1 is empty
+    Chair 2 is empty
+    Chair 3 is empty
+
+
+The table 1  is empty
+The table 1 has 1 full chairs
+    Chair 0 is occupied by customer 1851265
+    Chair 1 is empty
+    Chair 2 is empty
+    Chair 3 is empty
+
+
+The table 1  is empty
+The table 1 has 0 full chairs
+    Chair 0 is occupied by customer -1
+    Chair 1 is empty
+    Chair 2 is empty
+    Chair 3 is empty
+
+
+The table 0  is empty
+The table 0 has 1 full chairs
+    Chair 0 is occupied by customer 1881426
+    Chair 1 is empty
+    Chair 2 is empty
+    Chair 3 is empty
+
+
+The table 0  is empty
+The table 0 has 1 full chairs
+    Chair 0 is occupied by customer -1
+    Chair 1 is occupied by customer 1881429
+    Chair 2 is empty
+    Chair 3 is empty
+
+
+The table 0  is empty
+The table 0 has 1 full chairs
+    Chair 0 is occupied by customer -1
+    Chair 1 is occupied by customer 1881429
+    Chair 2 is empty
+    Chair 3 is empty
+
+
+The table 0  is empty
+The table 0 has 0 full chairs
+    Chair 0 is occupied by customer -1
+    Chair 1 is occupied by customer -1
+    Chair 2 is empty
+    Chair 3 is empty
+
+
+The table 0  is empty
+The table 0 has 1 full chairs
+    Chair 0 is occupied by customer -1
+    Chair 1 is occupied by customer -1
+    Chair 2 is occupied by customer 1881431
+    Chair 3 is empty
+
+
+The table 0  is empty
+The table 0 has 0 full chairs
+    Chair 0 is occupied by customer -1
+    Chair 1 is occupied by customer -1
+    Chair 2 is occupied by customer -1
+    Chair 3 is empty
+
+
+The table 0  is empty
+The table 0 has 1 full chairs
+    Chair 0 is occupied by customer -1
+    Chair 1 is occupied by customer -1
+    Chair 2 is occupied by customer -1
+    Chair 3 is occupied by customer 1881430
+
+
+The table 0  is empty
+The table 0 has 0 full chairs
+    Chair 0 is empty
+    Chair 1 is empty
+    Chair 2 is empty
+    Chair 3 is empty
+
+
+The table 1  is empty
+The table 1 has 1 full chairs
+    Chair 0 is occupied by customer 1881432
+    Chair 1 is empty
+    Chair 2 is empty
+    Chair 3 is empty
+
+
+The table 0  is empty
+The table 0 has 1 full chairs
+    Chair 0 is occupied by customer 1881428
+    Chair 1 is empty
+    Chair 2 is empty
+    Chair 3 is empty
+
+
+The table 1  is empty
+The table 1 has 0 full chairs
+    Chair 0 is occupied by customer -1
+    Chair 1 is empty
+    Chair 2 is empty
+    Chair 3 is empty
+
+
+The table 0  is empty
+The table 0 has 0 full chairs
+    Chair 0 is occupied by customer -1
+    Chair 1 is empty
+    Chair 2 is empty
+    Chair 3 is empty
+
+
+The table 0  is empty
+The table 0 has 1 full chairs
+    Chair 0 is occupied by customer -1
+    Chair 1 is occupied by customer 1881427
+    Chair 2 is empty
+    Chair 3 is empty
+
+
+The table 0  is empty
+The table 0 has 0 full chairs
+    Chair 0 is occupied by customer -1
+    Chair 1 is occupied by customer -1
+    Chair 2 is empty
+    Chair 3 is empty
+
+
+The table 0  is empty
+The table 0 has 1 full chairs
+    Chair 0 is occupied by customer -1
+    Chair 1 is occupied by customer -1
+    Chair 2 is occupied by customer 1881434
+    Chair 3 is empty
+
+
+The table 0  is empty
+The table 0 has 1 full chairs
+    Chair 0 is occupied by customer -1
+    Chair 1 is occupied by customer -1
+    Chair 2 is occupied by customer -1
+    Chair 3 is occupied by customer 1881439
+
+
+The table 0  is empty
+The table 0 has 1 full chairs
+    Chair 0 is occupied by customer -1
+    Chair 1 is occupied by customer -1
+    Chair 2 is occupied by customer -1
+    Chair 3 is occupied by customer 1881439
+
+
+The table 0  is empty
+The table 0 has 0 full chairs
+    Chair 0 is empty
+    Chair 1 is empty
+    Chair 2 is empty
+    Chair 3 is empty
+
+
+The table 1  is empty
+The table 1 has 1 full chairs
+    Chair 0 is occupied by customer -1
+    Chair 1 is occupied by customer 1881445
+    Chair 2 is empty
+    Chair 3 is empty
+
+
+The table 1  is empty
+The table 1 has 0 full chairs
+    Chair 0 is occupied by customer -1
+    Chair 1 is occupied by customer -1
+    Chair 2 is empty
+    Chair 3 is empty
+
+
+The table 0  is empty
+The table 0 has 1 full chairs
+    Chair 0 is occupied by customer 1881444
+    Chair 1 is empty
+    Chair 2 is empty
+    Chair 3 is empty
+
+
+The table 0  is empty
+The table 0 has 1 full chairs
+    Chair 0 is occupied by customer -1
+    Chair 1 is occupied by customer 1881438
+    Chair 2 is empty
+    Chair 3 is empty
+
+
+The table 0  is empty
+The table 0 has 1 full chairs
+    Chair 0 is occupied by customer -1
+    Chair 1 is occupied by customer 1881438
+    Chair 2 is empty
+    Chair 3 is empty
+
+
+The table 0  is empty
+The table 0 has 1 full chairs
+    Chair 0 is occupied by customer -1
+    Chair 1 is occupied by customer -1
+    Chair 2 is occupied by customer 1881448
+    Chair 3 is empty
+
+
+The table 0  is empty
+The table 0 has 1 full chairs
+    Chair 0 is occupied by customer -1
+    Chair 1 is occupied by customer -1
+    Chair 2 is occupied by customer 1881448
+    Chair 3 is empty
+
+
+The table 0  is empty
+The table 0 has 2 full chairs
+    Chair 0 is occupied by customer -1
+    Chair 1 is occupied by customer -1
+    Chair 2 is occupied by customer 1881448
+    Chair 3 is occupied by customer 1881443
+
+
+The table 0  is empty
+The table 0 has 1 full chairs
+    Chair 0 is occupied by customer -1
+    Chair 1 is occupied by customer -1
+    Chair 2 is occupied by customer -1
+    Chair 3 is occupied by customer 1881443
+
+
+The table 0  is empty
+The table 0 has 0 full chairs
+    Chair 0 is empty
+    Chair 1 is empty
+    Chair 2 is empty
+    Chair 3 is empty
+
+
+The table 1  is empty
+The table 1 has 1 full chairs
+    Chair 0 is occupied by customer -1
+    Chair 1 is occupied by customer -1
+    Chair 2 is occupied by customer 1881451
+    Chair 3 is empty
+
+
+The table 0  is empty
+The table 0 has 1 full chairs
+    Chair 0 is occupied by customer 1881433
+    Chair 1 is empty
+    Chair 2 is empty
+    Chair 3 is empty
+
+
+The table 1  is empty
+The table 1 has 0 full chairs
+    Chair 0 is occupied by customer -1
+    Chair 1 is occupied by customer -1
+    Chair 2 is occupied by customer -1
+    Chair 3 is empty
+
+
+The table 0  is empty
+The table 0 has 0 full chairs
+    Chair 0 is occupied by customer -1
+    Chair 1 is empty
+    Chair 2 is empty
+    Chair 3 is empty
+
+
+The table 0  is empty
+The table 0 has 1 full chairs
+    Chair 0 is occupied by customer -1
+    Chair 1 is occupied by customer 1881447
+    Chair 2 is empty
+    Chair 3 is empty
+
+
+The table 0  is empty
+The table 0 has 2 full chairs
+    Chair 0 is occupied by customer -1
+    Chair 1 is occupied by customer 1881447
+    Chair 2 is occupied by customer 1881452
+    Chair 3 is empty
+
+
+The table 0  is empty
+The table 0 has 1 full chairs
+    Chair 0 is occupied by customer -1
+    Chair 1 is occupied by customer -1
+    Chair 2 is occupied by customer 1881452
+    Chair 3 is empty
+
+
+The table 0  is empty
+The table 0 has 2 full chairs
+    Chair 0 is occupied by customer -1
+    Chair 1 is occupied by customer -1
+    Chair 2 is occupied by customer 1881452
+    Chair 3 is occupied by customer 1881446
+
+
+The table 0  is empty
+The table 0 has 1 full chairs
+    Chair 0 is occupied by customer -1
+    Chair 1 is occupied by customer -1
+    Chair 2 is occupied by customer -1
+    Chair 3 is occupied by customer 1881446
+
+
+The table 0  is empty
+The table 0 has 0 full chairs
+    Chair 0 is empty
+    Chair 1 is empty
+    Chair 2 is empty
+    Chair 3 is empty
+
+
+The table 1  is empty
+The table 1 has 1 full chairs
+    Chair 0 is occupied by customer -1
+    Chair 1 is occupied by customer -1
+    Chair 2 is occupied by customer -1
+    Chair 3 is occupied by customer 1881453
+
+
+The table 1  is empty
+The table 1 has 0 full chairs
+    Chair 0 is empty
+    Chair 1 is empty
+    Chair 2 is empty
+    Chair 3 is empty
+
+
+The table 0  is empty
+The table 0 has 1 full chairs
+    Chair 0 is occupied by customer 1881449
+    Chair 1 is empty
+    Chair 2 is empty
+    Chair 3 is empty
+
+
+The table 0  is empty
+The table 0 has 1 full chairs
+    Chair 0 is occupied by customer -1
+    Chair 1 is occupied by customer 1881450
+    Chair 2 is empty
+    Chair 3 is empty
+
+
+The table 0  is empty
+The table 0 has 1 full chairs
+    Chair 0 is occupied by customer -1
+    Chair 1 is occupied by customer 1881450
+    Chair 2 is empty
+    Chair 3 is empty
+
+
+The table 0  is empty
+The table 0 has 1 full chairs
+    Chair 0 is occupied by customer -1
+    Chair 1 is occupied by customer -1
+    Chair 2 is occupied by customer 1881454
+    Chair 3 is empty
+
+
+The table 0  is empty
+The table 0 has 1 full chairs
+    Chair 0 is occupied by customer -1
+    Chair 1 is occupied by customer -1
+    Chair 2 is occupied by customer 1881454
+    Chair 3 is empty
+
+
+The table 0  is empty
+The table 0 has 0 full chairs
+    Chair 0 is occupied by customer -1
+    Chair 1 is occupied by customer -1
+    Chair 2 is occupied by customer -1
+    Chair 3 is empty
+
+
+The table 0  is empty
+The table 0 has 1 full chairs
+    Chair 0 is occupied by customer -1
+    Chair 1 is occupied by customer -1
+    Chair 2 is occupied by customer -1
+    Chair 3 is occupied by customer 1881440
+
+
+The table 0  is empty
+The table 0 has 0 full chairs
+    Chair 0 is empty
+    Chair 1 is empty
+    Chair 2 is empty
+    Chair 3 is empty
+
+
+The table 1  is empty
+The table 1 has 1 full chairs
+    Chair 0 is occupied by customer 1881497
+    Chair 1 is empty
+    Chair 2 is empty
+    Chair 3 is empty
+
+
+The table 1  is empty
+The table 1 has 0 full chairs
+    Chair 0 is occupied by customer -1
+    Chair 1 is empty
+    Chair 2 is empty
+    Chair 3 is empty
+
+
+The table 0  is empty
+The table 0 has 1 full chairs
+    Chair 0 is occupied by customer 1881487
+    Chair 1 is empty
+    Chair 2 is empty
+    Chair 3 is empty
+
+
+The table 0  is empty
+The table 0 has 2 full chairs
+    Chair 0 is occupied by customer 1881487
+    Chair 1 is occupied by customer 1881464
+    Chair 2 is empty
+    Chair 3 is empty
+
+
+The table 0  is empty
+The table 0 has 1 full chairs
+    Chair 0 is occupied by customer -1
+    Chair 1 is occupied by customer 1881464
+    Chair 2 is empty
+    Chair 3 is empty
+
+
+The table 0  is empty
+The table 0 has 0 full chairs
+    Chair 0 is occupied by customer -1
+    Chair 1 is occupied by customer -1
+    Chair 2 is empty
+    Chair 3 is empty
+
+
+The table 0  is empty
+The table 0 has 1 full chairs
+    Chair 0 is occupied by customer -1
+    Chair 1 is occupied by customer -1
+    Chair 2 is occupied by customer 1881499
+    Chair 3 is empty
+
+
+The table 0  is empty
+The table 0 has 0 full chairs
+    Chair 0 is occupied by customer -1
+    Chair 1 is occupied by customer -1
+    Chair 2 is occupied by customer -1
+    Chair 3 is empty
+
+
+The table 0  is empty
+The table 0 has 1 full chairs
+    Chair 0 is occupied by customer -1
+    Chair 1 is occupied by customer -1
+    Chair 2 is occupied by customer -1
+    Chair 3 is occupied by customer 1881465
+
+
+The table 0  is empty
+The table 0 has 0 full chairs
+    Chair 0 is empty
+    Chair 1 is empty
+    Chair 2 is empty
+    Chair 3 is empty
+
+
+The table 1  is empty
+The table 1 has 1 full chairs
+    Chair 0 is occupied by customer -1
+    Chair 1 is occupied by customer 1881456
+    Chair 2 is empty
+    Chair 3 is empty
+
+
+The table 1  is empty
+The table 1 has 0 full chairs
+    Chair 0 is occupied by customer -1
+    Chair 1 is occupied by customer -1
+    Chair 2 is empty
+    Chair 3 is empty
+
+
+The table 0  is empty
+The table 0 has 1 full chairs
+    Chair 0 is occupied by customer 1881437
+    Chair 1 is empty
+    Chair 2 is empty
+    Chair 3 is empty
+
+
+The table 0  is empty
+The table 0 has 0 full chairs
+    Chair 0 is occupied by customer -1
+    Chair 1 is empty
+    Chair 2 is empty
+    Chair 3 is empty
+
+
+The table 0  is empty
+The table 0 has 1 full chairs
+    Chair 0 is occupied by customer -1
+    Chair 1 is occupied by customer 1881486
+    Chair 2 is empty
+    Chair 3 is empty
+
+
+The table 0  is empty
+The table 0 has 0 full chairs
+    Chair 0 is occupied by customer -1
+    Chair 1 is occupied by customer -1
+    Chair 2 is empty
+    Chair 3 is empty
+
+
+The table 0  is empty
+The table 0 has 1 full chairs
+    Chair 0 is occupied by customer -1
+    Chair 1 is occupied by customer -1
+    Chair 2 is occupied by customer 1881441
+    Chair 3 is empty
+
+
+The table 0  is empty
+The table 0 has 2 full chairs
+    Chair 0 is occupied by customer -1
+    Chair 1 is occupied by customer -1
+    Chair 2 is occupied by customer 1881441
+    Chair 3 is occupied by customer 1881436
+
+
+The table 0  is empty
+The table 0 has 1 full chairs
+    Chair 0 is occupied by customer -1
+    Chair 1 is occupied by customer -1
+    Chair 2 is occupied by customer -1
+    Chair 3 is occupied by customer 1881436
+
+
+The table 0  is empty
+The table 0 has 0 full chairs
+    Chair 0 is empty
+    Chair 1 is empty
+    Chair 2 is empty
+    Chair 3 is empty
+
+
+The table 1  is empty
+The table 1 has 1 full chairs
+    Chair 0 is occupied by customer -1
+    Chair 1 is occupied by customer -1
+    Chair 2 is occupied by customer 1881442
+    Chair 3 is empty
+
+
+The table 1  is empty
+The table 1 has 0 full chairs
+    Chair 0 is occupied by customer -1
+    Chair 1 is occupied by customer -1
+    Chair 2 is occupied by customer -1
+    Chair 3 is empty
+
+
+The table 0  is empty
+The table 0 has 1 full chairs
+    Chair 0 is occupied by customer 1881457
+    Chair 1 is empty
+    Chair 2 is empty
+    Chair 3 is empty
+
+
+The table 0  is empty
+The table 0 has 2 full chairs
+    Chair 0 is occupied by customer 1881457
+    Chair 1 is occupied by customer 1881458
+    Chair 2 is empty
+    Chair 3 is empty
+
+
