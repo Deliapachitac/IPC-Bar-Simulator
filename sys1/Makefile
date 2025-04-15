@@ -11,9 +11,6 @@ OBJS = $(SRCS:.c=.o)
 TARGET = fss_manager
 
 # Rule to link object files and create the executable
-# gcc -o splitter splitter.c Hash.c
-# gcc -o builder builder.c Hash.c
-
 $(TARGET): $(OBJS)
 	$(CC) -o $(TARGET) $(OBJS)
 
@@ -22,7 +19,7 @@ $(TARGET): $(OBJS)
 
 # Execute the program  GreatExpectations.txt
 run:
-	./$(TARGET) -l logfile -c configfile -n 10 
+	./$(TARGET) -l logfile -c configfile -n 5 
 
 # For the memory leaks
 valgrind:

@@ -10,6 +10,7 @@
 #include <sys/stat.h>
 #include <errno.h>
 #include <signal.h> 
+
 #include "List.h"
 
 #define PIPE_IN "fss_in"
@@ -17,9 +18,16 @@
 #define SIZE 256
 
 
+struct dir_info {
+    char source[SIZE];
+    char target[SIZE];
+    // int active_workers;
+    // int error_count;
 
-#include <sys/times.h> 
-#include <ctype.h> 
+};
+
+typedef struct dir_info *DirInfo;
+
 
 int main(int argc, char *argv[]){
 
@@ -49,15 +57,8 @@ int main(int argc, char *argv[]){
             printf("Unknown parameter: %s\n", argv[i]);
             exit(1); 
         }
-    }
-
-    //Open the logfile for reading 
-    int input_fd = open(log_file, O_RDONLY);
-    if (input_fd == -1) {
-        perror("Error opening input file");
-        return 1;
-    }
-
+    }  
+    
     // Create named pipes
     if (mkfifo(PIPE_IN, 0666) == -1) {
         perror("mkfifo");
@@ -66,24 +67,120 @@ int main(int argc, char *argv[]){
         perror("mkfifo");
     } 
 
-    char buffer[SIZE];
+    // Create a list to store the directory pairs
+    List dir_list = list_create(NULL, free);
 
-    // === Named pipe χρήση ===
-    pid_t pid = fork();
-    if (pid == 0) {
-        // Child process - γράφει στο FIFO
-        int fifo_write = open(PIPE_IN, O_WRONLY);
-        const char *msg2 = "Hello from named pipe!";
-        write(fifo_write, msg2, strlen(msg2) + 1);
-        close(fifo_write);
-        exit(0);
-    } else {
-        // Parent process - διαβάζει από το FIFO
-        int fifo_read = open(PIPE_IN, O_RDONLY);
-        read(fifo_read, buffer, sizeof(buffer));
-        printf("Read from named pipe: %s\n", buffer);
-        close(fifo_read);
+    //Open the logfile for reading 
+    int config_fd = open(config_file, O_RDONLY);
+    if (config_fd == -1) {
+        perror("Error opening input file");
+        return 1;
     }
+
+    // Variables to store data while reading
+    char line[SIZE];
+    int index = 0;
+    char ch;
+    ssize_t bytes;
+
+    // Read the log file line by line
+    while ((bytes = read(config_fd, &ch, 1)) == 1) {
+        if (ch == '\n' || index >= SIZE - 1) {
+            line[index] = '\0';
+
+            if (index > 0) {
+              
+                DirInfo info = malloc(sizeof(struct dir_info));
+                if (!info) {
+                    perror("malloc");
+                    exit(1);
+                }
+
+                if (sscanf(line, "%s %s", info->source, info->target) == 2) {
+                    list_insert(dir_list, info);
+                } else {
+                    free(info); 
+                }
+            }
+
+            index = 0; 
+        } else {
+            line[index++] = ch;
+        }
+    }
+    if (index > 0) { 
+        line[index] = '\0';
+        DirInfo info = malloc(sizeof(struct dir_info));
+        if (sscanf(line, "%s %s", info->source, info->target) == 2) {
+            list_insert(dir_list, info);
+        } else {
+            free(info);
+        }
+    }
+
+    // Close the config file
+    close(config_fd);
+  
+
+     // ------- Εκκίνηση workers (μέχρι το όριο) -------
+    int active_workers = 0;
+    for (int i = 0; i < worker_limit; i++) {
+        if (active_workers < worker_limit) {
+            
+            pid_t pid = fork();
+
+            if (pid < 0) {
+                perror("fork");
+                exit(1);
+            
+            //child process
+            } else if (pid == 0) {
+                
+                // Dynamically allocate memory for the variables and pipes we will put in the arguments of the exec         
+                char **exec_args = malloc(3 * sizeof(char *));
+                exec_args[0] = "./worker";
+                exec_args[1] = PIPE_IN;
+                exec_args[2] = PIPE_OUT;
+                
+                //the exec replaces this line in the process with a new program
+                execvp(exec_args[0], exec_args);perror("exevp failed");// if the program will continue after the exec then the exec failed
+                exit(0); 
+
+            // parent process
+            } else {
+        
+                // char msg[512];
+                // snprintf(msg, sizeof(msg), "Added directory: %s -> %s", pair->source, pair->target);
+                // log_event(logfile, msg);
+
+                // snprintf(msg, sizeof(msg), "Monitoring started for %s", pair->source);
+                // log_event(logfile, msg);
+            }
+            
+            
+            active_workers++;
+        } else {
+            // TODO: Βάλε σε ουρά (queue) για εκτέλεση αργότερα
+            // log_event(logfile, "Worker limit reached, queuing remaining jobs...");
+            break;
+        }
+     }
+    // // === Named pipe χρήση ===
+    // pid_t pid = fork();
+    // if (pid == 0) {
+    //     // Child process - γράφει στο FIFO
+    //     int fifo_write = open(PIPE_IN, O_WRONLY);
+    //     const char *msg2 = "Hello from named pipe!";
+    //     write(fifo_write, msg2, strlen(msg2) + 1);
+    //     close(fifo_write);
+    //     exit(0);
+    // } else {
+    //     // Parent process - διαβάζει από το FIFO
+    //     int fifo_read = open(PIPE_IN, O_RDONLY);
+    //     read(fifo_read, buffer, sizeof(buffer));
+    //     printf("Read from named pipe: %s\n", buffer);
+    //     close(fifo_read);
+    // }
 
     // Καθαρίζουμε το named pipe
     unlink(PIPE_IN);
