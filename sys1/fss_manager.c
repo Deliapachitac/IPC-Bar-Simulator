@@ -122,19 +122,19 @@ int main(int argc, char *argv[]){
     close(config_fd);
   
 
-     // ------- Εκκίνηση workers (μέχρι το όριο) -------
+    // Create the workers
     int active_workers = 0;
     for (int i = 0; i < worker_limit; i++) {
         if (active_workers < worker_limit) {
             
             pid_t pid = fork();
-
             if (pid < 0) {
                 perror("fork");
                 exit(1);
-            
+            }
+
             //child process
-            } else if (pid == 0) {
+            if (pid == 0) {
                 
                 // Dynamically allocate memory for the variables and pipes we will put in the arguments of the exec         
                 char **exec_args = malloc(3 * sizeof(char *));
@@ -149,22 +149,29 @@ int main(int argc, char *argv[]){
             // parent process
             } else {
         
-                // char msg[512];
-                // snprintf(msg, sizeof(msg), "Added directory: %s -> %s", pair->source, pair->target);
-                // log_event(logfile, msg);
-
-                // snprintf(msg, sizeof(msg), "Monitoring started for %s", pair->source);
-                // log_event(logfile, msg);
+                // log_event(....);
             }
             
             
             active_workers++;
         } else {
-            // TODO: Βάλε σε ουρά (queue) για εκτέλεση αργότερα
-            // log_event(logfile, "Worker limit reached, queuing remaining jobs...");
+            // Βαλε σε ουρα (queue) για εκτελεση πιο μετα
             break;
         }
-     }
+    }
+
+    // Wait for all child processes to finish
+    for (int i = 0; i < active_workers; i++) {
+        wait(NULL);
+    }
+    
+    //Unlink the named pipes
+    unlink(PIPE_IN);
+    unlink(PIPE_OUT);
+}
+
+
+
     // // === Named pipe χρήση ===
     // pid_t pid = fork();
     // if (pid == 0) {
@@ -181,54 +188,3 @@ int main(int argc, char *argv[]){
     //     printf("Read from named pipe: %s\n", buffer);
     //     close(fifo_read);
     // }
-
-    // Καθαρίζουμε το named pipe
-    unlink(PIPE_IN);
-    unlink(PIPE_OUT);
-}
-// #include <stdio.h>
-// #include <stdlib.h>
-// #include <sys/inotify.h>
-// #include <unistd.h>
-
-// #define EVENT_SIZE (sizeof(struct inotify_event))
-// #define BUF_LEN (1024 * (EVENT_SIZE + 16))
-
-// int main() {
-//     int fd = inotify_init();
-//     if (fd < 0) {
-//         perror("inotify_init");
-//         exit(1);
-//     }
-
-//     int wd = inotify_add_watch(fd, "./mydir", IN_CREATE | IN_MODIFY | IN_DELETE);
-
-//     char buffer[BUF_LEN];
-
-//     printf("Monitoring ./mydir...\n");
-//     while (1) {
-//         int length = read(fd, buffer, BUF_LEN);
-//         if (length < 0) {
-//             perror("read");
-//         }
-
-//         int i = 0;
-//         while (i < length) {
-//             struct inotify_event *event = (struct inotify_event *)&buffer[i];
-//             if (event->len) {
-//                 if (event->mask & IN_CREATE)
-//                     printf("File created: %s\n", event->name);
-//                 else if (event->mask & IN_DELETE)
-//                     printf("File deleted: %s\n", event->name);
-//                 else if (event->mask & IN_MODIFY)
-//                     printf("File modified: %s\n", event->name);
-//             }
-//             i += EVENT_SIZE + event->len;
-//         }
-//     }
-
-//     inotify_rm_watch(fd, wd);
-//     close(fd);
-
-//     return 0;
-// }
