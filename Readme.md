@@ -1,110 +1,90 @@
-Ονομα : Ντελια-Μαρια
-Επωνυμο : Πακιτσακ
-Α.Μ: 1115202200125
+# 🍺 Nemea Path Bar — Concurrent Synchronization & Shared Memory (`IPC-Bar-Simulator`)
 
-# Σημαντικες πληροφοριες για την εργασια 
-Η εργασια μου περιεχει τα εξης αρχεια:
-    - initiallizer.c
-    - receptionist.c
-    - visitor.c
-    - segment.h
-    - segment.c
-    - Makefile
+An asynchronous, concurrent multi-process simulation built in C for Linux operating systems. The project models the "Bar on the Path to Nemea" synchronization problem, managing table allocation, customer order queues, and real-time statistics using **System V/POSIX Shared Memory** and **POSIX Semaphores** to ensure starvation-free execution.
 
-# Σημαντικο
-Για την υλοποίηση της εργασίας θα πρέπει πρώτα να τρέξουμε το πρόγραμμα 
-"initiallizer.c"  με make run η με τις καταλληλες παραμετρους οπου 
-περιγράφω παρακάτω αναλυτικα καθως και την λειτουργια.Επισης μετα απο καθε υλοποιηση μην ξεχνατε να διαγραφετε το αρχειο bar_log.txt διοτι αποθηκευονται δεδομενα απο την προηγουμενη υλοποιηση.
+---
 
-# initiallizer.c
-    Εχω δημιουργησει ενα προγραμμα το οποιο δημιουργει και αρχικοποιει το shared 
-    memory, τα semphores και διαφορες χρησιμες μεταβλητες . Επισης δημιουργει ενα 
-    process για τον υπευθυνο (receptionist) και 100 processes για τους πελατες 
-    (visitors). Τον αριθμό των επισκεπτών μπορούμε να τον αλλάξουμε, αλλάζοντας το 
-    define VISITORS.Την χρήση κάθε semaphore την εξηγώ αναλυτικά σχόλια το 
-    προγράμματος . Τέλος το πρόγραμμα θα τερματιστεί όταν ο receptionist έχει 
-    επεξεργαστεί όλους τους vistors,αποδεσμευοντας και διαγραφοντας ολους τους 
-    semaphores και shared memory που χρησιμοποιηθηκαν στα  προγραμματα. 
+## 🏛️ System Architecture & Workflow Diagram
 
-    Για να τρέξουμε το πρόγραμμα θα πρέπει να γράψουμε στο tty την εντολή η οποία 
-    παίρνει  τις εξής παραμέτρους: 
-        -r ordertime παρέχει την μέγιστη δυνατή περίοδο στην οποία ο υπεύθυνος 
-        χρειάζεται για να εξυπηρετήσει
-        -s shmname δίνει το ονομα που το κοινό τμήμα μνήμης θα δημιουργησουμε
-        -v resttime παρέχει την μέγιστη δυνατή περίοδο στην οποία ο επισκέπτης 
-        παραμένει στο τραπέζι αφότου έχει εξυπηρετηθεί από τον υπεύθυνο
-    Υπαρχει ετοιμη εντολη στο Makefile : make run
+```text
+               ┌─────────────────────────────────────────────────────────┐
+               │                     initializer.c                       │
+               │   • Allocates Shared Memory                             │
+               │   • Initializes POSIX Semaphores                        │
+               │   • Spawns Receptionist & Visitor Processes             │
+               └───────────┬─────────────────────────────────┬───────────┘
+                           │                                 │
+                           ▼                                 ▼
+              ┌─────────────────────────┐       ┌─────────────────────────┐
+              │     receptionist.c      │       │        visitor.c        │
+              │  (Bar Manager Process)  │       │    (Customer Process)   │
+              └────────────┬────────────┘       └────────────┬────────────┘
+                           │                                 │
+                           │   ┌─────────────────────────┐   │
+                           └──►│  SHARED MEMORY SEGMENT  │◄──┘
+                               │  • Waiting Queue Buffer │
+                               │  • Order Queue Buffer   │
+                               │  • Tables State (0/-1)  │
+                               │  • Global Statistics    │
+                               └────────────▲────────────┘
+                                            │ Reads Metrics
+                               ┌────────────┴────────────┐
+                               │        monitor.c        │
+                               │   (Real-time Observer)  │
+                               └─────────────────────────┘
+```
 
-# receptionist.c
-    Αυτό το πρόγραμμα απεικονίζει έναν  υπεύθυνο  ενός μαγαζιού  ο οποίος περιμένει 
-    (sem_wait(&sharedState->receptionist_access)) μέχρι ο πελάτης να βρει μία 
-    διαθέσιμη καρέκλα σε ένα τραπέζι.Στην συνεχεια παιρνει μία τυχαια παραγγελία 
-    ενος πελατη και την προετοιμάζει για ένα τυχαίο χρονικό διάστημα από [0.5 * 
-    ordertime , ordertime]. Αυτή η διαδικασία επαναλαμβάνεται μέχρι ο υπεύθυνος να 
-    εξυπηρετήσει όλους τους πελάτες . Για αυτό το λόγο έχω προσθέσει μία μεταβλητή 
-    στο shared memory η οποία  ονομάζεται served_visitors και μετράει πόσους πελάτες 
-    έχουν προστεθεί στο πρώτο circular buffer(waiting buffer) η οποία αναπαριστα την 
-    ουρά έξω από το μαγαζί  πριν καθισουν στα τραπεζια . Η μεταβλητή served_visitors 
-    θα συγκριθεί με πόσους πελάτες έχει εξυπηρετήσει ο υπεύθυνος το οποίο το 
-    υπολογίζουμε όταν προσθέτουμε μέσα στον δευτερο circular buffer(order buffer) η 
-    οποία  αναπαριστά την ουρά για το μπαρ.
+## 📁 Structure & Component Breakdown
 
-    Το πρόγραμμα αυτό δεν χρειάζεται να το τρέξουμε από το tty επειδή το καλουμε 
-    μέσω της εντολης execvp στο προγραμμα initiallizer.
+* **`initializer.c` (Master Coordinator)**
+  * **IPC Initialization**: Allocates shared memory segments and initializes required POSIX semaphores.
+  * **Process Spawning**: Creates 1 `receptionist` process and 100 concurrent `visitor` processes (configurable via the `VISITORS` macro) using `fork()` and `execvp()`.
+  * **CLI Parsing**: Reads runtime flags (`-r` order time, `-s` shared memory name, `-v` visitor rest time).
+  * **Lifecycle & Cleanup**: Waits for all visitors to complete service, then unlinks/frees shared memory and destroys all semaphores upon program termination.
 
-# visitor.c
-    Αυτό το πρόγραμμα απεικονίζει έναν πελάτη ο οποίος θέλει να βρει μια αδεια
-    καρέκλα σε ένα τραπέζι να πάρει την παραγγελία του και να κάτσει στο τραπεζι. 
-    Αφού κάτσει για ενα τυχαίο χρονικο διαστημα στη συνέχεια θα φύγει από το 
-    μαγαζί.Για την υλοποίηση του προγράμματος θα χρειαστούμε έναν circular buffer o
-    όποιος ονομάζεται waiting buffer και θα αναπαριστα την ουρά έξω από το μαγαζί 
-    όπου  θα τοποθετούμαι τους πελάτες με τη σειρά που φτάνουνε. Στη συνέχεια κάθε 
-    πελάτης θα ψάχνει αν υπάρχει μία άδεια καρέκλα σε κάποιo από τα τρία τραπέζια ,
-    τα άδεια τραπέζια τα συμβολίζουμε την τιμή μηδέν. Αν κάποιος πελάτης έχει βρει 
-    μία άδεια καρέκλα τότε  τον βάζουμε σε ένα άλλο circular buffer το οποίο θα το 
-    ονομάζουμε order buffer και θα αναπαριστα την ουρά που θα περιμένουν οι πελάτες  
-    να προετοιμαστεί παραγγελία τους. Ο πελάτης στη συνέχεια θα περιμένει μέχρι να 
-    προετοιμαστεί η παραγγελία του από τον υπεύθυνο του μαγαζιού και μετά  θα 
-    καθίσει στην καρέκλα. Αντίθετα αν ένας πελάτης δεν βρίσκει άδεια καρέκλα θα 
-    πρέπει να περιμένει μέχρι να αδειάσει ένα τραπέζι( sem_wait(&
-    sharedState->table_reset)). Το τραπέζι θα αδειάζει όταν φύγοθν όλοι οι πελάτες, 
-    δηλαδή όταν όλες οι τιμές είναι -1. Αφού ο πελάτης έχει παραλάβει την παραγγελία 
-    του θα καθισει για ένα τυχαίο χρονικό διάστημα στο τραπέζι. Όταν ο πελάτης 
-    αποφασίσει ότι θέλει να φύγει τότε σημειώνουμε την τιμή της καρέκλας -1 .
-    Επιπλέον θα πρέπει να ελέγχουμε καθε φορά αν ένα τραπέζι έχει αδειάσει ώστε να 
-    ειδοποιήσουμε τους επόμενους πελάτες ότι μπορούν να καθίσουν(sem_post(&
-    sharedState->table_reset)) .Τέλος μην ξεχνάμε ότι θα πρέπει να ενημερώνουμε τα 
-    στατιστικά στοιχεία.
+* **`receptionist.c` (Bar Manager)**
+  * **Order Processing**: Blocks on semaphore signals (`receptionist_access`), fetches orders from the shared order buffer, and simulates order preparation over a random interval within `[0.5 * order_time, order_time]`.
+  * **Progress Tracking**: Compares served visitors against total queued customers in the waiting buffer until all visitors are processed.
 
-    Μπορουμε αν θελουμε να προσθεσουμε πελατες αν τρέξουμε το πρόγραμμα στο tty την
-    εντολή η οποία παίρνει  τις εξής παραμέτρους: 
-        -d resttime παρέχει την μέγιστη δυνατή περίοδο στην οποία ο επισκέπτης 
-        παραμένει στο τραπέζι αφότου έχει εξυπηρετηθεί από τον υπεύθυνο 
-        -s shmname δίνει το ονομα που το κοινό τμήμα μνήμης θα ανοιξουμε
-    Υπαρχει ετοιμη εντολη στο Makefile : make run_visitor
+* **`visitor.c` (Customer Client)**
+  * **Queueing & Table Allocation**: Enters the waiting circular buffer upon arrival, searches across 3 tables (4 chairs each) for empty slots, and queues in the order buffer when seated.
+  * **Batch Table Reset Synchronization**: If all chairs are occupied, blocks on `table_reset` semaphore until a table fully empties (all 4 seats marked `-1`), avoiding partial seat allocation and starvation.
+  * **Rest & Logging**: Simulates eating/drinking for a random duration, marks chair exit, triggers table reset signals when a table is completely vacated, and calls `log_event()` to append state updates to `bar_log.txt`.
 
-# segment.c
-    Αυτό το πρόγραμμα περιέχει συναρτήσεις για την υλοποίηση των δυο 
-    circular buffer.Υπάρχουν συναρτήσεις αρχικοποίησης και καθαρισμού των 
-    σεμαφορων που χρησιμοποιούμε, ενω επιπλέον περιέχει και συναρτήσεις 
-    εισαγωγής και διαγραφής των δεδομένων. Εξηγώ αναλυτικά σχόλια των 
-    συναρτήσεων την υλοποίηση τους.
+* **`segment.c` / `segment.h` (IPC Utilities & Data Structures)**
+  * **Shared Memory Layout**: Contains C structure definitions (`structs`) for shared state, circular buffers, table tracking, and statistics.
+  * **Circular Buffer Operations**: Implements synchronized thread-safe push/pop operations for both the waiting queue and order queue.
 
-# segment.h
-    Σε αυτό το αρχείο περιέχονται όλα τα structs που θα χρησιμοποιήσουμε 
-    για τo shared memory.
+* **`monitor.c` (Real-Time Observer)**
+  * **Live Telemetry**: Attaches to the shared memory segment at any time to output live metrics on table occupancy, item consumption (wine, water, cheese, salad), and visit durations.
+  * **Final Reporting**: Runs a final evaluation pass after program completion to print aggregate session statistics.
 
-# monitor / logging 
-    Ο monitor εκτυπώνει όλα τα στατιστικά στοιχεία σε ένα αρχείο και 
-    μπορουμε να το τρέξουμε οποτε θελουμε σε ενα παραλληλο terminal 
-    χρησιμοποιοντας την εντολή make run_monitor η με τις παραμετρους 
-        -s shmname οπου δίνει το ονομα που το κοινό τμήμα μνήμης θα ανοιξουμε
-    Επισης μετα τον τερματισμο του προγραμματος τρεχει μια τελευταια φορα
-    για να ενημερωσει τα στατιστικα στοιχεια μετα τον τερματισμο
+* **`Makefile`**
+  * Provides automated compilation targets (`make`, `make run`, `make run_visitor`, `make run_monitor`, `make clean`).
 
-    Επιπλεον εχουμε μια συναρτηση log_event την οποια την καλειτε καθε 
-    φορα απο τον visitor μετα απο καποια αλλαγει και εκτυπωνει την 
-    κατασταση του τραπεζιου που εγινε η αλλαγη μεσα σε ενα αρχειο 
-    bar_log.txt.
+---
+
+## 🔗 Communication & Data Flow
+
+Communication across processes relies entirely on Shared Memory and POSIX Semaphores:
+
+* **Queue Management via Circular Buffers**
+  * **Waiting Queue Buffer**: Stores arriving visitors in a FIFO circular buffer outside the bar.
+  * **Order Queue Buffer**: Holds seated visitors waiting for food and drink preparation by the receptionist.
+
+* **Synchronization & Semaphores**
+  * Mutual exclusion semaphores protect shared memory access during circular buffer push/pop operations and counter updates.
+  * Conditional semaphores (`receptionist_access`) wake the receptionist when a customer places an order.
+  * Table coordination semaphores (`table_reset`) hold incoming visitors until an entire table has been completely vacated by all 4 previous occupants.
 
 
+
+
+## 🚀 How to Run
+To execute the application, first compile all project binaries using `make` and then start the main simulation process. You can monitor live statistics in a separate terminal, manually spawn extra visitors, reset historical log files before new runs, or clean up build artifacts when finished
+* Compile:    `make`
+* Start:      `make run`
+* Monitor:    `make run_monitor`
+* Add Visitors: `make run_visitor`
+* Reset Logs:   `rm -f bar_log.txt`
+* Clean:        `make clean`
